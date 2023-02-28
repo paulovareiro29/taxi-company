@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 public class Database {
 
-    private static final String PERSISTENCE_UNIT_NAME = "PROJECT_II_24473_24576" ;
+    private static final String PERSISTENCE_UNIT_NAME = "PROJECT_II_24473_26211" ;
     private static EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
     private static EntityManager entityManager = factory.createEntityManager();
 
