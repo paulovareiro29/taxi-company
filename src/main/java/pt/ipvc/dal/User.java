@@ -5,13 +5,14 @@ import jakarta.persistence.*;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 @Entity
-@Table(name = "client")
+@Table(name = "users")
 @XmlRootElement
 @NamedQueries({
-        @NamedQuery(name = "client.index", query = "SELECT client FROM Client client"),
-        @NamedQuery(name = "client.count", query = "SELECT count(client) FROM Client client")
+        @NamedQuery(name = "user.index", query = "SELECT user FROM User user"),
+        @NamedQuery(name = "user.count", query = "SELECT count(user) FROM User user"),
+        @NamedQuery(name = "user.client-index", query = "SELECT user FROM User user, Role role WHERE user.role.id = role.id AND role.name LIKE 'client'")
 })
-public class Client {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,15 +28,19 @@ public class Client {
     @Column(name = "email")
     private String email;
 
-    public Client() {}
+    @JoinColumn(name = "role_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Role role;
 
-    public Client(Long id) {
+    public User() {}
+
+    public User(Long id) {
         this.id = id;
     }
 
     @Override
     public String toString() {
-        return String.format("Client[id=%d, name='%s', phone='%s', email='%s']", id, name, phone, email);
+        return String.format("User[id=%d, name='%s', phone='%s', email='%s', role='%s']", id, name, phone, email, role.getName());
     }
 
     public Long getId() {
@@ -64,5 +69,13 @@ public class Client {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

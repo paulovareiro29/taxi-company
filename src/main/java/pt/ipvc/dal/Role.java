@@ -4,43 +4,39 @@ import jakarta.persistence.*;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 @Entity
+@Table(name = "roles")
 @XmlRootElement
-@Table(name = "booking_states")
 @NamedQueries({
-        @NamedQuery(name = "booking_state.index", query = "SELECT state FROM BookingState state"),
-        @NamedQuery(name = "booking_state.count", query = "SELECT count(state) FROM BookingState state"),
-        @NamedQuery(name = "booking_state.get_by_name", query = "SELECT state FROM BookingState state WHERE state.name LIKE :name")
+        @NamedQuery(name = "role.index", query = "SELECT role FROM Role role"),
+        @NamedQuery(name = "role.count", query = "SELECT count(role) FROM Role role"),
+        @NamedQuery(name = "role.get_by_name", query = "SELECT role FROM Role role WHERE role.name LIKE :name"),
 })
-public class BookingState {
+public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "name", unique = true, nullable = false)
+    @Column(name = "name")
     private String name;
 
-    @Column(name = "description", nullable = false)
+    @Column(name = "description")
     private String description;
 
-    public BookingState() {}
+    public Role() {}
 
-    public BookingState(Long id) {
+    public Role(Long id) {
         this.id = id;
     }
 
     @Override
     public String toString() {
-        return String.format("BookingState[id=%d, name='%s', description='%s']", id, name, description);
+        return String.format("Role[id=%d, name='%s', description='%s']", id, name, description);
     }
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {

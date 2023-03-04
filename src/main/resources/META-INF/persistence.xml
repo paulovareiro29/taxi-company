@@ -4,7 +4,8 @@
 
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
-        <class>pt.ipvc.dal.Client</class>
+        <class>pt.ipvc.dal.Role</class>
+        <class>pt.ipvc.dal.User</class>
         <class>pt.ipvc.dal.BookingState</class>
         <class>pt.ipvc.dal.Booking</class>
 

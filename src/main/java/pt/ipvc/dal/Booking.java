@@ -6,7 +6,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "booking")
+@Table(name = "bookings")
 @XmlRootElement
 @NamedQueries({
         @NamedQuery(name = "booking.index", query = "SELECT booking FROM Booking booking"),
@@ -36,7 +36,7 @@ public class Booking {
 
     @JoinColumn(name = "client_id", referencedColumnName = "id", nullable = true)
     @ManyToOne()
-    private Client client;
+    private User user;
 
     @JoinColumn(name = "state_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
@@ -51,7 +51,7 @@ public class Booking {
     @Override
     public String toString() {
         return String.format("Booking[id=%d, origin='%s', destination='%s', pickupDate='%s', occupancy='%d', client='%s', state='%s', extra='%s']",
-                id, origin, destination, pickupDate, occupancy, client, state, extra);
+                id, origin, destination, pickupDate, occupancy, user, state, extra);
     }
 
     public Long getId() {
@@ -102,12 +102,12 @@ public class Booking {
         this.occupancy = occupancy;
     }
 
-    public Client getClient() {
-        return client;
+    public User getClient() {
+        return user;
     }
 
-    public void setClient(Client client) {
-        this.client = client;
+    public void setClient(User user) {
+        this.user = user;
     }
 
     public BookingState getState() {
