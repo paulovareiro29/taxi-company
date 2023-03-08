@@ -1,9 +1,10 @@
 ----------------------
 -- TABLES
 ----------------------
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE roles (
-    id SERIAL PRIMARY KEY,
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     name VARCHAR(50) UNIQUE NOT NULL,
     description VARCHAR(255) NOT NULL
 );
@@ -15,12 +16,11 @@ CREATE TABLE postal_codes (
 );
 
 CREATE TABLE users (
-    id SERIAL PRIMARY KEY,
-    role_id INT NOT NULL,
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    role_id UUID NOT NULL,
     name VARCHAR(255) NOT NULL,
-    email VARCHAR(50) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,
     phone VARCHAR(50) NOT NULL,
+    email VARCHAR(50) NOT NULL UNIQUE,
     postal_code VARCHAR(50),
     address VARCHAR(50),
     house_number VARCHAR(50),
@@ -36,16 +36,16 @@ CREATE TABLE users (
 );
 
 CREATE TABLE booking_states (
-    id SERIAL PRIMARY KEY,
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     name VARCHAR(50) UNIQUE NOT NULL,
     description VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE bookings (
-    id SERIAL PRIMARY KEY,
-    state_id INT NOT NULL,
-    client_id INT NOT NULL,
-    booked_by INT NOT NULL,
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    state_id UUID NOT NULL,
+    client_id UUID NOT NULL,
+    booked_by UUID NOT NULL,
     origin VARCHAR(50) NOT NULL,
     destination VARCHAR(50) NOT NULL,
     pickup_date TIMESTAMP NOT NULL,
@@ -63,27 +63,27 @@ CREATE TABLE bookings (
 );
 
 CREATE TABLE brands (
-    id SERIAL PRIMARY KEY,
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     name VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE taxis (
-    id SERIAL PRIMARY KEY,
-    brand_id INT NOT NULL,
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    brand_id UUID NOT NULL,
     license_plate VARCHAR(50) NOT NULL,
     max_occupancy INT NOT NULL,
     year INT NOT NULL,
     color VARCHAR(50),
-    CONSTRAINT TAXI_B_FK
-        FOREIGN KEY (brand_id)
-            REFERENCES brands(id)
+	CONSTRAINT TAXI_B_FK
+		FOREIGN KEY(brand_id)
+			REFERENCES brands(id)
 );
 
 CREATE TABLE trips (
-    id SERIAL PRIMARY KEY,
-    taxi_id INT NOT NULL,
-    employee_id INT NOT NULL,
-    booking_id INT NOT NULL,
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    taxi_id UUID NOT NULL,
+    employee_id UUID NOT NULL,
+    booking_id UUID NOT NULL,
     pickup_date TIMESTAMP NOT NULL,
     dropoff_date TIMESTAMP NOT NULL,
     price FLOAT NOT NULL,
@@ -99,14 +99,14 @@ CREATE TABLE trips (
 );
 
 CREATE TABLE payment_types (
-    id SERIAL PRIMARY KEY,
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     description VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE payment (
-    id SERIAL PRIMARY KEY,
-    trip_id INT NOT NULL,
-    payment_type_id INT NOT NULL,
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    trip_id UUID NOT NULL,
+    payment_type_id UUID NOT NULL,
     amount FLOAT NOT NULL,
     vat INT,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
@@ -119,8 +119,8 @@ CREATE TABLE payment (
 );
 
 CREATE TABLE feedbacks (
-    client_id INT NOT NULL,
-    trip_id INT NOT NULL,
+    client_id UUID NOT NULL,
+    trip_id UUID NOT NULL,
     rating INT NOT NULL DEFAULT 1 CHECK (rating >= 1 AND rating <= 5),
     review VARCHAR(255),
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
@@ -133,13 +133,11 @@ CREATE TABLE feedbacks (
             REFERENCES trips(id)
 );
 
-
-
 ----------------------
 -- INSERTS
 ----------------------
 
-INSERT INTO booking_states (name, description) VALUES 
+INSERT INTO booking_states (name, description) VALUES
     ('pending','The booking is awaiting a decision and still has not been confirmed or denied.'),
     ('confirmed', 'The booking has been accepted and scheduled to a specific date and place.'),
     ('ongoing', 'The booking is currently underway. The passenger is being transported to their destination.'),
