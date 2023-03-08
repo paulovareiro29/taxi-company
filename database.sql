@@ -65,7 +65,7 @@ CREATE TABLE bookings (
 
 CREATE TABLE brands (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    name VARCHAR(50) NOT NULL
+    name VARCHAR(50) NOT NULL UNIQUE
 );
 
 CREATE TABLE taxis (
