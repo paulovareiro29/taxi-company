@@ -71,7 +71,7 @@ CREATE TABLE brands (
 CREATE TABLE taxis (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     brand_id UUID NOT NULL,
-    license_plate VARCHAR(50) NOT NULL,
+    license_plate VARCHAR(50) NOT NULL UNIQUE,
     max_occupancy INT NOT NULL,
     year INT NOT NULL,
     color VARCHAR(50),
