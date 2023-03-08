@@ -3,6 +3,9 @@ package pt.ipvc.dal;
 
 import jakarta.persistence.*;
 import jakarta.xml.bind.annotation.XmlRootElement;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "users")
@@ -10,7 +13,8 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
         @NamedQuery(name = "user.index", query = "SELECT user FROM User user"),
         @NamedQuery(name = "user.count", query = "SELECT count(user) FROM User user"),
-        @NamedQuery(name = "user.client-index", query = "SELECT user FROM User user, Role role WHERE user.role.id = role.id AND role.name LIKE 'client'")
+        @NamedQuery(name = "user.get_by_email", query = "SELECT user FROM User user WHERE user.email LIKE :email"),
+        @NamedQuery(name = "user.client_index", query = "SELECT user FROM User user, Role role WHERE user.role.id = role.id AND role.name LIKE 'client'")
 })
 public class User {
 
@@ -19,14 +23,33 @@ public class User {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "phone")
+    @Column(name = "email", unique = true, nullable = false)
+    private String email;
+
+    @Column(name = "password", nullable = false)
+    private String password;
+
+    @Column(name = "phone", nullable = false)
     private String phone;
 
-    @Column(name = "email")
-    private String email;
+    @Column(name = "postal_code")
+    private String postalCode;
+
+    @Column(name = "address")
+    private String address;
+
+    @Column(name = "registration_number")
+    private String registrationNumber;
+
+    @Column(name = "vat")
+    private int VAT;
+
+    @Column(name = "created_at")
+    @CreationTimestamp
+    private Timestamp createdAt;
 
     @JoinColumn(name = "role_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
@@ -40,7 +63,7 @@ public class User {
 
     @Override
     public String toString() {
-        return String.format("User[id=%d, name='%s', phone='%s', email='%s', role='%s']", id, name, phone, email, role.getName());
+        return String.format("User[id=%d, name='%s', email='%s',phone='%s',  role='%s', createdAt='%s']", id, name, email, phone, role.getName(), createdAt.toLocalDateTime());
     }
 
     public Long getId() {
@@ -77,5 +100,53 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getRegistrationNumber() {
+        return registrationNumber;
+    }
+
+    public void setRegistrationNumber(String registrationNumber) {
+        this.registrationNumber = registrationNumber;
+    }
+
+    public int getVAT() {
+        return VAT;
+    }
+
+    public void setVAT(int VAT) {
+        this.VAT = VAT;
+    }
+
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
     }
 }

@@ -16,6 +16,12 @@ public class UserBLL {
         return Database.find(User.class, id);
     }
 
+    public static User getByEmail(String email) {
+        return (User) Database.query("user.get_by_email")
+                .setParameter("email", email)
+                .getResultStream().findFirst().orElse(null);
+    }
+
     public static void create(User entity) {
         Database.beginTransaction();
         Database.insert(entity);

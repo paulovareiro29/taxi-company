@@ -48,4 +48,14 @@ public class Database {
         entityManager.remove(entity);
     }
 
+    public static void connect() {
+        if(entityManager == null) {
+            entityManager = factory.createEntityManager();
+        }
+    }
+
+    public static void disconnect() {
+        entityManager.close();
+        entityManager = null;
+    }
 }
