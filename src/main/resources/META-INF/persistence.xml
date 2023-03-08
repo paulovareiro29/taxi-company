@@ -10,6 +10,7 @@
         <class>pt.ipvc.dal.Booking</class>
         <class>pt.ipvc.dal.Brand</class>
         <class>pt.ipvc.dal.Taxi</class>
+        <class>pt.ipvc.dal.Trip</class>
 
         <properties>
             <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
