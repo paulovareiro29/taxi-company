@@ -29,7 +29,7 @@ public class Payment {
 
     @JoinColumn(name = "trip_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Trip brand;
+    private Trip trip;
 
     @JoinColumn(name = "payment_type_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
@@ -70,12 +70,12 @@ public class Payment {
         this.vat = vat;
     }
 
-    public Trip getBrand() {
-        return brand;
+    public Trip getTrip() {
+        return trip;
     }
 
-    public void setBrand(Trip brand) {
-        this.brand = brand;
+    public void setTrip(Trip trip) {
+        this.trip = trip;
     }
 
     public PaymentType getPaymentType() {

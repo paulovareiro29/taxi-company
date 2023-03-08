@@ -13,6 +13,7 @@
         <class>pt.ipvc.dal.Trip</class>
         <class>pt.ipvc.dal.PaymentType</class>
         <class>pt.ipvc.dal.Payment</class>
+        <class>pt.ipvc.dal.Feedback</class>
 
         <properties>
             <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
