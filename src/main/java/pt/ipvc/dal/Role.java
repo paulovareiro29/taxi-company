@@ -3,6 +3,8 @@ package pt.ipvc.dal;
 import jakarta.persistence.*;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
+import java.util.UUID;
+
 @Entity
 @Table(name = "roles")
 @XmlRootElement
@@ -14,9 +16,9 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 public class Role {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     @Column(name = "id")
-    private Long id;
+    private UUID id;
 
     @Column(name = "name", unique = true, nullable = false)
     private String name;
@@ -26,16 +28,16 @@ public class Role {
 
     public Role() {}
 
-    public Role(Long id) {
+    public Role(UUID id) {
         this.id = id;
     }
 
     @Override
     public String toString() {
-        return String.format("Role[id=%d, name='%s', description='%s']", id, name, description);
+        return String.format("Role[id=%s, name='%s', description='%s']", id, name, description);
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 

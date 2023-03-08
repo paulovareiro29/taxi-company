@@ -6,6 +6,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
+import java.util.UUID;
 
 @Entity
 @Table(name = "users")
@@ -19,9 +20,9 @@ import java.sql.Timestamp;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     @Column(name = "id")
-    private Long id;
+    private UUID id;
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -57,16 +58,16 @@ public class User {
 
     public User() {}
 
-    public User(Long id) {
+    public User(UUID id) {
         this.id = id;
     }
 
     @Override
     public String toString() {
-        return String.format("User[id=%d, name='%s', email='%s',phone='%s',  role='%s', createdAt='%s']", id, name, email, phone, role.getName(), createdAt.toLocalDateTime());
+        return String.format("User[id=%s, name='%s', email='%s',phone='%s',  role='%s', createdAt='%s']", id, name, email, phone, role.getName(), createdAt.toLocalDateTime());
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 import java.sql.Timestamp;
+import java.util.UUID;
 
 @Entity
 @Table(name = "bookings")
@@ -15,9 +16,9 @@ import java.sql.Timestamp;
 public class Booking {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     @Column(name = "id")
-    private Long id;
+    private UUID id;
 
     @Column(name = "origin", nullable = false)
     private String origin;
@@ -44,22 +45,18 @@ public class Booking {
 
     public Booking() {}
 
-    public Booking(Long id) {
+    public Booking(UUID id) {
         this.id = id;
     }
 
     @Override
     public String toString() {
-        return String.format("Booking[id=%d, origin='%s', destination='%s', pickupDate='%s', occupancy='%d', client='%s', state='%s', extra='%s']",
+        return String.format("Booking[id=%s, origin='%s', destination='%s', pickupDate='%s', occupancy='%d', client='%s', state='%s', extra='%s']",
                 id, origin, destination, pickupDate, occupancy, user, state, extra);
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getOrigin() {
