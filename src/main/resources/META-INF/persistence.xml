@@ -11,6 +11,8 @@
         <class>pt.ipvc.dal.Brand</class>
         <class>pt.ipvc.dal.Taxi</class>
         <class>pt.ipvc.dal.Trip</class>
+        <class>pt.ipvc.dal.PaymentType</class>
+        <class>pt.ipvc.dal.Payment</class>
 
         <properties>
             <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>

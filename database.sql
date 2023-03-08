@@ -105,7 +105,7 @@ CREATE TABLE payment_types (
     description VARCHAR(255)
 );
 
-CREATE TABLE payment (
+CREATE TABLE payments (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     trip_id UUID NOT NULL,
     payment_type_id UUID NOT NULL,
