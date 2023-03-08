@@ -3,6 +3,8 @@ package pt.ipvc.dal;
 import jakarta.persistence.*;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
+import java.util.UUID;
+
 @Entity
 @XmlRootElement
 @Table(name = "booking_states")
@@ -14,9 +16,9 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 public class BookingState {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     @Column(name = "id")
-    private Long id;
+    private UUID id;
 
     @Column(name = "name", unique = true, nullable = false)
     private String name;
@@ -26,21 +28,17 @@ public class BookingState {
 
     public BookingState() {}
 
-    public BookingState(Long id) {
+    public BookingState(UUID id) {
         this.id = id;
     }
 
     @Override
     public String toString() {
-        return String.format("BookingState[id=%d, name='%s', description='%s']", id, name, description);
+        return String.format("BookingState[id=%s, name='%s', description='%s']", id, name, description);
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {

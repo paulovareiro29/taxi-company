@@ -3,6 +3,8 @@ package pt.ipvc.bll;
 import org.mindrot.jbcrypt.BCrypt;
 import pt.ipvc.dal.User;
 
+import java.util.UUID;
+
 public class SessionBLL {
 
     public static boolean login(String email, String password) {
@@ -12,8 +14,11 @@ public class SessionBLL {
         return BCrypt.checkpw(password, user.getPassword());
     }
 
-    public static Long register(User user) {
-        user.setPassword(BCrypt.hashpw(user.getPassword(), "TAXI-COMPANY-SALT"));
+    public static UUID register(User user) {
+        user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
+
+        if(user.getRole() == null)
+            user.setRole(RoleBLL.getClientRole());
 
         UserBLL.create(user);
         return UserBLL

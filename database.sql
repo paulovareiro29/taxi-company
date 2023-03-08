@@ -21,6 +21,7 @@ CREATE TABLE users (
     name VARCHAR(255) NOT NULL,
     phone VARCHAR(50) NOT NULL,
     email VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
     postal_code VARCHAR(50),
     address VARCHAR(50),
     house_number VARCHAR(50),
