@@ -29,9 +29,9 @@ public class Taxi {
     @Column(name = "color")
     private String color;
 
-    @JoinColumn(name = "brand_id", referencedColumnName = "id")
+    @JoinColumn(name = "model_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Brand brand;
+    private Model model;
 
     public Taxi() {}
 
@@ -80,11 +80,11 @@ public class Taxi {
         this.color = color;
     }
 
-    public Brand getBrand() {
-        return brand;
+    public Model getModel() {
+        return model;
     }
 
-    public void setBrand(Brand brand) {
-        this.brand = brand;
+    public void setModel(Model model) {
+        this.model = model;
     }
 }

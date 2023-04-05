@@ -43,6 +43,10 @@ public class Booking {
     @ManyToOne(optional = false)
     private BookingState state;
 
+    @JoinColumn(name = "taxi_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Taxi taxi;
+
     public Booking() {}
 
     public Booking(UUID id) {
@@ -113,5 +117,13 @@ public class Booking {
 
     public void setState(BookingState state) {
         this.state = state;
+    }
+
+    public Taxi getTaxi() {
+        return taxi;
+    }
+
+    public void setTaxi(Taxi taxi) {
+        this.taxi = taxi;
     }
 }

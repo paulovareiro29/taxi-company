@@ -27,10 +27,6 @@ public class Trip {
     @Column(name = "price", nullable = false)
     private Float price;
 
-    @JoinColumn(name = "taxi_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Taxi taxi;
-
     @JoinColumn(name = "employee_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private User employee;
@@ -76,14 +72,6 @@ public class Trip {
 
     public void setPrice(Float price) {
         this.price = price;
-    }
-
-    public Taxi getTaxi() {
-        return taxi;
-    }
-
-    public void setTaxi(Taxi taxi) {
-        this.taxi = taxi;
     }
 
     public User getEmployee() {

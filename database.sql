@@ -9,12 +9,6 @@ CREATE TABLE roles (
     description VARCHAR(255) NOT NULL
 );
 
-
-CREATE TABLE postal_codes (
-    code VARCHAR(50) PRIMARY KEY,
-    location VARCHAR(255)
-);
-
 CREATE TABLE users (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     role_id UUID NOT NULL,
@@ -30,10 +24,7 @@ CREATE TABLE users (
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     CONSTRAINT U_R_FK
         FOREIGN KEY(role_id)
-            REFERENCES roles(id),
-    CONSTRAINT U_PC_FK
-        FOREIGN KEY(postal_code)
-            REFERENCES postal_codes(code)
+            REFERENCES roles(id)
 );
 
 CREATE TABLE booking_states (
@@ -42,11 +33,38 @@ CREATE TABLE booking_states (
     description VARCHAR(255) NOT NULL
 );
 
+CREATE TABLE brands (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    name VARCHAR(50) NOT NULL UNIQUE
+);
+
+CREATE TABLE models (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    name VARCHAR(50) NOT NULL,
+    brand_id UUID NOT NULL,
+    CONSTRAINT MODEL_B_FK
+        FOREIGN KEY (brand_id)
+            REFERENCES brands(id)
+);
+
+CREATE TABLE taxis (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    model_id UUID NOT NULL,
+    license_plate VARCHAR(50) NOT NULL UNIQUE,
+    max_occupancy INT NOT NULL,
+    year INT NOT NULL,
+    color VARCHAR(50),
+	CONSTRAINT TAXI_B_FK
+		FOREIGN KEY(model_id)
+			REFERENCES models(id)
+);
+
 CREATE TABLE bookings (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     state_id UUID NOT NULL,
     client_id UUID NOT NULL,
     booked_by UUID NOT NULL,
+    taxi_id UUID,
     origin VARCHAR(50) NOT NULL,
     destination VARCHAR(50) NOT NULL,
     pickup_date TIMESTAMP NOT NULL,
@@ -60,37 +78,19 @@ CREATE TABLE bookings (
             REFERENCES users(id),
     CONSTRAINT B_BY_FK
         FOREIGN KEY(booked_by)
-            REFERENCES users(id)
-);
-
-CREATE TABLE brands (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    name VARCHAR(50) NOT NULL UNIQUE
-);
-
-CREATE TABLE taxis (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    brand_id UUID NOT NULL,
-    license_plate VARCHAR(50) NOT NULL UNIQUE,
-    max_occupancy INT NOT NULL,
-    year INT NOT NULL,
-    color VARCHAR(50),
-	CONSTRAINT TAXI_B_FK
-		FOREIGN KEY(brand_id)
-			REFERENCES brands(id)
+            REFERENCES users(id),
+    CONSTRAINT B_T_FK
+        FOREIGN KEY(taxi_id)
+            REFERENCES taxis(id)
 );
 
 CREATE TABLE trips (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    taxi_id UUID NOT NULL,
     employee_id UUID NOT NULL,
     booking_id UUID NOT NULL,
     pickup_date TIMESTAMP NOT NULL,
     dropoff_date TIMESTAMP NOT NULL,
     price FLOAT NOT NULL,
-    CONSTRAINT T_T_FK
-        FOREIGN KEY(taxi_id)
-            REFERENCES taxis(id),
     CONSTRAINT T_E_FK
         FOREIGN KEY(employee_id)
             REFERENCES users(id),
