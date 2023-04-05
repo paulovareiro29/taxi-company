@@ -1,2 +1,3 @@
-rootProject.name = 'project-fx'
+rootProject.name = 'project'
+include 'database'
 

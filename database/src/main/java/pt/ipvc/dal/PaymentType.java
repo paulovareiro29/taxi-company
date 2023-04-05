@@ -2,7 +2,6 @@ package pt.ipvc.dal;
 
 import jakarta.persistence.*;
 
-import java.sql.Timestamp;
 import java.util.UUID;
 
 @Entity

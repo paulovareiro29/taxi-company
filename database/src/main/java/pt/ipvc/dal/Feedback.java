@@ -4,8 +4,8 @@ import jakarta.persistence.*;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import org.hibernate.annotations.CreationTimestamp;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.UUID;
 
 @Entity
 @Table(name = "feedbacks")
@@ -14,7 +14,7 @@ import java.util.UUID;
         @NamedQuery(name = "feedback.index", query = "SELECT feedback FROM Feedback feedback"),
         @NamedQuery(name = "feedback.count", query = "SELECT count(feedback) FROM Feedback feedback")
 })
-public class Feedback {
+public class Feedback implements Serializable {
 
     @Id
     @JoinColumn(name = "trip_id", referencedColumnName = "id")

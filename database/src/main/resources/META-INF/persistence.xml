@@ -9,6 +9,7 @@
         <class>pt.ipvc.dal.BookingState</class>
         <class>pt.ipvc.dal.Booking</class>
         <class>pt.ipvc.dal.Brand</class>
+        <class>pt.ipvc.dal.Model</class>
         <class>pt.ipvc.dal.Taxi</class>
         <class>pt.ipvc.dal.Trip</class>
         <class>pt.ipvc.dal.PaymentType</class>

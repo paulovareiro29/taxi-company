@@ -1,7 +1,6 @@
 package pt.ipvc.bll;
 
 import pt.ipvc.dal.PaymentType;
-import pt.ipvc.dal.Role;
 import pt.ipvc.database.Database;
 
 import java.util.List;

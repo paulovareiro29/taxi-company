@@ -1,8 +1,9 @@
 package pt.ipvc.bll;
 
-import java.util.List;
 import pt.ipvc.dal.Booking;
 import pt.ipvc.database.Database;
+
+import java.util.List;
 
 public class BookingBLL {
     
