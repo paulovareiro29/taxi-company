@@ -1,4 +1,4 @@
-module project.desktop.main {
+module taxi.company.desktop.main {
     requires javafx.controls;
     requires javafx.fxml;
 

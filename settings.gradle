@@ -1,4 +1,4 @@
-rootProject.name = 'project'
+rootProject.name = 'taxi-company'
 include 'database'
 include 'desktop'
 
