@@ -1,21 +1,16 @@
 package pt.ipvc.views;
 
 import javafx.geometry.Pos;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import pt.ipvc.base.Scene;
 import pt.ipvc.components.buttons.Button;
 import pt.ipvc.components.buttons.ButtonSize;
 import pt.ipvc.components.inputs.PasswordField;
 import pt.ipvc.components.inputs.TextField;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.Objects;
 
 public class LoginScene extends Scene {
