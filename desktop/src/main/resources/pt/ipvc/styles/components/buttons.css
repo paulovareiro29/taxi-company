@@ -1,0 +1,35 @@
+@import url("../shared/variables.css");
+
+.button {
+    -fx-font-size: 16;
+    -fx-effect: null;
+
+    -fx-background-color: -fx-color-white;
+    -fx-background-radius: 4;
+    -fx-background-insets: 0;
+
+    -fx-padding: 0;
+    -fx-cursor: hand;
+}
+
+.button-small {
+    -fx-padding: 8 16;
+}
+
+.button-normal {
+    -fx-padding: 12 24;
+}
+
+.button-large {
+    -fx-padding: 16 32;
+}
+
+.button-primary {
+    -fx-background-color: -fx-color-primary;
+    -fx-text-fill: -fx-color-white;
+}
+
+.button-primary_outlined {
+    -fx-background-color: -fx-color-white;
+    -fx-text-fill: -fx-color-primary;
+}
