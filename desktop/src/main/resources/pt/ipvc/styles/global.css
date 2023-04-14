@@ -1,0 +1,8 @@
+@import url("shared/variables.css");
+@import url("components/buttons.css");
+@import url("components/inputs.css");
+
+
+* {
+    -fx-text-fill: -fx-color-text-primary;
+}
