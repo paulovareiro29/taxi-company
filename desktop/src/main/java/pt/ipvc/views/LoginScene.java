@@ -2,6 +2,8 @@ package pt.ipvc.views;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -11,6 +13,10 @@ import pt.ipvc.components.buttons.Button;
 import pt.ipvc.components.buttons.ButtonSize;
 import pt.ipvc.components.inputs.PasswordField;
 import pt.ipvc.components.inputs.TextField;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.Objects;
 
 public class LoginScene extends Scene {
 
@@ -27,8 +33,7 @@ public class LoginScene extends Scene {
         container.setPrefWidth(375);
         container.setAlignment(Pos.CENTER);
 
-        Label header = new Label("Login");
-        header.setFont(Font.font(null, FontWeight.BOLD,40));
+        ImageView logo = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/pt/ipvc/assets/logo.png"))));
 
         VBox form = new VBox(8);
         form.setPrefWidth(container.getPrefWidth());
@@ -43,10 +48,9 @@ public class LoginScene extends Scene {
         loginButton.setOnAction(event -> onLogin());
         loginButton.setMaxWidth(form.getPrefWidth());
 
-
         // Add components to GUI
         form.getChildren().addAll(usernameField, passwordField, loginButton);
-        container.getChildren().addAll(header, form);
+        container.getChildren().addAll(logo, form);
         root.getChildren().addAll(container);
         setRoot(root);
     }
