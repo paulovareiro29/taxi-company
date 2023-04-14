@@ -4,6 +4,7 @@ import pt.ipvc.dal.Trip;
 import pt.ipvc.database.Database;
 
 import java.util.List;
+import java.util.UUID;
 
 
 public class TripBLL {
@@ -12,7 +13,7 @@ public class TripBLL {
         return Database.query("trip.index").getResultList();
     }
 
-    public static Trip get(Long id) {
+    public static Trip get(UUID id) {
         return Database.find(Trip.class, id);
     }
 
@@ -28,7 +29,7 @@ public class TripBLL {
         Database.commitTransaction();
     }
 
-    public static void remove(Long id) {
+    public static void remove(UUID id) {
         Trip entity = get(id);
 
         Database.beginTransaction();

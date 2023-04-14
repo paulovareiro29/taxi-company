@@ -4,6 +4,7 @@ import pt.ipvc.dal.Feedback;
 import pt.ipvc.database.Database;
 
 import java.util.List;
+import java.util.UUID;
 
 
 public class FeedbackBLL {
@@ -12,7 +13,7 @@ public class FeedbackBLL {
         return Database.query("feedback.index").getResultList();
     }
 
-    public static Feedback get(Long id) {
+    public static Feedback get(UUID id) {
         return Database.find(Feedback.class, id);
     }
 
@@ -28,7 +29,7 @@ public class FeedbackBLL {
         Database.commitTransaction();
     }
 
-    public static void remove(Long id) {
+    public static void remove(UUID id) {
         Feedback entity = get(id);
 
         Database.beginTransaction();

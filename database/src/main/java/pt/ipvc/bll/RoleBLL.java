@@ -4,6 +4,7 @@ import pt.ipvc.dal.Role;
 import pt.ipvc.database.Database;
 
 import java.util.List;
+import java.util.UUID;
 
 
 public class RoleBLL {
@@ -12,7 +13,7 @@ public class RoleBLL {
         return Database.query("role.index").getResultList();
     }
 
-    public static Role get(Long id) {
+    public static Role get(UUID id) {
         return Database.find(Role.class, id);
     }
 
@@ -28,7 +29,7 @@ public class RoleBLL {
         Database.commitTransaction();
     }
 
-    public static void remove(Long id) {
+    public static void remove(UUID id) {
         Role entity = get(id);
 
         Database.beginTransaction();

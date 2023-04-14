@@ -4,6 +4,7 @@ import pt.ipvc.dal.Taxi;
 import pt.ipvc.database.Database;
 
 import java.util.List;
+import java.util.UUID;
 
 
 public class TaxiBLL {
@@ -12,7 +13,7 @@ public class TaxiBLL {
         return Database.query("taxi.index").getResultList();
     }
 
-    public static Taxi get(Long id) {
+    public static Taxi get(UUID id) {
         return Database.find(Taxi.class, id);
     }
 
@@ -28,7 +29,7 @@ public class TaxiBLL {
         Database.commitTransaction();
     }
 
-    public static void remove(Long id) {
+    public static void remove(UUID id) {
         Taxi entity = get(id);
 
         Database.beginTransaction();

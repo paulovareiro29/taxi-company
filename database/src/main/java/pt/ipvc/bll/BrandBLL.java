@@ -4,6 +4,7 @@ import pt.ipvc.dal.Brand;
 import pt.ipvc.database.Database;
 
 import java.util.List;
+import java.util.UUID;
 
 
 public class BrandBLL {
@@ -12,7 +13,7 @@ public class BrandBLL {
         return Database.query("brand.index").getResultList();
     }
 
-    public static Brand get(Long id) {
+    public static Brand get(UUID id) {
         return Database.find(Brand.class, id);
     }
 
@@ -28,7 +29,7 @@ public class BrandBLL {
         Database.commitTransaction();
     }
 
-    public static void remove(Long id) {
+    public static void remove(UUID id) {
         Brand entity = get(id);
 
         Database.beginTransaction();

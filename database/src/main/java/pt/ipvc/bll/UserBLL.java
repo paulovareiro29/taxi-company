@@ -4,6 +4,7 @@ import pt.ipvc.dal.User;
 import pt.ipvc.database.Database;
 
 import java.util.List;
+import java.util.UUID;
 
 
 public class UserBLL {
@@ -12,7 +13,7 @@ public class UserBLL {
         return Database.query("user.index").getResultList();
     }
 
-    public static User get(Long id) {
+    public static User get(UUID id) {
         return Database.find(User.class, id);
     }
 
@@ -34,7 +35,7 @@ public class UserBLL {
         Database.commitTransaction();
     }
 
-    public static void remove(Long id) {
+    public static void remove(UUID id) {
         User entity = get(id);
 
         Database.beginTransaction();

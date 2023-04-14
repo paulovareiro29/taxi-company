@@ -4,6 +4,7 @@ import pt.ipvc.dal.Payment;
 import pt.ipvc.database.Database;
 
 import java.util.List;
+import java.util.UUID;
 
 
 public class PaymentBLL {
@@ -12,7 +13,7 @@ public class PaymentBLL {
         return Database.query("payment.index").getResultList();
     }
 
-    public static Payment get(Long id) {
+    public static Payment get(UUID id) {
         return Database.find(Payment.class, id);
     }
 
@@ -28,7 +29,7 @@ public class PaymentBLL {
         Database.commitTransaction();
     }
 
-    public static void remove(Long id) {
+    public static void remove(UUID id) {
         Payment entity = get(id);
 
         Database.beginTransaction();

@@ -4,6 +4,7 @@ import pt.ipvc.dal.Booking;
 import pt.ipvc.database.Database;
 
 import java.util.List;
+import java.util.UUID;
 
 public class BookingBLL {
     
@@ -11,7 +12,7 @@ public class BookingBLL {
         return Database.query("booking.index").getResultList();
     }
 
-    public static Booking get(Long id) {
+    public static Booking get(UUID id) {
         return Database.find(Booking.class, id);
     }
 
@@ -27,7 +28,7 @@ public class BookingBLL {
         Database.commitTransaction();
     }
 
-    public static void remove(Long id) {
+    public static void remove(UUID id) {
         Booking entity = get(id);
 
         Database.beginTransaction();

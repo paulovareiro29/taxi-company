@@ -4,6 +4,7 @@ import pt.ipvc.dal.BookingState;
 import pt.ipvc.database.Database;
 
 import java.util.List;
+import java.util.UUID;
 
 public class BookingStateBLL {
     
@@ -11,7 +12,7 @@ public class BookingStateBLL {
         return Database.query("booking_state.index").getResultList();
     }
 
-    public static BookingState get(Long id) {
+    public static BookingState get(UUID id) {
         return Database.find(BookingState.class, id);
     }
 

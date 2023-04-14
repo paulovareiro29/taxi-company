@@ -4,7 +4,7 @@ import pt.ipvc.dal.Model;
 import pt.ipvc.database.Database;
 
 import java.util.List;
-
+import java.util.UUID;
 
 public class ModelBLL {
 
@@ -12,7 +12,7 @@ public class ModelBLL {
         return Database.query("model.index").getResultList();
     }
 
-    public static Model get(Long id) {
+    public static Model get(UUID id) {
         return Database.find(Model.class, id);
     }
 
@@ -28,7 +28,7 @@ public class ModelBLL {
         Database.commitTransaction();
     }
 
-    public static void remove(Long id) {
+    public static void remove(UUID id) {
         Model entity = get(id);
 
         Database.beginTransaction();
