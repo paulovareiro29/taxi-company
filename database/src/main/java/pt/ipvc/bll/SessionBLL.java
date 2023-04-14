@@ -1,7 +1,7 @@
 package pt.ipvc.bll;
 
-import org.mindrot.jbcrypt.BCrypt;
 import pt.ipvc.dal.User;
+import pt.ipvc.utils.BCrypt;
 
 import java.util.UUID;
 
