@@ -3,7 +3,7 @@ package pt.ipvc;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import pt.ipvc.config.Config;
-import pt.ipvc.views.LoginScene;
+import pt.ipvc.handlers.SceneHandler;
 
 import java.io.IOException;
 
@@ -17,9 +17,7 @@ public class Main extends Application {
     }
 
     @Override
-    public void start(Stage stage) throws IOException {
-        stage.setTitle("Taxi Company Management");
-        stage.setScene(new LoginScene());
-        stage.show();
+    public void start(Stage stage) {
+        SceneHandler.load(stage);
     }
 }
