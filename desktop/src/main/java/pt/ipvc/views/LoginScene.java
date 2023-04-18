@@ -6,16 +6,19 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import pt.ipvc.base.Scene;
+import pt.ipvc.bll.SessionBLL;
 import pt.ipvc.components.buttons.Button;
 import pt.ipvc.components.buttons.ButtonSize;
 import pt.ipvc.components.inputs.PasswordField;
 import pt.ipvc.components.inputs.TextField;
+import pt.ipvc.handlers.SceneHandler;
+import pt.ipvc.handlers.ScenesEnum;
 
 import java.util.Objects;
 
 public class LoginScene extends Scene {
 
-    private final TextField usernameField;
+    private final TextField emailField;
     private final PasswordField passwordField;
 
     public LoginScene() {
@@ -33,8 +36,8 @@ public class LoginScene extends Scene {
         VBox form = new VBox(8);
         form.setPrefWidth(container.getPrefWidth());
 
-        usernameField = new TextField();
-        usernameField.setPromptText("Username");
+        emailField = new TextField();
+        emailField.setPromptText("Email");
 
         passwordField = new PasswordField();
         passwordField.setPromptText("Password");
@@ -44,14 +47,16 @@ public class LoginScene extends Scene {
         loginButton.setMaxWidth(form.getPrefWidth());
 
         // Add components to GUI
-        form.getChildren().addAll(usernameField, passwordField, loginButton);
+        form.getChildren().addAll(emailField, passwordField, loginButton);
         container.getChildren().addAll(logo, form);
         root.getChildren().addAll(container);
         setRoot(root);
     }
 
     private void onLogin() {
-        System.out.println("Tried to login: " + usernameField.getText() + " " + passwordField.getText());
+        if(SessionBLL.login(emailField.getText(), passwordField.getText())){
+            SceneHandler.changeScene(ScenesEnum.DASHBOARD);
+        }
     }
 
 }

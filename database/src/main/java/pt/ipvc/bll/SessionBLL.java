@@ -14,8 +14,13 @@ public class SessionBLL {
         return BCrypt.checkpw(password, user.getPassword());
     }
 
-    public static UUID register(User user) {
-        user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
+    public static UUID register(String name, String email, String phone, String password) {
+        User user = new User();
+
+        user.setName(name);
+        user.setEmail(email);
+        user.setPhone(phone);
+        user.setPassword(BCrypt.hashpw(password, BCrypt.gensalt()));
 
         if(user.getRole() == null)
             user.setRole(RoleBLL.getClientRole());
