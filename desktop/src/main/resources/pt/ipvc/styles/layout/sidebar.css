@@ -1,3 +1,24 @@
 .sidebar {
     -fx-background-color: -fx-color-dark ;
+    -fx-spacing: 8;
+    -fx-pref-width: 240;
+    -fx-padding: 16;
+    -fx-alignment: top-center;
+}
+
+.sidebar__button {
+    -fx-background-color: -fx-color-dark;
+    -fx-text-fill: -fx-color-tertiary;
+    -fx-pref-height: 48;
+    -fx-padding: 8 12;
+    -fx-alignment: center-left;
+}
+
+.sidebar__button:hover {
+    -fx-background-color: -fx-color-primary;
+}
+
+.sidebar__separator {
+    -fx-pref-height: 1;
+    -fx-background-color: -fx-color-text-primary;
 }

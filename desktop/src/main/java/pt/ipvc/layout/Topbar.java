@@ -19,8 +19,8 @@ public class Topbar extends HBox implements UIComponent {
     private final Label userLabel;
 
     public Topbar() {
-        this.setPrefHeight(32);
         this.getStyleClass().add("top-bar");
+        this.setPrefHeight(32);
 
         VBox leftGroup = new VBox();
         leftGroup.setAlignment(Pos.CENTER_LEFT);
