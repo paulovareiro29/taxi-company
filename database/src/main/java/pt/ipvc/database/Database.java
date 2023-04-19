@@ -8,7 +8,7 @@ import jakarta.persistence.Query;
 public class Database {
 
     private static final String PERSISTENCE_UNIT_NAME = "PROJECT_II_24473_26211" ;
-    private static EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+    private static final EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
     private static EntityManager entityManager = factory.createEntityManager();
 
     public static EntityManager getEntityManager() {

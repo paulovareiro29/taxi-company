@@ -53,6 +53,9 @@ public class LoginScene extends Scene {
         setRoot(root);
     }
 
+    @Override
+    public void update() {}
+
     private void onLogin() {
         if(SessionBLL.login(emailField.getText(), passwordField.getText())){
             SceneHandler.changeScene(ScenesEnum.DASHBOARD);

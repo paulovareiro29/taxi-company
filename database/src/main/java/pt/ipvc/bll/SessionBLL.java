@@ -6,12 +6,24 @@ import pt.ipvc.utils.BCrypt;
 import java.util.UUID;
 
 public class SessionBLL {
+    private static User authenticatedUser = null;
 
     public static boolean login(String email, String password) {
         User user = UserBLL.getByEmail(email);
 
         if(user == null) return false;
-        return BCrypt.checkpw(password, user.getPassword());
+
+        boolean isPasswordCorrect = BCrypt.checkpw(password, user.getPassword());
+
+        if(isPasswordCorrect) {
+            authenticatedUser = user;
+        }
+
+        return isPasswordCorrect;
+    }
+
+    public static void logout() {
+        authenticatedUser = null;
     }
 
     public static UUID register(String name, String email, String phone, String password) {
@@ -29,5 +41,9 @@ public class SessionBLL {
         return UserBLL
                 .getByEmail(user.getEmail())
                 .getId();
+    }
+
+    public static User getAuthenticatedUser() {
+        return authenticatedUser;
     }
 }

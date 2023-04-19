@@ -1,7 +1,8 @@
 @import url("shared/variables.css");
 @import url("components/buttons.css");
 @import url("components/inputs.css");
-
+@import url("layout/sidebar.css");
+@import url("layout/topbar.css");
 
 * {
     -fx-text-fill: -fx-color-text-primary;

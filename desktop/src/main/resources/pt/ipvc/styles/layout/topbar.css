@@ -1,0 +1,12 @@
+.top-bar {
+    -fx-background-color: -fx-color-primary;
+    -fx-padding: 16 32;
+}
+
+.top-bar__group {
+}
+
+.top-bar__label {
+    -fx-text-fill: -fx-color-white;
+    -fx-font-size: 16;
+}
