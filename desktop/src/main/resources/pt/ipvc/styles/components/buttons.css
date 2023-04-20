@@ -7,6 +7,8 @@
     -fx-background-color: -fx-color-white;
     -fx-background-radius: 4;
     -fx-background-insets: 0;
+    -fx-border-width: 1;
+    -fx-border-radius: 4;
 
     -fx-padding: 0;
     -fx-cursor: hand;
@@ -25,11 +27,20 @@
 }
 
 .button-primary {
+    -fx-border-color: -fx-color-primary;
     -fx-background-color: -fx-color-primary;
     -fx-text-fill: -fx-color-white;
 }
 
+.button-primary:hover,
+.button-primary:focused {
+    -fx-background-color: -fx-color-dark-primary;
+    -fx-border-color: -fx-color-dark-primary;
+    -fx-text-fill: -fx-color-white;
+}
+
 .button-primary_outlined {
+    -fx-border-color: -fx-color-primary;
     -fx-background-color: -fx-color-white;
     -fx-text-fill: -fx-color-primary;
 }

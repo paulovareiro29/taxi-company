@@ -14,7 +14,8 @@
     -fx-alignment: center-left;
 }
 
-.sidebar__button:hover {
+.sidebar__button:hover,
+.sidebar__button:focused {
     -fx-background-color: -fx-color-primary;
 }
 
