@@ -1,11 +1,11 @@
-package pt.ipvc.views;
+package pt.ipvc.views.screens;
 
 import javafx.scene.control.Label;
-import pt.ipvc.base.Content;
+import pt.ipvc.base.Screen;
 
-public class HomeContent extends Content {
+public class HomeScreen extends Screen {
 
-    public HomeContent() {
+    public HomeScreen() {
         super();
 
         Label label = new Label("Home page");

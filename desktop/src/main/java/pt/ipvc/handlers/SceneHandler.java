@@ -1,24 +1,24 @@
 package pt.ipvc.handlers;
 
 import javafx.stage.Stage;
-import pt.ipvc.base.Content;
 import pt.ipvc.base.Scene;
+import pt.ipvc.base.Screen;
 import pt.ipvc.views.DashboardScene;
-import pt.ipvc.views.HomeContent;
 import pt.ipvc.views.LoginScene;
+import pt.ipvc.views.screens.HomeScreen;
 
 import java.util.HashMap;
 
 public class SceneHandler {
     private static HashMap<ScenesEnum, Scene> scenes;
-    private static HashMap<ContentsEnum, Content> contents;
+    private static HashMap<ScreensEnum, Screen> screens;
     public static Stage stage;
 
     public static void load(Stage stage) {
         loadScenes();
-        loadContents();
+        loadScreens();
 
-        SceneHandler.changeDashboardContent(ContentsEnum.HOME);
+        SceneHandler.changeScreen(ScreensEnum.HOME);
 
         SceneHandler.stage = stage;
         SceneHandler.stage.setTitle("Taxi Company Management");
@@ -32,9 +32,9 @@ public class SceneHandler {
         scenes.put(ScenesEnum.DASHBOARD, new DashboardScene());
     }
 
-    private static void loadContents() {
-        contents = new HashMap<>();
-        contents.put(ContentsEnum.HOME, new HomeContent());
+    private static void loadScreens() {
+        screens = new HashMap<>();
+        screens.put(ScreensEnum.HOME, new HomeScreen());
     }
 
     public static void changeScene(ScenesEnum key) {
@@ -42,9 +42,9 @@ public class SceneHandler {
         stage.setScene(scenes.get(key));
     }
 
-    public static void changeDashboardContent(ContentsEnum key) {
+    public static void changeScreen(ScreensEnum key) {
         DashboardScene dashboard = (DashboardScene) scenes.get(ScenesEnum.DASHBOARD);
-        dashboard.changeContent(contents.get(key));
+        dashboard.changeScreen(screens.get(key));
         dashboard.update();
     }
 

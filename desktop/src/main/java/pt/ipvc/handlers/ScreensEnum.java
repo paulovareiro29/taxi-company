@@ -1,5 +1,5 @@
 package pt.ipvc.handlers;
 
-public enum ContentsEnum {
+public enum ScreensEnum {
     HOME
 }

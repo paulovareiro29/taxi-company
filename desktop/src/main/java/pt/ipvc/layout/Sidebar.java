@@ -1,7 +1,5 @@
 package pt.ipvc.layout;
 
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -10,9 +8,9 @@ import pt.ipvc.base.UIComponent;
 import pt.ipvc.bll.SessionBLL;
 import pt.ipvc.components.sidebar.SidebarButton;
 import pt.ipvc.components.sidebar.SidebarSeparator;
-import pt.ipvc.handlers.ContentsEnum;
 import pt.ipvc.handlers.SceneHandler;
 import pt.ipvc.handlers.ScenesEnum;
+import pt.ipvc.handlers.ScreensEnum;
 
 import java.util.ArrayList;
 
@@ -26,7 +24,7 @@ public class Sidebar extends VBox implements UIComponent {
         VBox secondary = new VBox(8);
 
         ArrayList<Node> MainItems = new ArrayList<>();
-        MainItems.add(new SidebarButton("Home","dashboard.png", e -> changeRoute(ContentsEnum.HOME)));
+        MainItems.add(new SidebarButton("Home","dashboard.png", e -> changeRoute(ScreensEnum.HOME)));
         MainItems.add(new SidebarSeparator());
 
         ArrayList<Node> SecondaryItems = new ArrayList<>();
@@ -49,8 +47,8 @@ public class Sidebar extends VBox implements UIComponent {
         this.getChildren().addAll(main, secondary);
     }
 
-    private void changeRoute(ContentsEnum content) {
-        SceneHandler.changeDashboardContent(content);
+    private void changeRoute(ScreensEnum screen) {
+        SceneHandler.changeScreen(screen);
     }
 
     @Override

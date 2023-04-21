@@ -1,8 +1,8 @@
 package pt.ipvc.views;
 
 import javafx.scene.layout.BorderPane;
-import pt.ipvc.base.Content;
 import pt.ipvc.base.Scene;
+import pt.ipvc.base.Screen;
 import pt.ipvc.base.UIComponent;
 import pt.ipvc.layout.Sidebar;
 import pt.ipvc.layout.Topbar;
@@ -31,9 +31,9 @@ public class DashboardScene extends Scene {
         children.put("sidebar",sidebar);
     }
 
-    public void changeContent(Content content) {
-        root.setCenter(content);
-        children.put("content", content);
+    public void changeScreen(Screen screen) {
+        root.setCenter(screen);
+        children.put("screen", screen);
     }
 
     @Override
