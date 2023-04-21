@@ -8,4 +8,6 @@
     -fx-color-white: #fff;
     -fx-color-dark: #302F2F;
     -fx-color-dark-primary: #682288;
+
+    -fx-color-shadow: rgba(75,75,75,0.5)
 }

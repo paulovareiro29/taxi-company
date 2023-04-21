@@ -1,0 +1,24 @@
+.popup {
+    /*-fx-background-color: -fx-color-tertiary;
+    */
+}
+
+.popup__overlay {
+    -fx-fill: -fx-color-shadow;
+}
+
+.popup__container {
+    -fx-background-color: -fx-color-white;
+    -fx-background-radius: 4;
+
+    -fx-pref-width: 375;
+    -fx-padding: 24 32 32 32;
+
+    -fx-effect: dropshadow(gaussian, -fx-color-shadow, 10, 0, 0, 0);
+}
+
+.popup__title {
+    -fx-font-size: 20;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 16 0;
+}

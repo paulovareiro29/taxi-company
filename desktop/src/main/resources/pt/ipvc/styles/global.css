@@ -3,6 +3,7 @@
 @import url("components/inputs.css");
 @import url("layout/sidebar.css");
 @import url("layout/topbar.css");
+@import url("layout/popup.css");
 
 * {
     -fx-text-fill: -fx-color-text-primary;
