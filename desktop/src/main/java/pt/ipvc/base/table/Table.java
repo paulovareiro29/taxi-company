@@ -3,7 +3,12 @@ package pt.ipvc.base.table;
 import javafx.scene.control.TableView;
 import pt.ipvc.base.UIComponent;
 
-public class Table<T> extends TableView<T> implements UIComponent {
+import java.util.List;
+import java.util.function.Predicate;
+
+public abstract class Table<T> extends TableView<T> implements UIComponent {
+
+    protected Predicate<T> filters;
 
     public Table() {
         setPrefHeight(0);
@@ -17,5 +22,16 @@ public class Table<T> extends TableView<T> implements UIComponent {
         double rowHeight = getFixedCellSize();
         double prefHeight = rowCount * rowHeight;
         setPrefHeight(prefHeight + 50);
+    }
+
+    public abstract void refresh();
+
+    protected void updateData(List<T> data) {
+        getItems().clear();
+        getItems().setAll(data);
+    }
+
+    protected void addFilter(Predicate<T> filter) {
+        filters = filters == null ? filter : filters.and(filter);
     }
 }
