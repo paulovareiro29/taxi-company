@@ -8,7 +8,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
-public class Popup extends javafx.stage.Popup {
+public class Popup extends javafx.stage.Popup implements UIComponent{
 
     private final VBox container;
     private final Rectangle overlay;
@@ -39,8 +39,8 @@ public class Popup extends javafx.stage.Popup {
         this.getContent().add(pane);
     }
 
-    public void addChild(Node child) {
-        container.getChildren().add(child);
+    public void addChildren(Node ...child) {
+        container.getChildren().addAll(child);
     }
 
     public void show(Stage owner) {
@@ -53,4 +53,8 @@ public class Popup extends javafx.stage.Popup {
         super.show(owner);
     }
 
+    @Override
+    public void update() {
+
+    }
 }

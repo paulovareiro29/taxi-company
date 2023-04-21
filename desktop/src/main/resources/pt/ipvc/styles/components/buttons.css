@@ -43,7 +43,7 @@
     -fx-text-fill: -fx-color-white;
 }
 
-.button--primary_outlined {
+.button--outlined_primary {
     -fx-border-color: -fx-color-primary;
     -fx-background-color: -fx-color-white;
     -fx-text-fill: -fx-color-primary;
