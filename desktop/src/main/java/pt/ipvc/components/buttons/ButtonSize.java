@@ -3,5 +3,6 @@ package pt.ipvc.components.buttons;
 public enum ButtonSize {
     SMALL,
     NORMAL,
-    LARGE
+    LARGE,
+    SUPER_LARGE
 }

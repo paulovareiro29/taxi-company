@@ -14,32 +14,36 @@
     -fx-cursor: hand;
 }
 
-.button-small {
+.button--small {
+    -fx-padding: 4 12;
+}
+
+.button--normal {
     -fx-padding: 8 16;
 }
 
-.button-normal {
+.button--large {
     -fx-padding: 12 24;
 }
 
-.button-large {
+.button--super_large {
     -fx-padding: 16 32;
 }
 
-.button-primary {
+.button--primary {
     -fx-border-color: -fx-color-primary;
     -fx-background-color: -fx-color-primary;
     -fx-text-fill: -fx-color-white;
 }
 
-.button-primary:hover,
-.button-primary:focused {
+.button--primary:hover,
+.button--primary:focused {
     -fx-background-color: -fx-color-dark-primary;
     -fx-border-color: -fx-color-dark-primary;
     -fx-text-fill: -fx-color-white;
 }
 
-.button-primary_outlined {
+.button--primary_outlined {
     -fx-border-color: -fx-color-primary;
     -fx-background-color: -fx-color-white;
     -fx-text-fill: -fx-color-primary;
