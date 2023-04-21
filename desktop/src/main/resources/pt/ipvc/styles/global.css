@@ -4,8 +4,9 @@
 @import url("components/heading.css");
 @import url("layout/sidebar.css");
 @import url("layout/topbar.css");
-@import url("layout/popup.css");
 @import url("layout/screen.css");
+@import url("layout/popup.css");
+@import url("layout/table.css");
 
 * {
     -fx-text-fill: -fx-color-text-primary;
