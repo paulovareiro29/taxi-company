@@ -7,5 +7,6 @@ module taxi.company.database.main {
     requires net.bytebuddy;
     opens pt.ipvc.dal to org.hibernate.orm.core;
     exports pt.ipvc.bll;
+    exports pt.ipvc.exceptions;
     exports pt.ipvc.dal;
 }

@@ -2,6 +2,7 @@ package pt.ipvc.bll;
 
 import pt.ipvc.dal.User;
 import pt.ipvc.database.Database;
+import pt.ipvc.exceptions.EmailAlreadyInUseException;
 
 import java.util.List;
 import java.util.UUID;
@@ -23,7 +24,10 @@ public class UserBLL {
                 .getResultStream().findFirst().orElse(null);
     }
 
-    public static void create(User entity) {
+    public static void create(User entity) throws EmailAlreadyInUseException {
+        if(getByEmail(entity.getEmail()) != null)
+            throw new EmailAlreadyInUseException();
+
         Database.beginTransaction();
         Database.insert(entity);
         Database.commitTransaction();

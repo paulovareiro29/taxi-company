@@ -1,6 +1,7 @@
 package pt.ipvc.bll;
 
 import pt.ipvc.dal.User;
+import pt.ipvc.exceptions.EmailAlreadyInUseException;
 import pt.ipvc.utils.BCrypt;
 
 import java.util.UUID;
@@ -26,7 +27,7 @@ public class SessionBLL {
         authenticatedUser = null;
     }
 
-    public static UUID register(String name, String email, String phone, String password) {
+    public static UUID register(String name, String email, String phone, String password) throws EmailAlreadyInUseException {
         User user = new User();
 
         user.setName(name);
