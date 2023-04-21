@@ -1,3 +1,18 @@
+.table-view:focused {
+    -fx-focus-color: null;
+    -fx-effect: null;
+    -fx-border-color: -fx-color-tertiary;
+    -fx-inner-shadow: none;
+    -fx-background-color: -fx-color-white;
+    -fx-padding: 0;
+}
+
+.table-view .column-header {
+    -fx-border-style: solid;
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: -fx-color-tertiary;
+}
+
 .table-view .column-header,
 .table-view .column-header-background .filler {
     -fx-background-color:  -fx-color-white;
@@ -11,6 +26,7 @@
     -fx-pref-height: 50;
     -fx-padding: 0 0 0 10;
 }
+
 .table-view .cell{
     -fx-alignment: CENTER_LEFT;
     -fx-border-color: transparent;
