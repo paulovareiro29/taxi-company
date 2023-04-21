@@ -1,15 +1,13 @@
 package pt.ipvc.views.screens;
 
-import javafx.scene.control.Label;
 import pt.ipvc.base.Screen;
+import pt.ipvc.components.Heading;
 
 public class HomeScreen extends Screen {
 
     public HomeScreen() {
-        super();
-
-        Label label = new Label("Home page");
-        this.getChildren().add(label);
+        Heading title = new Heading("Home page");
+        this.getChildren().add(title);
     }
 
     @Override

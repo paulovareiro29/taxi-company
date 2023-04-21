@@ -1,9 +1,11 @@
 @import url("shared/variables.css");
 @import url("components/buttons.css");
 @import url("components/inputs.css");
+@import url("components/heading.css");
 @import url("layout/sidebar.css");
 @import url("layout/topbar.css");
 @import url("layout/popup.css");
+@import url("layout/screen.css");
 
 * {
     -fx-text-fill: -fx-color-text-primary;
