@@ -14,3 +14,7 @@
 
     -fx-padding: 8 16;
 }
+
+.text-field--error {
+    -fx-border-color: -fx-color-danger;
+}
