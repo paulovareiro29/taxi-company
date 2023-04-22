@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 public class UsersTable extends Table<User> {
 
     private String nameFilter;
+    private String emailFilter;
     private String roleFilter;
 
     public UsersTable() {
@@ -28,8 +29,9 @@ public class UsersTable extends Table<User> {
         roleColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getRole().getName()));
 
 
-        addFilter(u -> nameFilter == null || u.getName().contains(nameFilter));
-        addFilter(u -> roleFilter == null || u.getRole().getName().equals(roleFilter));
+        addFilter(u -> u.getName().toLowerCase().contains(nameFilter != null ? nameFilter : ""));
+        addFilter(u -> u.getEmail().toLowerCase().contains(emailFilter != null ? emailFilter : ""));
+        addFilter(u -> u.getRole().getName().toLowerCase().equals(roleFilter));
 
         refresh();
     }
@@ -48,14 +50,16 @@ public class UsersTable extends Table<User> {
         super.update();
     }
 
-    public void filterByName(String name) {
+    public void setNameFilter(String name) {
         nameFilter = name;
-        refresh();
     }
 
-    public void filterByRole(String role) {
+    public void setEmailFilter(String email) {
+        emailFilter = email;
+    }
+
+    public void setRoleFilter(String role) {
         roleFilter = role;
-        refresh();
     }
 
     public void clearFilters() {
