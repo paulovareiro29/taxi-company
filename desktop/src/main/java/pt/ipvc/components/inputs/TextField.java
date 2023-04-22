@@ -68,12 +68,12 @@ public class TextField extends VBox {
 
     public void setError(String message) {
         errorLabel.setText(message);
-        input.getStyleClass().add("text-field--error");
+        wrapper.getStyleClass().add("text-field__wrapper--error");
     }
 
     public void clearError() {
         errorLabel.setText("");
-        input.getStyleClass().remove("text-field--error");
+        wrapper.getStyleClass().remove("text-field__wrapper--error");
     }
 
     public javafx.scene.control.TextField getInput() {
