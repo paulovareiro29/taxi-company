@@ -31,7 +31,11 @@ public abstract class Table<T> extends TableView<T> implements UIComponent {
         getItems().setAll(data);
     }
 
-    protected void addFilter(Predicate<T> filter) {
+    protected void addOrFilter(Predicate<T> filter) {
         filters = filters == null ? filter : filters.or(filter);
+    }
+
+    protected void addAndFilter(Predicate<T> filter) {
+        filters = filters == null ? filter : filters.and(filter);
     }
 }

@@ -29,9 +29,9 @@ public class UsersTable extends Table<User> {
         roleColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getRole().getName()));
 
 
-        addFilter(u -> u.getName().toLowerCase().contains(nameFilter != null ? nameFilter : ""));
-        addFilter(u -> u.getEmail().toLowerCase().contains(emailFilter != null ? emailFilter : ""));
-        addFilter(u -> u.getRole().getName().toLowerCase().equals(roleFilter));
+        addOrFilter(u -> u.getName().toLowerCase().contains(nameFilter != null ? nameFilter : ""));
+        addOrFilter(u -> u.getEmail().toLowerCase().contains(emailFilter != null ? emailFilter : ""));
+        addAndFilter(u -> u.getRole().getName().toLowerCase().contains(roleFilter != null ? roleFilter : ""));
 
         refresh();
     }

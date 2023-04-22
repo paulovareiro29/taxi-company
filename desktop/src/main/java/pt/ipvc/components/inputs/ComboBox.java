@@ -1,13 +1,16 @@
 package pt.ipvc.components.inputs;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ListCell;
 import pt.ipvc.base.ComboItem;
 
+import java.util.List;
+
 public class ComboBox extends javafx.scene.control.ComboBox<ComboItem> {
 
-    public ComboBox(ObservableList<ComboItem> items) {
-        super(items);
+    public ComboBox(List<ComboItem> items) {
+        super(FXCollections.observableArrayList(items));
         getStyleClass().add("combobox");
         setOnAction(e -> getSelectionModel().getSelectedItem().onSelected());
 
