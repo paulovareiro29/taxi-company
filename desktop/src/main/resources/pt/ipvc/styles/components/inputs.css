@@ -18,3 +18,7 @@
 .text-field--error {
     -fx-border-color: -fx-color-danger;
 }
+
+.text-field__error_label {
+    -fx-text-fill: -fx-color-danger;
+}

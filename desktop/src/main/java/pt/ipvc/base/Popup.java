@@ -12,11 +12,14 @@ public class Popup extends javafx.stage.Popup implements UIComponent{
 
     private final VBox container;
     private final Rectangle overlay;
+    protected final EventListener listener;
 
-    public Popup(String title) {
+    public Popup(String title, EventListener listener) {
         this.setAutoHide(true);
         this.setAutoFix(true);
         this.setAnchorLocation(AnchorLocation.CONTENT_TOP_LEFT);
+
+        this.listener = listener;
 
         overlay = new Rectangle(0, 0);
         overlay.setOnMouseClicked(e -> this.hide());

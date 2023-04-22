@@ -1,5 +1,6 @@
 package pt.ipvc.views.screens;
 
+import pt.ipvc.base.EventListener;
 import pt.ipvc.base.Popup;
 import pt.ipvc.base.Screen;
 import pt.ipvc.components.Heading;
@@ -13,13 +14,11 @@ public class UsersScreen extends Screen {
 
     public UsersScreen() {
 
-        /* POPUP */
-        Popup createUserPopup = new CreateUserPopup();
+
 
         /* HEADER */
         Heading title = new Heading("Users");
         Button newUserButton = new Button("Add new");
-        newUserButton.setOnAction(e -> createUserPopup.show(SceneHandler.stage));
 
         ScreenHeader header = new ScreenHeader();
         header.addChildrenToLeft(title);
@@ -27,6 +26,22 @@ public class UsersScreen extends Screen {
 
         /* TABLE */
         UsersTable table = new UsersTable();
+
+        /* POPUP */
+        Popup createUserPopup = new CreateUserPopup(new EventListener() {
+            @Override
+            public void onSuccess() {
+                table.refresh();
+            }
+
+            @Override
+            public void onFail() {}
+
+            @Override
+            public void onCancel() {}
+        });
+
+        newUserButton.setOnAction(e -> createUserPopup.show(SceneHandler.stage));
 
 
         /* ADD EVERYTHING TO SCREEN */
