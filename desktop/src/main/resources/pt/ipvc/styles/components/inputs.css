@@ -1,9 +1,6 @@
 @import url("../shared/variables.css");
 
-.text-field {
-    -fx-font-size: 14;
-    -fx-effect: null;
-
+.text-field__wrapper {
     -fx-background-color: -fx-color-white;
     -fx-background-radius: 4;
     -fx-background-insets: 0;
@@ -12,7 +9,26 @@
     -fx-border-radius: 4;
     -fx-border-width: 1;
 
-    -fx-padding: 8 16;
+    -fx-padding: 0 16;
+}
+
+.text-field__input {
+    -fx-font-size: 14;
+    -fx-effect: null;
+
+    -fx-padding: 8 0;
+
+    -fx-background-color: null;
+    -fx-background-radius: 0;
+    -fx-background-insets: 0;
+
+    -fx-border-color: null;
+    -fx-border-radius: 0;
+    -fx-border-width: 0;
+}
+
+.text-field__wrapper--icon {
+    -fx-padding: 0 12;
 }
 
 .text-field--error {
