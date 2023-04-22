@@ -58,4 +58,8 @@ public class RoleBLL {
     public static Role getSecretaryRole() {
         return getByName("secretary");
     }
+
+    public static Role getDriverRole() {
+        return getByName("driver");
+    }
 }

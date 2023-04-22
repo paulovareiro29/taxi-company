@@ -149,4 +149,5 @@ INSERT INTO booking_states (name, description) VALUES
 INSERT INTO roles (name, description) VALUES
     ('client','Client role'),
     ('administration', 'Administration role'),
-    ('secretary', 'Secretary role');
+    ('secretary', 'Secretary role'),
+    ('driver', 'Driver role');
