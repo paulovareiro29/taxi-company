@@ -1,7 +1,7 @@
 @import url("../shared/variables.css");
 
 .text-field {
-    -fx-font-size: 16;
+    -fx-font-size: 14;
     -fx-effect: null;
 
     -fx-background-color: -fx-color-white;
@@ -21,4 +21,19 @@
 
 .text-field__error_label {
     -fx-text-fill: -fx-color-danger;
+}
+
+.combobox {
+    -fx-font-size: 14;
+    -fx-effect: null;
+
+    -fx-background-color: -fx-color-white;
+    -fx-background-radius: 4;
+    -fx-background-insets: 0;
+
+    -fx-border-color: -fx-color-tertiary;
+    -fx-border-radius: 4;
+    -fx-border-width: 1;
+
+    -fx-padding: 2 8 2 16;
 }
