@@ -48,3 +48,29 @@
     -fx-background-color: -fx-color-white;
     -fx-text-fill: -fx-color-primary;
 }
+
+.button--outlined_primary:hover,
+.button--outlined_primary:focused {
+    -fx-border-color: -fx-color-dark-primary;
+    -fx-background-color: -fx-color-dark-primary;
+    -fx-text-fill: -fx-color-white;
+}
+
+.button--danger {
+    -fx-border-color: -fx-color-danger;
+    -fx-background-color: -fx-color-danger;
+    -fx-text-fill: -fx-color-white;
+}
+
+.button--outlined_danger {
+    -fx-border-color: -fx-color-danger;
+    -fx-background-color: -fx-color-white;
+    -fx-text-fill: -fx-color-danger;
+}
+
+.button--outlined_danger:hover,
+.button--outlined_danger:focused {
+    -fx-border-color: -fx-color-danger;
+    -fx-background-color: -fx-color-danger;
+    -fx-text-fill: -fx-color-white;
+}
