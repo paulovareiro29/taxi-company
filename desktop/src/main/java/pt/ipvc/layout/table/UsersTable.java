@@ -2,10 +2,14 @@ package pt.ipvc.layout.table;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.cell.PropertyValueFactory;
+import pt.ipvc.base.EventListener;
+import pt.ipvc.base.table.ButtonIconTableCell;
 import pt.ipvc.base.table.Table;
 import pt.ipvc.base.table.TableColumn;
 import pt.ipvc.bll.UserBLL;
 import pt.ipvc.dal.User;
+import pt.ipvc.handlers.SceneHandler;
+import pt.ipvc.layout.popup.UpdateUserPopup;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,18 +19,46 @@ public class UsersTable extends Table<User> {
     private String nameFilter;
     private String emailFilter;
     private String roleFilter;
+    private final UpdateUserPopup editPopup;
 
     public UsersTable() {
+        editPopup = new UpdateUserPopup(new EventListener() {
+            @Override
+            public void onSuccess() {
+                refresh();
+            }
+
+            @Override
+            public void onFail() {}
+
+            @Override
+            public void onCancel() {}
+        });
+
         TableColumn<User, String> nameColumn = new TableColumn<>("Name");
         TableColumn<User, String> emailColumn = new TableColumn<>("Email");
         TableColumn<User, String> joinedAtColumn = new TableColumn<>("Joined At");
         TableColumn<User, String> roleColumn = new TableColumn<>("Role");
-        getColumns().addAll(nameColumn, emailColumn, joinedAtColumn, roleColumn);
+        TableColumn<User, String> settingsColumn = new TableColumn<>("");
+        settingsColumn.setPrefWidth(64);
+        settingsColumn.setMinWidth(64);
+        settingsColumn.setMaxWidth(64);
+
+        getColumns().addAll(nameColumn, emailColumn, joinedAtColumn, roleColumn, settingsColumn);
 
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
         joinedAtColumn.setCellValueFactory(new PropertyValueFactory<>("createdAt"));
         roleColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getRole().getName()));
+        settingsColumn.setCellValueFactory(data -> new SimpleStringProperty(""));
+        settingsColumn.setCellFactory(data -> {
+            ButtonIconTableCell<User> cell = new ButtonIconTableCell<>("settings.png");
+            cell.setOnClick(event -> {
+                editPopup.setUser(cell.getTableView().getItems().get(cell.getIndex()));
+                editPopup.show(SceneHandler.stage);
+            });
+            return cell;
+        });
 
 
         addOrFilter(u -> u.getName().toLowerCase().contains(nameFilter != null ? nameFilter : ""));

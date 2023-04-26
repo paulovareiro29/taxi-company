@@ -94,4 +94,7 @@ public class CreateUserPopup extends Popup {
         emailField.clearError();
         passwordField.clearError();
     }
+
+    @Override
+    public void update() {}
 }

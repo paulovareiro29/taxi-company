@@ -42,6 +42,9 @@ public class User {
     @Column(name = "address")
     private String address;
 
+    @Column(name = "house_number")
+    private String houseNumber;
+
     @Column(name = "registration_number")
     private String registrationNumber;
 
@@ -125,6 +128,14 @@ public class User {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getHouseNumber() {
+        return houseNumber;
+    }
+
+    public void setHouseNumber(String houseNumber) {
+        this.houseNumber = houseNumber;
     }
 
     public String getRegistrationNumber() {

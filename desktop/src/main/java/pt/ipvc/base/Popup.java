@@ -8,10 +8,11 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
-public class Popup extends javafx.stage.Popup implements UIComponent{
+public abstract class Popup extends javafx.stage.Popup implements UIComponent{
 
-    private final VBox container;
-    private final Rectangle overlay;
+    protected final Label header;
+    protected final VBox container;
+    protected final Rectangle overlay;
     protected final EventListener listener;
 
     public Popup(String title, EventListener listener) {
@@ -24,10 +25,10 @@ public class Popup extends javafx.stage.Popup implements UIComponent{
         overlay = new Rectangle(0, 0);
         overlay.setOnMouseClicked(e -> this.hide());
 
-        Label titleLabel = new Label(title);
+        header = new Label(title);
 
         container = new VBox(8);
-        container.getChildren().add(titleLabel);
+        container.getChildren().add(header);
 
         Group group = new Group();
         group.getChildren().add(container);
@@ -37,7 +38,7 @@ public class Popup extends javafx.stage.Popup implements UIComponent{
         pane.getStyleClass().add("popup");
         overlay.getStyleClass().add("popup__overlay");
         container.getStyleClass().add("popup__container");
-        titleLabel.getStyleClass().add("popup__title");
+        header.getStyleClass().add("popup__title");
 
         this.getContent().add(pane);
     }
@@ -56,8 +57,7 @@ public class Popup extends javafx.stage.Popup implements UIComponent{
         super.show(owner);
     }
 
-    @Override
-    public void update() {
-
+    public void setTitle(String title) {
+        header.setText(title);
     }
 }
