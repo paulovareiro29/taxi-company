@@ -1,19 +1,13 @@
 package pt.ipvc.layout.popup;
 
-import javafx.beans.InvalidationListener;
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.Property;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Separator;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import javafx.scene.text.Text;
 import pt.ipvc.base.ComboItem;
 import pt.ipvc.base.EventListener;
 import pt.ipvc.base.Popup;
+import pt.ipvc.base.Scene;
 import pt.ipvc.bll.RoleBLL;
-import pt.ipvc.bll.SessionBLL;
 import pt.ipvc.bll.UserBLL;
 import pt.ipvc.components.buttons.Button;
 import pt.ipvc.components.buttons.ButtonAppearance;
@@ -21,9 +15,9 @@ import pt.ipvc.components.inputs.ComboBox;
 import pt.ipvc.components.inputs.TextField;
 import pt.ipvc.dal.Role;
 import pt.ipvc.dal.User;
+import pt.ipvc.handlers.SceneHandler;
 import pt.ipvc.utils.StringUtils;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 public class UpdateUserPopup extends Popup {
@@ -103,7 +97,32 @@ public class UpdateUserPopup extends Popup {
         submitButton.setMaxWidth(Double.MAX_VALUE);
 
         options.getChildren().addAll(cancelButton, submitButton);
-        addChildren(nameField, phoneField, roleField,registrationNumberField, new Separator(), addressRow, postalCodeField, vatField,  options);
+
+        Button deleteButton = new Button("DELETE", ButtonAppearance.outlined_danger);
+        deleteButton.setPrefWidth(Double.MAX_VALUE);
+        deleteButton.setOnAction(e -> {
+            DangerConfirmationPopup popup = new DangerConfirmationPopup(new EventListener() {
+                @Override
+                public void onSuccess() {
+                    UserBLL.remove(user.getId());
+                    hide();
+                    listener.onSuccess();
+                }
+
+                @Override
+                public void onFail() {
+
+                }
+
+                @Override
+                public void onCancel() {
+                    System.out.println("Cancleed");
+                }
+            });
+            popup.show(SceneHandler.stage);
+        });
+
+        addChildren(nameField, phoneField, roleField,registrationNumberField, new Separator(), addressRow, postalCodeField, vatField,  options, deleteButton);
     }
 
     public void handleSubmitButton() {
@@ -122,7 +141,7 @@ public class UpdateUserPopup extends Popup {
         user.setAddress(addressField.getText());
         user.setHouseNumber(houseNumberField.getText());
         user.setPostalCode(postalCodeField.getText());
-        user.setVAT(Integer.parseInt(vatField.getText()));
+        user.setVAT(Integer.parseInt(vatField.getText().isBlank() ? "0" : vatField.getText()));
 
 
         try {

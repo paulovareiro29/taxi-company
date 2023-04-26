@@ -1,7 +1,5 @@
 package pt.ipvc.views.screens;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.Group;
 import pt.ipvc.base.ComboItem;
 import pt.ipvc.base.EventListener;
@@ -18,7 +16,6 @@ import pt.ipvc.layout.screen.ScreenHeader;
 import pt.ipvc.layout.table.UsersTable;
 import pt.ipvc.utils.StringUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
