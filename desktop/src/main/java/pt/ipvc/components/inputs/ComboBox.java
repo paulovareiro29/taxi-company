@@ -32,9 +32,11 @@ public class ComboBox extends javafx.scene.control.ComboBox<ComboItem> {
                 super.updateItem(item, empty);
                 if (empty || item == null) {
                     setText(null);
+                    setStyle("-fx-text-fill: -fx-color-tertiary");
                     setGraphic(null);
                 } else {
                     setText(item.getLabel());
+                    setStyle("-fx-text-fill: -fx-color-text-primary");
                 }
             }
         });

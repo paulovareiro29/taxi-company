@@ -25,6 +25,7 @@
     -fx-border-color: null;
     -fx-border-radius: 0;
     -fx-border-width: 0;
+    -fx-prompt-text-fill: -fx-color-tertiary;
 }
 
 .text-field__wrapper--icon {
@@ -37,6 +38,10 @@
 
 .text-field__error_label {
     -fx-text-fill: -fx-color-danger;
+}
+
+.combo-box .text-input{
+    -fx-prompt-text-fill: -fx-color-tertiary;
 }
 
 .combobox {

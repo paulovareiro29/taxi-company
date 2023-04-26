@@ -2,19 +2,29 @@ package pt.ipvc.layout.popup;
 
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import pt.ipvc.base.ComboItem;
 import pt.ipvc.base.EventListener;
 import pt.ipvc.base.Popup;
+import pt.ipvc.bll.RoleBLL;
 import pt.ipvc.bll.SessionBLL;
 import pt.ipvc.components.buttons.Button;
 import pt.ipvc.components.buttons.ButtonAppearance;
+import pt.ipvc.components.inputs.ComboBox;
 import pt.ipvc.components.inputs.TextField;
+import pt.ipvc.dal.Role;
+import pt.ipvc.utils.StringUtils;
 import pt.ipvc.utils.Validator;
 
+import java.util.stream.Collectors;
+
 public class CreateUserPopup extends Popup {
+
+    private Role selectedRole;
 
     private final TextField nameField;
     private final TextField emailField;
     private final TextField passwordField;
+    private final ComboBox roleField;
 
     public CreateUserPopup(EventListener listener) {
         super("New User", listener);
@@ -27,6 +37,15 @@ public class CreateUserPopup extends Popup {
 
         passwordField = new TextField();
         passwordField.setPromptText("Password");
+
+        roleField = new ComboBox(RoleBLL.index().stream()
+                .map(role -> new ComboItem(StringUtils.capitalize(role.getName()), () -> {
+                    selectedRole = role;
+                }))
+                .collect(Collectors.toList()));
+        roleField.setPrefWidth(Double.MAX_VALUE);
+        roleField.setPromptText("Select role");
+        roleField.setValue(roleField.getItems().stream().filter(item -> item.getLabel().equalsIgnoreCase(RoleBLL.getClientRole().getName())).findFirst().orElse(null));
 
         Button cancelButton = new Button("Cancel", ButtonAppearance.outlined_primary);
         Button submitButton = new Button("Create");
@@ -45,7 +64,7 @@ public class CreateUserPopup extends Popup {
         submitButton.setMaxWidth(Double.MAX_VALUE);
 
         options.getChildren().addAll(cancelButton, submitButton);
-        addChildren(nameField, emailField, passwordField, options);
+        addChildren(nameField, emailField, roleField, passwordField, options);
     }
 
     private void handleSubmitButton() {
