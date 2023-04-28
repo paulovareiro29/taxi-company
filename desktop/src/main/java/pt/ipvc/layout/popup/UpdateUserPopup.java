@@ -136,10 +136,14 @@ public class UpdateUserPopup extends Popup {
     public void handleSubmitButton() {
         clearErrors();
 
+        boolean hasError = false;
+
         if(nameField.getText().isBlank()) {
             nameField.setError("Name is required");
-            return;
+            hasError = true;
         }
+
+        if(hasError) return;
 
         user.setName(nameField.getText());
         user.setRole(selectedRole);

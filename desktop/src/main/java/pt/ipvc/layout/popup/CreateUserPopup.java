@@ -73,25 +73,29 @@ public class CreateUserPopup extends Popup {
     private void handleSubmitButton() {
         clearErrors();
 
+        boolean hasError = false;
+
         if(nameField.getText().isBlank()) {
             nameField.setError("Name is required");
-            return;
+            hasError = true;
         }
 
         if(emailField.getText().isBlank()) {
             emailField.setError("Email is required");
-            return;
+            hasError = true;
+        }else if(!Validator.validateEmail(emailField.getText())){
+            emailField.setError("Invalid email format");
+            hasError = true;
         }
 
         if(passwordField.getText().isBlank()) {
             passwordField.setError("Password is required");
-            return;
+            hasError = true;
         }
 
-        if(!Validator.validateEmail(emailField.getText())){
-            emailField.setError("Invalid email format");
-            return;
-        }
+
+
+        if  (hasError) return;
 
         try {
             SessionBLL.register(nameField.getText().trim(), emailField.getText().trim(), "", passwordField.getText().trim());

@@ -1,8 +1,11 @@
 package pt.ipvc.views;
 
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import pt.ipvc.base.Scene;
@@ -43,6 +46,11 @@ public class LoginScene extends Scene {
         passwordField = new PasswordField();
         passwordField.setPromptText("Password");
         passwordField.setIcon("lock--secondary.png");
+        passwordField.setOnKeyPressed(event -> {
+            if(event.getCode().equals(KeyCode.ENTER)){
+                onLogin();
+            }
+        });
 
         Button loginButton = new Button("Login", ButtonSize.LARGE);
         loginButton.setOnAction(event -> onLogin());
@@ -59,9 +67,30 @@ public class LoginScene extends Scene {
     public void update() {}
 
     private void onLogin() {
+        clearErrors();
+
+        boolean hasError = false;
+
+        if(emailField.getText().isBlank()) {
+            emailField.setError("Email is required");
+            hasError = true;
+        }
+
+        if(passwordField.getText().isBlank()) {
+            passwordField.setError("Password is required");
+            hasError = true;
+        }
+
+        if (hasError) return;
+
         if(SessionBLL.login(emailField.getText(), passwordField.getText())){
             SceneHandler.changeScene(ScenesEnum.DASHBOARD);
         }
+    }
+
+    private void clearErrors() {
+        emailField.clearError();
+        passwordField.clearError();
     }
 
 }

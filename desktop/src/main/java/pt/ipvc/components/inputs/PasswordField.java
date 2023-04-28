@@ -88,11 +88,11 @@ public class PasswordField extends VBox {
 
     public void setError(String message) {
         errorLabel.setText(message);
-        wrapper.getStyleClass().add("text-field--error");
+        wrapper.getStyleClass().add("text-field__wrapper--error");
     }
 
     public void clearError() {
         errorLabel.setText("");
-        wrapper.getStyleClass().remove("text-field--error");
+        wrapper.getStyleClass().remove("text-field__wrapper--error");
     }
 }
