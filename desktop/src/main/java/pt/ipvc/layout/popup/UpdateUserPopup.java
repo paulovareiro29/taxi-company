@@ -50,7 +50,6 @@ public class UpdateUserPopup extends Popup {
         phoneField.setPromptText("Phone");
         phoneField.setIcon("phone--secondary.png");
 
-
         registrationNumberField = new TextField();
         registrationNumberField.setIcon("card-details--secondary.png");
         registrationNumberField.setPromptText("Registration Number");
@@ -67,6 +66,7 @@ public class UpdateUserPopup extends Popup {
         addressField = new TextField();
         addressField.setPromptText("Address");
         addressField.setIcon("house--secondary.png");
+        addressField.showOptional(true);
         HBox.setHgrow(addressField, Priority.ALWAYS);
 
         houseNumberField = new TextField();
@@ -79,10 +79,12 @@ public class UpdateUserPopup extends Popup {
         postalCodeField = new TextField();
         postalCodeField.setPromptText("Postal code");
         postalCodeField.setIcon("marker--secondary.png");
+        postalCodeField.showOptional(true);
 
         vatField = new TextField();
         vatField.setPromptText("VAT");
         vatField.setIcon("tax--secondary.png");
+        vatField.showOptional(true);
 
 
         /* BUTTONS */

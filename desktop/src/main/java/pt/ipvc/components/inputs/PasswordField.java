@@ -16,6 +16,8 @@ public class PasswordField extends VBox {
     private ImageView icon;
     private final javafx.scene.control.PasswordField input;
     private final Label errorLabel;
+    private Boolean showOptional = false;
+    private String promptText;
 
     public PasswordField(String text) {
         super(4);
@@ -63,12 +65,25 @@ public class PasswordField extends VBox {
         wrapper.getStyleClass().add("text-field__wrapper--icon");
     }
 
-    public void setPromptText(String text) {
-        input.setPromptText(text);
+    private void updatePromptText() {
+        String prompt = promptText;
+        if(this.showOptional)
+            prompt = prompt + " (Optional)";
+
+        input.setPromptText(prompt);
     }
 
+    public void setPromptText(String text) {
+        this.promptText = text;
+        updatePromptText();
+    }
     public javafx.scene.control.TextField getInput() {
         return this.input;
+    }
+
+    public void showOptional(Boolean show) {
+        this.showOptional = show;
+        updatePromptText();
     }
 
     public void setError(String message) {

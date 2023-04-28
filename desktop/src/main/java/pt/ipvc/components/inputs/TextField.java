@@ -16,6 +16,8 @@ public class TextField extends VBox {
     private ImageView icon;
     private final javafx.scene.control.TextField input;
     private final Label errorLabel;
+    private Boolean showOptional = false;
+    private String promptText;
 
     public TextField(String text) {
         super(4);
@@ -62,8 +64,17 @@ public class TextField extends VBox {
         wrapper.getStyleClass().add("text-field__wrapper--icon");
     }
 
+    private void updatePromptText() {
+        String prompt = promptText;
+        if(this.showOptional)
+            prompt = prompt + " (Optional)";
+
+        input.setPromptText(prompt);
+    }
+
     public void setPromptText(String text) {
-        input.setPromptText(text);
+        this.promptText = text;
+        updatePromptText();
     }
 
     public void setError(String message) {
@@ -74,6 +85,11 @@ public class TextField extends VBox {
     public void clearError() {
         errorLabel.setText("");
         wrapper.getStyleClass().remove("text-field__wrapper--error");
+    }
+
+    public void showOptional(Boolean show) {
+        this.showOptional = show;
+        updatePromptText();
     }
 
     public javafx.scene.control.TextField getInput() {
