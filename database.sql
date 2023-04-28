@@ -138,11 +138,11 @@ CREATE TABLE feedbacks (
 CREATE TABLE work_proposal (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     user_id UUID NOT NULL,
-    message String NOT NULL,
+    message VARCHAR(1024) NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     CONSTRAINT W_U_FK
             FOREIGN KEY(user_id)
-                REFERENCES users(id),
+                REFERENCES users(id)
 );
 
 ----------------------
