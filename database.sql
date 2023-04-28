@@ -20,7 +20,7 @@ CREATE TABLE users (
     address VARCHAR(50),
     house_number VARCHAR(50),
     registration_number VARCHAR(50),
-    vat INT,
+    vat INT NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     CONSTRAINT U_R_FK
         FOREIGN KEY(role_id)
@@ -161,3 +161,8 @@ INSERT INTO roles (name, description) VALUES
     ('administration', 'Administration role'),
     ('secretary', 'Secretary role'),
     ('driver', 'Driver role');
+
+INSERT INTO users (role_id, name, phone, email, password, vat)
+    SELECT id, 'root', '999999999', 'root@ipvc.pt', '$2a$10$VIKmLsnhqYGBgok4OixLKuclODcNjltEOeV2DQJ72DhLENHnAGzGa','999999999'
+    FROM roles
+    WHERE name = 'administration';
