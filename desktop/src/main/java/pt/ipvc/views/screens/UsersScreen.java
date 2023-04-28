@@ -35,7 +35,7 @@ public class UsersScreen extends Screen {
 
         TextField userFilter = new TextField();
         userFilter.setPromptText("Search");
-        userFilter.setIcon("search_secondary.png");
+        userFilter.setIcon("search--secondary.png");
 
         Group searchBar = new Group(userFilter);
 

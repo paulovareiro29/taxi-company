@@ -38,9 +38,11 @@ public class LoginScene extends Scene {
 
         emailField = new TextField();
         emailField.setPromptText("Email");
+        emailField.setIcon("email--secondary.png");
 
         passwordField = new PasswordField();
         passwordField.setPromptText("Password");
+        passwordField.setIcon("lock--secondary.png");
 
         Button loginButton = new Button("Login", ButtonSize.LARGE);
         loginButton.setOnAction(event -> onLogin());

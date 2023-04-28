@@ -44,12 +44,15 @@ public class UpdateUserPopup extends Popup {
         /* INFORMATION */
         nameField = new TextField();
         nameField.setPromptText("Name");
+        nameField.setIcon("user--secondary.png");
 
         phoneField = new TextField();
         phoneField.setPromptText("Phone");
+        phoneField.setIcon("phone--secondary.png");
 
 
         registrationNumberField = new TextField();
+        registrationNumberField.setIcon("card-details--secondary.png");
         registrationNumberField.setPromptText("Registration Number");
 
         roleField = new ComboBox(RoleBLL.index().stream()
@@ -63,10 +66,11 @@ public class UpdateUserPopup extends Popup {
         /* ADDITIONAL INFORMATION */
         addressField = new TextField();
         addressField.setPromptText("Address");
+        addressField.setIcon("house--secondary.png");
         HBox.setHgrow(addressField, Priority.ALWAYS);
 
         houseNumberField = new TextField();
-        houseNumberField.setPromptText("Number");
+        houseNumberField.setPromptText("Door");
         houseNumberField.setMaxWidth(100);
 
         HBox addressRow = new HBox(8);
@@ -74,9 +78,11 @@ public class UpdateUserPopup extends Popup {
 
         postalCodeField = new TextField();
         postalCodeField.setPromptText("Postal code");
+        postalCodeField.setIcon("marker--secondary.png");
 
         vatField = new TextField();
         vatField.setPromptText("VAT");
+        vatField.setIcon("tax--secondary.png");
 
 
         /* BUTTONS */

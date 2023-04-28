@@ -26,7 +26,7 @@ public class ComboBox extends javafx.scene.control.ComboBox<ComboItem> {
                 }
             }
         });
-        setButtonCell(new ListCell<ComboItem>() {
+        setButtonCell(new ListCell<>() {
             @Override
             protected void updateItem(ComboItem item, boolean empty) {
                 super.updateItem(item, empty);

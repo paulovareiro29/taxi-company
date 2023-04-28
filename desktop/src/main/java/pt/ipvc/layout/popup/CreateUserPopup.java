@@ -31,12 +31,15 @@ public class CreateUserPopup extends Popup {
 
         nameField = new TextField();
         nameField.setPromptText("Name");
+        nameField.setIcon("user--secondary.png");
 
         emailField = new TextField();
         emailField.setPromptText("Email");
+        emailField.setIcon("email--secondary.png");
 
         passwordField = new TextField();
         passwordField.setPromptText("Password");
+        passwordField.setIcon("lock--secondary.png");
 
         roleField = new ComboBox(RoleBLL.index().stream()
                 .map(role -> new ComboItem(StringUtils.capitalize(role.getName()), () -> {
