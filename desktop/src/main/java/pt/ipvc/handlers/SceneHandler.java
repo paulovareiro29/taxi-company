@@ -7,6 +7,7 @@ import pt.ipvc.views.DashboardScene;
 import pt.ipvc.views.LoginScene;
 import pt.ipvc.views.screens.HomeScreen;
 import pt.ipvc.views.screens.UsersScreen;
+import pt.ipvc.views.screens.VehiclesScreen;
 
 import java.util.HashMap;
 
@@ -37,6 +38,7 @@ public class SceneHandler {
         screens = new HashMap<>();
         screens.put(ScreensEnum.HOME, new HomeScreen());
         screens.put(ScreensEnum.USERS, new UsersScreen());
+        screens.put(ScreensEnum.VEHICLES, new VehiclesScreen());
     }
 
     public static void changeScene(ScenesEnum key) {
