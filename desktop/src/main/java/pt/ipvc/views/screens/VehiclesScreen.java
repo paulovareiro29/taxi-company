@@ -11,6 +11,7 @@ import pt.ipvc.components.buttons.Button;
 import pt.ipvc.components.inputs.ComboBox;
 import pt.ipvc.components.inputs.TextField;
 import pt.ipvc.handlers.SceneHandler;
+import pt.ipvc.handlers.ScreensEnum;
 import pt.ipvc.layout.screen.ScreenHeader;
 //import pt.ipvc.layout.table.TaxisTable;
 //import pt.ipvc.utils.StringUtils;
@@ -29,6 +30,9 @@ public class VehiclesScreen extends Screen {
         Heading title = new Heading("Taxis");
         Button newTaxiButton = new Button("Add new");
 
+        Button brandsButton = new Button("Brands");
+        brandsButton.setOnAction(e -> SceneHandler.changeScreen(ScreensEnum.BRANDS));
+
         TextField taxiFilter = new TextField();
         taxiFilter.setPromptText("Search");
         taxiFilter.setIcon("search--secondary.png");
@@ -37,7 +41,7 @@ public class VehiclesScreen extends Screen {
 
         ScreenHeader header = new ScreenHeader();
         header.addChildrenToLeft(title);
-        header.addChildrenToRight(searchBar, newTaxiButton);
+        header.addChildrenToRight(brandsButton, searchBar, newTaxiButton);
 
         /* ADD EVERYTHING TO SCREEN */
         getChildren().addAll(header);

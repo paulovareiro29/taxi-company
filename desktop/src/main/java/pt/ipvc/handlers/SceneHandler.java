@@ -39,6 +39,7 @@ public class SceneHandler {
         screens.put(ScreensEnum.HOME, new HomeScreen());
         screens.put(ScreensEnum.USERS, new UsersScreen());
         screens.put(ScreensEnum.VEHICLES, new VehiclesScreen());
+        screens.put(ScreensEnum.BRANDS, new BrandsScreen());
     }
 
     public static void changeScene(ScenesEnum key) {
