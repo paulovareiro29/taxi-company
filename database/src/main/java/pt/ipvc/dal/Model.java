@@ -10,6 +10,7 @@ import java.util.UUID;
         @NamedQuery(name = "model.index", query = "SELECT model FROM Model model"),
         @NamedQuery(name = "model.count", query = "SELECT count(model) FROM Model model"),
         @NamedQuery(name = "model.get_by_name", query = "SELECT model FROM Model model WHERE model.name LIKE :name"),
+        @NamedQuery(name = "model.get_by_brand", query = "SELECT model FROM Model model JOIN FETCH model.brand brand WHERE cast(brand.id AS string) LIKE :brand_id"),
 })
 public class Model {
 

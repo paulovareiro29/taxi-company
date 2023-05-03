@@ -1,5 +1,6 @@
 package pt.ipvc.bll;
 
+import pt.ipvc.dal.Brand;
 import pt.ipvc.dal.Model;
 import pt.ipvc.database.Database;
 
@@ -44,6 +45,12 @@ public class ModelBLL {
         return (Model) Database.query("model.get_by_name")
                 .setParameter("name", name)
                 .getSingleResult();
+    }
+
+    public static List<Model> getByBrand(Brand brand) {
+        return Database.query("model.get_by_brand")
+                .setParameter("brand_id", brand.getId().toString())
+                .getResultList();
     }
 
 }
