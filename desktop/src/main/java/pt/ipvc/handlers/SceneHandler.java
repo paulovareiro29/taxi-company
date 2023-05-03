@@ -5,6 +5,7 @@ import pt.ipvc.base.Scene;
 import pt.ipvc.base.Screen;
 import pt.ipvc.views.DashboardScene;
 import pt.ipvc.views.LoginScene;
+import pt.ipvc.views.screens.BrandsScreen;
 import pt.ipvc.views.screens.HomeScreen;
 import pt.ipvc.views.screens.UsersScreen;
 import pt.ipvc.views.screens.VehiclesScreen;

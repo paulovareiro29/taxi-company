@@ -9,8 +9,8 @@ import java.util.UUID;
 @Entity
 @Table(name = "trips")
 @NamedQueries({
-        @NamedQuery(name = "trip.index", query = "SELECT trip FROM Trip trip"),
-        @NamedQuery(name = "trip.count", query = "SELECT count(trip) FROM Trip trip"),
+        @NamedQuery(name = "trip.index", query = "SELECT trip FROM Trip trip WHERE deletedAt = null"),
+        @NamedQuery(name = "trip.count", query = "SELECT count(trip) FROM Trip trip WHERE deletedAt = null"),
 })
 public class Trip {
 

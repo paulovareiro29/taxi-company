@@ -55,7 +55,7 @@ public class BrandBLL {
     public static Brand getByName(String name) {
         return (Brand) Database.query("brand.get_by_name")
                 .setParameter("name", name)
-                .getSingleResult();
+                .getResultStream().findFirst().orElse(null);
     }
 
 }

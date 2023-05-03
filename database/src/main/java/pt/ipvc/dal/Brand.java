@@ -9,9 +9,9 @@ import java.util.UUID;
 @Entity
 @Table(name = "brands")
 @NamedQueries({
-        @NamedQuery(name = "brand.index", query = "SELECT brand FROM Brand brand"),
-        @NamedQuery(name = "brand.count", query = "SELECT count(brand) FROM Brand brand"),
-        @NamedQuery(name = "brand.get_by_name", query = "SELECT brand FROM Brand brand WHERE brand.name LIKE :name"),
+        @NamedQuery(name = "brand.index", query = "SELECT brand FROM Brand brand WHERE deletedAt = null"),
+        @NamedQuery(name = "brand.count", query = "SELECT count(brand) FROM Brand brand WHERE deletedAt = null"),
+        @NamedQuery(name = "brand.get_by_name", query = "SELECT brand FROM Brand brand WHERE brand.name LIKE :name AND deletedAt = null"),
 })
 public class Brand {
 
