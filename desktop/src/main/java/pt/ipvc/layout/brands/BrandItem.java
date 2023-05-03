@@ -1,13 +1,11 @@
 package pt.ipvc.layout.brands;
 
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import pt.ipvc.base.EventListener;
 import pt.ipvc.base.Popup;
 import pt.ipvc.bll.ModelBLL;
-import pt.ipvc.components.Text;
 import pt.ipvc.components.buttons.Button;
 import pt.ipvc.components.buttons.ButtonSize;
 import pt.ipvc.components.card.Card;
@@ -15,8 +13,7 @@ import pt.ipvc.components.card.CardTitle;
 import pt.ipvc.dal.Brand;
 import pt.ipvc.dal.Model;
 import pt.ipvc.handlers.SceneHandler;
-import pt.ipvc.layout.popup.CreateBrandPopup;
-import pt.ipvc.layout.popup.CreateModelPopup;
+import pt.ipvc.layout.popup.model.CreateModelPopup;
 
 import java.util.List;
 
@@ -60,6 +57,6 @@ public class BrandItem extends Card {
     public void refresh() {
         container.getChildren().clear();
         List<Model> models = ModelBLL.getByBrand(data);
-        models.forEach(model -> container.getChildren().add(new ModelItem(model)));
+        models.forEach(model -> container.getChildren().add(new ModelItem(this, model)));
     }
 }

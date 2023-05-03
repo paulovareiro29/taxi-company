@@ -1,4 +1,4 @@
-package pt.ipvc.layout.popup;
+package pt.ipvc.layout.popup.user;
 
 import javafx.scene.control.Separator;
 import javafx.scene.layout.HBox;
@@ -16,6 +16,7 @@ import pt.ipvc.components.inputs.TextField;
 import pt.ipvc.dal.Role;
 import pt.ipvc.dal.User;
 import pt.ipvc.handlers.SceneHandler;
+import pt.ipvc.layout.popup.DangerConfirmationPopup;
 import pt.ipvc.utils.StringUtils;
 
 import java.util.stream.Collectors;

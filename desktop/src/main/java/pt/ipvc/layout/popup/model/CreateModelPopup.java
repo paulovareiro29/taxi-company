@@ -1,20 +1,25 @@
-package pt.ipvc.layout.popup;
+package pt.ipvc.layout.popup.model;
 
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import pt.ipvc.base.EventListener;
 import pt.ipvc.base.Popup;
 import pt.ipvc.bll.BrandBLL;
+import pt.ipvc.bll.ModelBLL;
 import pt.ipvc.components.buttons.Button;
 import pt.ipvc.components.buttons.ButtonAppearance;
 import pt.ipvc.components.inputs.TextField;
+import pt.ipvc.dal.Brand;
 
-public class CreateBrandPopup extends Popup {
+public class CreateModelPopup extends Popup {
 
+    private final Brand brand;
     private final TextField nameField;
 
-    public CreateBrandPopup(EventListener listener) {
-        super("New Brand", listener);
+    public CreateModelPopup(Brand brand, EventListener listener) {
+        super("New Model", listener);
+
+        this.brand = brand;
 
         nameField = new TextField();
         nameField.setPromptText("Name");
@@ -52,7 +57,7 @@ public class CreateBrandPopup extends Popup {
         if  (hasError) return;
 
         try {
-            BrandBLL.create(nameField.getText().trim());
+            ModelBLL.create(brand, nameField.getText().trim());
             listener.onSuccess();
             clearFields();
             clearErrors();

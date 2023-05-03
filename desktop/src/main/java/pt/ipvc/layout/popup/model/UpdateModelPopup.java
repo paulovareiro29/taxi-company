@@ -1,32 +1,31 @@
-package pt.ipvc.layout.popup;
+package pt.ipvc.layout.popup.model;
 
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import pt.ipvc.base.EventListener;
 import pt.ipvc.base.Popup;
-import pt.ipvc.bll.BrandBLL;
 import pt.ipvc.bll.ModelBLL;
 import pt.ipvc.components.buttons.Button;
 import pt.ipvc.components.buttons.ButtonAppearance;
 import pt.ipvc.components.inputs.TextField;
 import pt.ipvc.dal.Brand;
+import pt.ipvc.dal.Model;
+import pt.ipvc.dal.User;
 
-public class CreateModelPopup extends Popup {
+public class UpdateModelPopup extends Popup {
 
-    private final Brand brand;
+    private Model model;
     private final TextField nameField;
 
-    public CreateModelPopup(Brand brand, EventListener listener) {
-        super("New Model", listener);
-
-        this.brand = brand;
+    public UpdateModelPopup(EventListener listener) {
+        super("Update Model", listener);
 
         nameField = new TextField();
         nameField.setPromptText("Name");
         nameField.setIcon("tag--secondary.png");
 
         Button cancelButton = new Button("Cancel", ButtonAppearance.outlined_primary);
-        Button submitButton = new Button("Create");
+        Button submitButton = new Button("Update");
 
         cancelButton.setOnAction(e -> {
             listener.onCancel();
@@ -56,8 +55,10 @@ public class CreateModelPopup extends Popup {
 
         if  (hasError) return;
 
+        model.setName(nameField.getText());
+
         try {
-            ModelBLL.create(brand, nameField.getText().trim());
+            ModelBLL.update(model);
             listener.onSuccess();
             clearFields();
             clearErrors();
@@ -76,8 +77,13 @@ public class CreateModelPopup extends Popup {
         nameField.clearError();
     }
 
+    public void setModel(Model model) {
+        this.model = model;
+        this.update();
+    }
+
     @Override
     public void update() {
-
+        nameField.getInput().setText(model.getName());
     }
 }

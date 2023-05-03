@@ -1,4 +1,4 @@
-package pt.ipvc.layout.popup;
+package pt.ipvc.layout.popup.user;
 
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;

@@ -1,9 +1,7 @@
 package pt.ipvc.views.screens;
 
 import javafx.scene.Group;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import pt.ipvc.base.EventListener;
 import pt.ipvc.base.Popup;
 import pt.ipvc.base.Screen;
@@ -14,8 +12,7 @@ import pt.ipvc.components.buttons.Button;
 import pt.ipvc.components.inputs.TextField;
 import pt.ipvc.handlers.SceneHandler;
 import pt.ipvc.layout.brands.BrandItem;
-import pt.ipvc.layout.popup.CreateBrandPopup;
-import pt.ipvc.layout.popup.CreateUserPopup;
+import pt.ipvc.layout.popup.brand.CreateBrandPopup;
 import pt.ipvc.layout.screen.ScreenHeader;
 
 
