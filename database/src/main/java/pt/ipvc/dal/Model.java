@@ -1,7 +1,9 @@
 package pt.ipvc.dal;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
 
+import java.sql.Timestamp;
 import java.util.UUID;
 
 @Entity
@@ -25,6 +27,13 @@ public class Model {
     @JoinColumn(name = "brand_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Brand brand;
+
+    @Column(name = "created_at")
+    @CreationTimestamp
+    private Timestamp createdAt;
+
+    @Column(name = "deleted_at")
+    private Timestamp deletedAt;
 
     public Model() {}
 
@@ -55,5 +64,22 @@ public class Model {
 
     public void setBrand(Brand brand) {
         this.brand = brand;
+    }
+
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
+    }
+
+
+    public Timestamp getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(Timestamp deletedAt) {
+        this.deletedAt = deletedAt;
     }
 }

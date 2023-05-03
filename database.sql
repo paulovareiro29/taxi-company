@@ -9,12 +9,13 @@ CREATE TABLE roles (
     description VARCHAR(255) NOT NULL
 );
 
+----
 CREATE TABLE users (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     role_id UUID NOT NULL,
     name VARCHAR(255) NOT NULL,
     phone VARCHAR(50) NOT NULL,
-    email VARCHAR(50) NOT NULL UNIQUE,
+    email VARCHAR(50) NOT NULL,
     password VARCHAR(255) NOT NULL,
     postal_code VARCHAR(50),
     address VARCHAR(50),
@@ -22,10 +23,15 @@ CREATE TABLE users (
     registration_number VARCHAR(50),
     vat INT NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    deleted_at TIMESTAMP,
     CONSTRAINT U_R_FK
         FOREIGN KEY(role_id)
             REFERENCES roles(id)
 );
+
+CREATE UNIQUE INDEX users_email ON users (email) WHERE users.deleted_at IS NULL;
+----
+
 
 CREATE TABLE booking_states (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -33,20 +39,33 @@ CREATE TABLE booking_states (
     description VARCHAR(255) NOT NULL
 );
 
+----
 CREATE TABLE brands (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    name VARCHAR(50) NOT NULL UNIQUE
+    name VARCHAR(50) NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    deleted_at TIMESTAMP
 );
 
+CREATE UNIQUE INDEX brands_name ON brands (name) WHERE brands.deleted_at IS NULL;
+----
+
+----
 CREATE TABLE models (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     name VARCHAR(50) NOT NULL,
     brand_id UUID NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    deleted_at TIMESTAMP,
     CONSTRAINT MODEL_B_FK
         FOREIGN KEY (brand_id)
             REFERENCES brands(id)
 );
 
+CREATE UNIQUE INDEX models_name ON models (name) WHERE models.deleted_at IS NULL;
+----
+
+----
 CREATE TABLE taxis (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     model_id UUID NOT NULL,
@@ -54,10 +73,16 @@ CREATE TABLE taxis (
     max_occupancy INT NOT NULL,
     year INT NOT NULL,
     color VARCHAR(50),
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    deleted_at TIMESTAMP,
 	CONSTRAINT TAXI_B_FK
 		FOREIGN KEY(model_id)
 			REFERENCES models(id)
 );
+
+CREATE UNIQUE INDEX taxis_plate ON taxis (license_plate) WHERE taxis.deleted_at IS NULL;
+----
+
 
 CREATE TABLE bookings (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -70,6 +95,8 @@ CREATE TABLE bookings (
     pickup_date TIMESTAMP NOT NULL,
     extra VARCHAR(255),
     occupancy INT NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    deleted_at TIMESTAMP,
     CONSTRAINT B_S_FK
         FOREIGN KEY(state_id)
             REFERENCES booking_states(id),
@@ -91,6 +118,8 @@ CREATE TABLE trips (
     pickup_date TIMESTAMP NOT NULL,
     dropoff_date TIMESTAMP NOT NULL,
     price FLOAT NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    deleted_at TIMESTAMP,
     CONSTRAINT T_E_FK
         FOREIGN KEY(employee_id)
             REFERENCES users(id),

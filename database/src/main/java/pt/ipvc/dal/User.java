@@ -12,10 +12,10 @@ import java.util.UUID;
 @Table(name = "users")
 @XmlRootElement
 @NamedQueries({
-        @NamedQuery(name = "user.index", query = "SELECT user FROM User user"),
-        @NamedQuery(name = "user.count", query = "SELECT count(user) FROM User user"),
-        @NamedQuery(name = "user.get_by_email", query = "SELECT user FROM User user WHERE user.email LIKE :email"),
-        @NamedQuery(name = "user.client_index", query = "SELECT user FROM User user, Role role WHERE user.role.id = role.id AND role.name LIKE 'client'")
+        @NamedQuery(name = "user.index", query = "SELECT user FROM User user WHERE user.deletedAt = null"),
+        @NamedQuery(name = "user.count", query = "SELECT count(user) FROM User user WHERE user.deletedAt = null"),
+        @NamedQuery(name = "user.get_by_email", query = "SELECT user FROM User user WHERE user.email LIKE :email AND user.deletedAt = null"),
+        @NamedQuery(name = "user.client_index", query = "SELECT user FROM User user, Role role WHERE user.role.id = role.id AND role.name LIKE 'client' AND user.deletedAt = null")
 })
 public class User {
 
@@ -54,6 +54,9 @@ public class User {
     @Column(name = "created_at")
     @CreationTimestamp
     private Timestamp createdAt;
+
+    @Column(name = "deleted_at")
+    private Timestamp deletedAt;
 
     @JoinColumn(name = "role_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
@@ -160,5 +163,14 @@ public class User {
 
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
+    }
+
+
+    public Timestamp getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(Timestamp deletedAt) {
+        this.deletedAt = deletedAt;
     }
 }

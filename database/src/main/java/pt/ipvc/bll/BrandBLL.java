@@ -5,6 +5,8 @@ import pt.ipvc.database.Database;
 import pt.ipvc.exceptions.EmailAlreadyInUseException;
 import pt.ipvc.exceptions.NameAlreadyExistsException;
 
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
@@ -39,9 +41,10 @@ public class BrandBLL {
 
     public static void remove(UUID id) {
         Brand entity = get(id);
+        entity.setDeletedAt(Timestamp.from(Instant.now()));
 
         Database.beginTransaction();
-        Database.delete(entity);
+        Database.update(entity);
         Database.commitTransaction();
     }
 

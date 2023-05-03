@@ -53,4 +53,8 @@ public class SceneHandler {
         dashboard.update();
     }
 
+    public static void updateScreen(ScreensEnum key) {
+        screens.get(key).update();
+    }
+
 }

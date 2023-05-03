@@ -3,6 +3,8 @@ package pt.ipvc.bll;
 import pt.ipvc.dal.Booking;
 import pt.ipvc.database.Database;
 
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,9 +32,10 @@ public class BookingBLL {
 
     public static void remove(UUID id) {
         Booking entity = get(id);
+        entity.setDeletedAt(Timestamp.from(Instant.now()));
 
         Database.beginTransaction();
-        Database.delete(entity);
+        Database.update(entity);
         Database.commitTransaction();
     }
 
