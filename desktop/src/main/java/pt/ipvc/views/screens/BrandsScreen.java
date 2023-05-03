@@ -4,13 +4,18 @@ import javafx.scene.Group;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import pt.ipvc.base.EventListener;
+import pt.ipvc.base.Popup;
 import pt.ipvc.base.Screen;
 import pt.ipvc.bll.BrandBLL;
 import pt.ipvc.components.Heading;
 import pt.ipvc.components.ScrollPane;
 import pt.ipvc.components.buttons.Button;
 import pt.ipvc.components.inputs.TextField;
+import pt.ipvc.handlers.SceneHandler;
 import pt.ipvc.layout.brands.BrandItem;
+import pt.ipvc.layout.popup.CreateBrandPopup;
+import pt.ipvc.layout.popup.CreateUserPopup;
 import pt.ipvc.layout.screen.ScreenHeader;
 
 
@@ -23,7 +28,7 @@ public class BrandsScreen extends Screen {
 
         /* HEADER */
         Heading title = new Heading("Car brands");
-        Button newTaxiButton = new Button("Add new");
+        Button newBrandButton = new Button("Add new");
 
         TextField taxiFilter = new TextField();
         taxiFilter.setPromptText("Search");
@@ -33,7 +38,7 @@ public class BrandsScreen extends Screen {
 
         ScreenHeader header = new ScreenHeader();
         header.addChildrenToLeft(title);
-        header.addChildrenToRight(searchBar, newTaxiButton);
+        header.addChildrenToRight(searchBar, newBrandButton);
 
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setFitToWidth(true);
@@ -42,8 +47,6 @@ public class BrandsScreen extends Screen {
         container = new VBox(8);
         scrollPane.setContent(container);
 
-        /* ADD EVERYTHING TO SCREEN */
-        getChildren().addAll(header, scrollPane);
 
         taxiFilter.getInput().textProperty()
                 .addListener((observable, oldValue, newValue) -> {
@@ -51,7 +54,26 @@ public class BrandsScreen extends Screen {
                     refresh();
                 });
 
+
+        /* POPUP */
+        Popup createBrandPopup = new CreateBrandPopup(new EventListener() {
+            @Override
+            public void onSuccess() {
+                refresh();
+            }
+
+            @Override
+            public void onFail() {}
+
+            @Override
+            public void onCancel() {}
+        });
+        newBrandButton.setOnAction(e -> createBrandPopup.show(SceneHandler.stage));
+
         refresh();
+
+        /* ADD EVERYTHING TO SCREEN */
+        getChildren().addAll(header, scrollPane);
     }
 
     private void refresh() {
