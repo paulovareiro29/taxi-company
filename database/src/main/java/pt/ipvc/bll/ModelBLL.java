@@ -19,14 +19,8 @@ public class ModelBLL {
     }
 
     public static void create(Brand brand, String name) throws NameAlreadyExistsException {
-        System.out.println(brand);
-        System.out.println(name);
-
         if(getByName(name) != null)
             throw new NameAlreadyExistsException();
-
-        System.out.println("wtf");
-
 
         Model model = new Model();
         model.setBrand(brand);
