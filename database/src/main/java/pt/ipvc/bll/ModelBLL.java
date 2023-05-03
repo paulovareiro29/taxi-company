@@ -3,6 +3,7 @@ package pt.ipvc.bll;
 import pt.ipvc.dal.Brand;
 import pt.ipvc.dal.Model;
 import pt.ipvc.database.Database;
+import pt.ipvc.exceptions.NameAlreadyExistsException;
 
 import java.util.List;
 import java.util.UUID;
@@ -17,9 +18,23 @@ public class ModelBLL {
         return Database.find(Model.class, id);
     }
 
-    public static void create(Model entity) {
+    public static void create(Brand brand, String name) throws NameAlreadyExistsException {
+        System.out.println(brand);
+        System.out.println(name);
+
+        if(getByName(name) != null)
+            throw new NameAlreadyExistsException();
+
+        System.out.println("wtf");
+
+
+        Model model = new Model();
+        model.setBrand(brand);
+        model.setName(name);
+
+
         Database.beginTransaction();
-        Database.insert(entity);
+        Database.insert(model);
         Database.commitTransaction();
     }
 
@@ -44,7 +59,7 @@ public class ModelBLL {
     public static Model getByName(String name) {
         return (Model) Database.query("model.get_by_name")
                 .setParameter("name", name)
-                .getSingleResult();
+                .getResultStream().findFirst().orElse(null);
     }
 
     public static List<Model> getByBrand(Brand brand) {
