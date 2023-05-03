@@ -1,0 +1,15 @@
+.card {
+    -fx-padding: 8 16;
+    -fx-background-color: -fx-color-white;
+    -fx-border-color: -fx-color-tertiary;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+}
+
+.card-title {
+    -fx-font-size: 16;
+    -fx-font-weight: 700;
+    -fx-fill: -fx-color-text-primary;
+    -fx-padding: 0 0 8 0;
+}

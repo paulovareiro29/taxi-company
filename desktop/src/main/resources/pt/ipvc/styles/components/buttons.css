@@ -74,3 +74,19 @@
     -fx-background-color: -fx-color-danger;
     -fx-text-fill: -fx-color-white;
 }
+
+.button--icon {
+    -fx-background-color: null;
+    -fx-border-color: null;
+    -fx-background-radius: 999;
+    -fx-border-radius: 999;
+
+    -fx-pref-width: 24;
+    -fx-pref-height: 24;
+}
+
+.button--icon:hover,
+.button--icon:focused{
+    -fx-background-color: null;
+    -fx-border-color: null;
+}
