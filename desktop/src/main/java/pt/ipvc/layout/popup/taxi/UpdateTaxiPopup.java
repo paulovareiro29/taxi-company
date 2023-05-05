@@ -1,6 +1,5 @@
 package pt.ipvc.layout.popup.taxi;
 
-import javafx.collections.ObservableList;
 import javafx.scene.control.Separator;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -10,6 +9,7 @@ import pt.ipvc.base.Popup;
 import pt.ipvc.bll.BrandBLL;
 import pt.ipvc.bll.ModelBLL;
 import pt.ipvc.bll.TaxiBLL;
+import pt.ipvc.bll.UserBLL;
 import pt.ipvc.components.buttons.Button;
 import pt.ipvc.components.buttons.ButtonAppearance;
 import pt.ipvc.components.inputs.ComboBox;
@@ -17,14 +17,20 @@ import pt.ipvc.components.inputs.NumericField;
 import pt.ipvc.components.inputs.TextField;
 import pt.ipvc.dal.Brand;
 import pt.ipvc.dal.Model;
+import pt.ipvc.dal.Taxi;
+import pt.ipvc.dal.User;
+import pt.ipvc.handlers.SceneHandler;
+import pt.ipvc.handlers.ScreensEnum;
+import pt.ipvc.layout.popup.DangerConfirmationPopup;
 import pt.ipvc.utils.StringUtils;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class CreateTaxiPopup extends Popup {
+public class UpdateTaxiPopup extends Popup {
 
+    private Taxi taxi;
     private Brand selectedBrand;
     private Model selectedModel;
 
@@ -35,7 +41,7 @@ public class CreateTaxiPopup extends Popup {
     private final ComboBox brandField;
     private final ComboBox modelField;
 
-    public CreateTaxiPopup(EventListener listener) {
+    public UpdateTaxiPopup(EventListener listener) {
         super("New Taxi", listener);
 
         plateField = new TextField();
@@ -64,7 +70,7 @@ public class CreateTaxiPopup extends Popup {
         modelField.setVisible(false);
 
         Button cancelButton = new Button("Cancel", ButtonAppearance.outlined_primary);
-        Button submitButton = new Button("Create");
+        Button submitButton = new Button("Update");
 
         cancelButton.setOnAction(e -> {
             listener.onCancel();
@@ -78,8 +84,33 @@ public class CreateTaxiPopup extends Popup {
         cancelButton.setMaxWidth(Double.MAX_VALUE);
         submitButton.setMaxWidth(Double.MAX_VALUE);
 
+        Button deleteButton = new Button("DELETE", ButtonAppearance.outlined_danger);
+        deleteButton.setPrefWidth(Double.MAX_VALUE);
+        deleteButton.setOnAction(e -> {
+            DangerConfirmationPopup popup = new DangerConfirmationPopup(new EventListener() {
+                @Override
+                public void onSuccess() {
+                    TaxiBLL.remove(taxi.getId());
+                    hide();
+                    listener.onSuccess();
+                    SceneHandler.updateScreen(ScreensEnum.VEHICLES);
+                }
+
+                @Override
+                public void onFail() {
+
+                }
+
+                @Override
+                public void onCancel() {
+                    System.out.println("Cancleed");
+                }
+            });
+            popup.show(SceneHandler.stage);
+        });
+
         options.getChildren().addAll(cancelButton, submitButton);
-        addChildren(plateField, occupancyField, yearField, colorField, new Separator(), brandField, modelField, options);
+        addChildren(plateField, occupancyField, yearField, colorField, new Separator(), brandField, modelField, options, deleteButton);
     }
 
     private void handleSubmitButton() {
@@ -109,8 +140,14 @@ public class CreateTaxiPopup extends Popup {
 
         if  (hasError) return;
 
+        taxi.setLicensePlate(plateField.getText());
+        taxi.setMaxOccupancy(Integer.parseInt(occupancyField.getText()));
+        taxi.setYear(Integer.parseInt(yearField.getText()));
+        taxi.setColor(colorField.getText());
+        taxi.setModel(selectedModel);
+
         try {
-            TaxiBLL.create(plateField.getText(), selectedModel, Integer.parseInt(occupancyField.getText()), Integer.parseInt(yearField.getText()), colorField.getText());
+            TaxiBLL.update(taxi);
             listener.onSuccess();
             clearFields();
             clearErrors();
@@ -161,6 +198,13 @@ public class CreateTaxiPopup extends Popup {
         }
     }
 
+    public void setTaxi(Taxi taxi) {
+        this.taxi = taxi;
+        selectedBrand = taxi.getModel().getBrand();
+        selectedModel = taxi.getModel();
+        this.update();
+    }
+
     @Override
     public void update() {
         List<Brand> brands = BrandBLL.index();
@@ -174,5 +218,11 @@ public class CreateTaxiPopup extends Popup {
 
         if(brands.size() > 0) brandField.getSelectionModel().select(0);
         if(models.size() > 0) modelField.getSelectionModel().select(0);
+
+
+        plateField.getInput().setText(taxi.getLicensePlate());
+        occupancyField.getInput().setText("" + taxi.getMaxOccupancy());
+        yearField.getInput().setText("" + taxi.getYear());
+        colorField.getInput().setText(taxi.getColor());
     }
 }

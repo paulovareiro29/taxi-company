@@ -11,6 +11,7 @@ import pt.ipvc.bll.UserBLL;
 import pt.ipvc.dal.Taxi;
 import pt.ipvc.dal.User;
 import pt.ipvc.handlers.SceneHandler;
+import pt.ipvc.layout.popup.taxi.UpdateTaxiPopup;
 import pt.ipvc.layout.popup.user.UpdateUserPopup;
 
 import java.util.List;
@@ -19,8 +20,21 @@ import java.util.stream.Collectors;
 public class TaxisTable extends Table<Taxi> {
 
     private String plateFilter;
+    private final UpdateTaxiPopup editPopup;
 
     public TaxisTable() {
+        editPopup = new UpdateTaxiPopup(new EventListener() {
+            @Override
+            public void onSuccess() {
+                refresh();
+            }
+
+            @Override
+            public void onFail() {}
+
+            @Override
+            public void onCancel() {}
+        });
 
         TableColumn<Taxi, String> plateColumn = new TableColumn<>("License Plate");
         TableColumn<Taxi, String> modelColumn = new TableColumn<>("Model");
@@ -41,11 +55,11 @@ public class TaxisTable extends Table<Taxi> {
         settingsColumn.setCellFactory(data -> {
             ButtonIconTableCell<Taxi> cell = new ButtonIconTableCell<>("settings.png");
             cell.setOnClick(event -> {
-                System.out.println("Settings taxi");
+                editPopup.setTaxi(cell.getTableView().getItems().get(cell.getIndex()));
+                editPopup.show(SceneHandler.stage);
             });
             return cell;
         });
-
 
         addOrFilter(t -> t.getLicensePlate().toLowerCase().contains(plateFilter != null ? plateFilter : ""));
 

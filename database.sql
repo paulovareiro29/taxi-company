@@ -69,7 +69,7 @@ CREATE UNIQUE INDEX models_name ON models (name) WHERE models.deleted_at IS NULL
 CREATE TABLE taxis (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     model_id UUID NOT NULL,
-    license_plate VARCHAR(50) NOT NULL UNIQUE,
+    license_plate VARCHAR(50) NOT NULL,
     max_occupancy INT NOT NULL,
     year INT NOT NULL,
     color VARCHAR(50),
