@@ -13,3 +13,7 @@
 * {
     -fx-text-fill: -fx-color-text-primary;
 }
+
+.empty-state {
+    -fx-font-size: 20;
+}

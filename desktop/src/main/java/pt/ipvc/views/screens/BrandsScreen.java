@@ -11,6 +11,7 @@ import pt.ipvc.components.ScrollPane;
 import pt.ipvc.components.buttons.Button;
 import pt.ipvc.components.inputs.TextField;
 import pt.ipvc.handlers.SceneHandler;
+import pt.ipvc.layout.EmptyState;
 import pt.ipvc.layout.brands.BrandItem;
 import pt.ipvc.layout.popup.brand.CreateBrandPopup;
 import pt.ipvc.layout.screen.ScreenHeader;
@@ -81,6 +82,11 @@ public class BrandsScreen extends Screen {
                 .forEach(brand -> {
             container.getChildren().add(new BrandItem(brand));
         });
+
+        if(container.getChildren().size() == 0){
+            container.getChildren().add(new EmptyState("No brands found"));
+
+        }
     }
 
     @Override
