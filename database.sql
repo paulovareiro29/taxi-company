@@ -195,6 +195,34 @@ CREATE TRIGGER update_models_deleted_at
 EXECUTE FUNCTION update_models_deleted_at();
 
 
+
+CREATE OR REPLACE FUNCTION check_employee_role_on_trips()
+    RETURNS TRIGGER AS $$
+DECLARE
+    user_role_name VARCHAR(50);
+    BEGIN
+        SELECT r.name into user_role_name FROM users u
+        JOIN roles r ON u.role_id = r.id
+        WHERE u.id = NEW.employee_id;
+
+        IF user_role_name = 'driver' THEN
+            RETURN NEW;
+        ELSE
+            RAISE EXCEPTION 'Only users with the driver role can be added to a trip.';
+        END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER before_insert_trips
+    BEFORE INSERT ON trips
+    FOR EACH ROW
+EXECUTE FUNCTION check_employee_role_on_trips();
+
+
+
+CREATE OR REPLACE FUNCTION check_employee_role_on_trips()
+    RETURNS TRIGGER AS $$
+DECLARE
 ----------------------
 -- INSERTS
 ----------------------
@@ -216,3 +244,5 @@ INSERT INTO users (role_id, name, phone, email, password, vat)
     SELECT id, 'root', '999999999', 'root@ipvc.pt', '$2a$10$VIKmLsnhqYGBgok4OixLKuclODcNjltEOeV2DQJ72DhLENHnAGzGa','999999999'
     FROM roles
     WHERE name = 'administration';
+
+
