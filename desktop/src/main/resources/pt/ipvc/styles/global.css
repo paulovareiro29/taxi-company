@@ -2,12 +2,18 @@
 @import url("components/buttons.css");
 @import url("components/inputs.css");
 @import url("components/heading.css");
+@import url("components/scrollpane.css");
 @import url("layout/sidebar.css");
 @import url("layout/topbar.css");
 @import url("layout/screen.css");
 @import url("layout/popup.css");
 @import url("layout/table.css");
+@import url("layout/card.css");
 
 * {
     -fx-text-fill: -fx-color-text-primary;
+}
+
+.empty-state {
+    -fx-font-size: 20;
 }

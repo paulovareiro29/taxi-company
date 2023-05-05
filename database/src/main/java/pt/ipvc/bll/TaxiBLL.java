@@ -1,8 +1,12 @@
 package pt.ipvc.bll;
 
+import org.w3c.dom.Entity;
+import pt.ipvc.dal.Model;
 import pt.ipvc.dal.Taxi;
 import pt.ipvc.database.Database;
 
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,7 +21,14 @@ public class TaxiBLL {
         return Database.find(Taxi.class, id);
     }
 
-    public static void create(Taxi entity) {
+    public static void create(String plate, Model model, int maxOccupancy, int year, String color) {
+        Taxi entity = new Taxi();
+        entity.setLicensePlate(plate);
+        entity.setModel(model);
+        entity.setMaxOccupancy(maxOccupancy);
+        entity.setYear(year);
+        entity.setColor(color);
+
         Database.beginTransaction();
         Database.insert(entity);
         Database.commitTransaction();
@@ -31,9 +42,10 @@ public class TaxiBLL {
 
     public static void remove(UUID id) {
         Taxi entity = get(id);
+        entity.setDeletedAt(Timestamp.from(Instant.now()));
 
         Database.beginTransaction();
-        Database.delete(entity);
+        Database.update(entity);
         Database.commitTransaction();
     }
 

@@ -2,6 +2,7 @@ package pt.ipvc.dal;
 
 import jakarta.persistence.*;
 import jakarta.xml.bind.annotation.XmlRootElement;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
 import java.util.UUID;
@@ -10,8 +11,8 @@ import java.util.UUID;
 @Table(name = "bookings")
 @XmlRootElement
 @NamedQueries({
-        @NamedQuery(name = "booking.index", query = "SELECT booking FROM Booking booking"),
-        @NamedQuery(name = "booking.count", query = "SELECT count(booking) FROM Booking booking")
+        @NamedQuery(name = "booking.index", query = "SELECT booking FROM Booking booking WHERE deletedAt = null"),
+        @NamedQuery(name = "booking.count", query = "SELECT count(booking) FROM Booking booking WHERE deletedAt = null")
 })
 public class Booking {
 
@@ -46,6 +47,13 @@ public class Booking {
     @JoinColumn(name = "taxi_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Taxi taxi;
+
+    @Column(name = "created_at")
+    @CreationTimestamp
+    private Timestamp createdAt;
+
+    @Column(name = "deleted_at")
+    private Timestamp deletedAt;
 
     public Booking() {}
 
@@ -125,5 +133,22 @@ public class Booking {
 
     public void setTaxi(Taxi taxi) {
         this.taxi = taxi;
+    }
+
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
+    }
+
+
+    public Timestamp getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(Timestamp deletedAt) {
+        this.deletedAt = deletedAt;
     }
 }

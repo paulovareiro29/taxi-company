@@ -37,7 +37,7 @@ public class BookingStateBLL {
     public static BookingState getByName(String name) {
         return (BookingState) Database.query("booking_state.get_by_name")
                 .setParameter("name", name)
-                .getSingleResult();
+                .getResultStream().findFirst().orElse(null);
     }
 }
 

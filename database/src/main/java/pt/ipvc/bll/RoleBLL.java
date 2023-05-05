@@ -44,7 +44,7 @@ public class RoleBLL {
     public static Role getByName(String name) {
         return (Role) Database.query("role.get_by_name")
                 .setParameter("name", name)
-                .getSingleResult();
+                .getResultStream().findFirst().orElse(null);
     }
 
     public static Role getClientRole() {

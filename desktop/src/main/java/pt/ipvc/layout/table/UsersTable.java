@@ -9,7 +9,7 @@ import pt.ipvc.base.table.TableColumn;
 import pt.ipvc.bll.UserBLL;
 import pt.ipvc.dal.User;
 import pt.ipvc.handlers.SceneHandler;
-import pt.ipvc.layout.popup.UpdateUserPopup;
+import pt.ipvc.layout.popup.user.UpdateUserPopup;
 
 import java.util.List;
 import java.util.stream.Collectors;

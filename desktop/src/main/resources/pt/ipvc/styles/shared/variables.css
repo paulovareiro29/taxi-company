@@ -9,7 +9,8 @@
     -fx-color-dark: #302F2F;
     -fx-color-dark-primary: #682288;
 
-    -fx-color-danger: #FF0000;
+    -fx-color-danger: #dc3545;
+    -fx-color-warning: #ffc107;
 
     -fx-color-shadow: rgba(75,75,75,0.5)
 }

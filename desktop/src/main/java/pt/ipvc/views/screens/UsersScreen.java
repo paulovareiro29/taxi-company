@@ -11,7 +11,7 @@ import pt.ipvc.components.buttons.Button;
 import pt.ipvc.components.inputs.ComboBox;
 import pt.ipvc.components.inputs.TextField;
 import pt.ipvc.handlers.SceneHandler;
-import pt.ipvc.layout.popup.CreateUserPopup;
+import pt.ipvc.layout.popup.user.CreateUserPopup;
 import pt.ipvc.layout.screen.ScreenHeader;
 import pt.ipvc.layout.table.UsersTable;
 import pt.ipvc.utils.StringUtils;

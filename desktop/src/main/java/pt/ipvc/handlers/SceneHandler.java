@@ -5,8 +5,10 @@ import pt.ipvc.base.Scene;
 import pt.ipvc.base.Screen;
 import pt.ipvc.views.DashboardScene;
 import pt.ipvc.views.LoginScene;
+import pt.ipvc.views.screens.BrandsScreen;
 import pt.ipvc.views.screens.HomeScreen;
 import pt.ipvc.views.screens.UsersScreen;
+import pt.ipvc.views.screens.VehiclesScreen;
 
 import java.util.HashMap;
 
@@ -37,6 +39,8 @@ public class SceneHandler {
         screens = new HashMap<>();
         screens.put(ScreensEnum.HOME, new HomeScreen());
         screens.put(ScreensEnum.USERS, new UsersScreen());
+        screens.put(ScreensEnum.VEHICLES, new VehiclesScreen());
+        screens.put(ScreensEnum.BRANDS, new BrandsScreen());
     }
 
     public static void changeScene(ScenesEnum key) {
@@ -48,6 +52,10 @@ public class SceneHandler {
         DashboardScene dashboard = (DashboardScene) scenes.get(ScenesEnum.DASHBOARD);
         dashboard.changeScreen(screens.get(key));
         dashboard.update();
+    }
+
+    public static void updateScreen(ScreensEnum key) {
+        screens.get(key).update();
     }
 
 }

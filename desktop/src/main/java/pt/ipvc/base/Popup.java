@@ -54,6 +54,7 @@ public abstract class Popup extends javafx.stage.Popup implements UIComponent{
         setAnchorX(owner.getX() + 246);
         setAnchorY(owner.getY() + 94);
 
+        update();
         super.show(owner);
     }
 

@@ -1,6 +1,7 @@
 package pt.ipvc.dal;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
 import java.util.UUID;
@@ -8,8 +9,8 @@ import java.util.UUID;
 @Entity
 @Table(name = "trips")
 @NamedQueries({
-        @NamedQuery(name = "trip.index", query = "SELECT trip FROM Trip trip"),
-        @NamedQuery(name = "trip.count", query = "SELECT count(trip) FROM Trip trip"),
+        @NamedQuery(name = "trip.index", query = "SELECT trip FROM Trip trip WHERE deletedAt = null"),
+        @NamedQuery(name = "trip.count", query = "SELECT count(trip) FROM Trip trip WHERE deletedAt = null"),
 })
 public class Trip {
 
@@ -34,6 +35,13 @@ public class Trip {
     @JoinColumn(name = "booking_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Booking booking;
+
+    @Column(name = "created_at")
+    @CreationTimestamp
+    private Timestamp createdAt;
+
+    @Column(name = "deleted_at")
+    private Timestamp deletedAt;
 
     public Trip() {}
 
@@ -88,5 +96,22 @@ public class Trip {
 
     public void setBooking(Booking booking) {
         this.booking = booking;
+    }
+
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
+    }
+
+
+    public Timestamp getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(Timestamp deletedAt) {
+        this.deletedAt = deletedAt;
     }
 }

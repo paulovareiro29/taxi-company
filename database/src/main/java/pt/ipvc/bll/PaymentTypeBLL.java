@@ -44,6 +44,6 @@ public class PaymentTypeBLL {
     public static PaymentType getByName(String name) {
         return (PaymentType) Database.query("payment_type.get_by_name")
                 .setParameter("name", name)
-                .getSingleResult();
+                .getResultStream().findFirst().orElse(null);
     }
 }

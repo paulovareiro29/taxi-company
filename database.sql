@@ -9,12 +9,13 @@ CREATE TABLE roles (
     description VARCHAR(255) NOT NULL
 );
 
+----
 CREATE TABLE users (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     role_id UUID NOT NULL,
     name VARCHAR(255) NOT NULL,
     phone VARCHAR(50) NOT NULL,
-    email VARCHAR(50) NOT NULL UNIQUE,
+    email VARCHAR(50) NOT NULL,
     password VARCHAR(255) NOT NULL,
     postal_code VARCHAR(50),
     address VARCHAR(50),
@@ -22,10 +23,15 @@ CREATE TABLE users (
     registration_number VARCHAR(50),
     vat INT NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    deleted_at TIMESTAMP,
     CONSTRAINT U_R_FK
         FOREIGN KEY(role_id)
             REFERENCES roles(id)
 );
+
+CREATE UNIQUE INDEX users_email ON users (email) WHERE users.deleted_at IS NULL;
+----
+
 
 CREATE TABLE booking_states (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -33,31 +39,50 @@ CREATE TABLE booking_states (
     description VARCHAR(255) NOT NULL
 );
 
+----
 CREATE TABLE brands (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    name VARCHAR(50) NOT NULL UNIQUE
+    name VARCHAR(50) NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    deleted_at TIMESTAMP
 );
 
+CREATE UNIQUE INDEX brands_name ON brands (name) WHERE brands.deleted_at IS NULL;
+----
+
+----
 CREATE TABLE models (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     name VARCHAR(50) NOT NULL,
     brand_id UUID NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    deleted_at TIMESTAMP,
     CONSTRAINT MODEL_B_FK
         FOREIGN KEY (brand_id)
             REFERENCES brands(id)
 );
 
+CREATE UNIQUE INDEX models_name ON models (name) WHERE models.deleted_at IS NULL;
+----
+
+----
 CREATE TABLE taxis (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     model_id UUID NOT NULL,
-    license_plate VARCHAR(50) NOT NULL UNIQUE,
+    license_plate VARCHAR(50) NOT NULL,
     max_occupancy INT NOT NULL,
     year INT NOT NULL,
     color VARCHAR(50),
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    deleted_at TIMESTAMP,
 	CONSTRAINT TAXI_B_FK
 		FOREIGN KEY(model_id)
 			REFERENCES models(id)
 );
+
+CREATE UNIQUE INDEX taxis_plate ON taxis (license_plate) WHERE taxis.deleted_at IS NULL;
+----
+
 
 CREATE TABLE bookings (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -70,6 +95,8 @@ CREATE TABLE bookings (
     pickup_date TIMESTAMP NOT NULL,
     extra VARCHAR(255),
     occupancy INT NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    deleted_at TIMESTAMP,
     CONSTRAINT B_S_FK
         FOREIGN KEY(state_id)
             REFERENCES booking_states(id),
@@ -91,6 +118,8 @@ CREATE TABLE trips (
     pickup_date TIMESTAMP NOT NULL,
     dropoff_date TIMESTAMP NOT NULL,
     price FLOAT NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    deleted_at TIMESTAMP,
     CONSTRAINT T_E_FK
         FOREIGN KEY(employee_id)
             REFERENCES users(id),
@@ -146,6 +175,74 @@ CREATE TABLE work_proposal (
 );
 
 ----------------------
+-- TRIGGERS
+----------------------
+
+CREATE OR REPLACE FUNCTION update_models_deleted_at()
+    RETURNS TRIGGER AS $$
+    BEGIN
+        UPDATE models
+        SET deleted_at = NEW.deleted_at
+        WHERE brand_id = OLD.id;
+        RETURN NEW;
+    END;
+    $$ LANGUAGE plpgsql;
+
+CREATE TRIGGER update_models_deleted_at
+    AFTER UPDATE OF deleted_at ON brands
+    FOR EACH ROW
+    WHEN (OLD.deleted_at IS DISTINCT FROM NEW.deleted_at)
+EXECUTE FUNCTION update_models_deleted_at();
+
+
+
+CREATE OR REPLACE FUNCTION check_employee_role_on_trips()
+    RETURNS TRIGGER AS $$
+DECLARE
+    user_role_name VARCHAR(50);
+    BEGIN
+        SELECT r.name into user_role_name FROM users u
+        JOIN roles r ON u.role_id = r.id
+        WHERE u.id = NEW.employee_id;
+
+        IF user_role_name = 'driver' THEN
+            RETURN NEW;
+        ELSE
+            RAISE EXCEPTION 'Only users with the driver role can be added to a trip.';
+        END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER before_insert_trips
+    BEFORE INSERT ON trips
+    FOR EACH ROW
+EXECUTE FUNCTION check_employee_role_on_trips();
+
+-----
+
+CREATE OR REPLACE FUNCTION check_employee_role_on_bookings()
+    RETURNS TRIGGER AS $$
+DECLARE
+    user_role_name VARCHAR(50);
+BEGIN
+    SELECT r.name INTO user_role_name FROM users u
+    JOIN roles r ON u.role_id = r.id
+    WHERE u.id = NEW.client_id;
+
+    IF user_role_name = 'client' THEN
+        RETURN NEW;
+    ELSE
+        RAISE EXCEPTION 'Only users with the client role can be added to a booking.';
+    END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER before_insert_bookings
+    BEFORE INSERT ON bookings
+    FOR EACH ROW
+EXECUTE FUNCTION check_employee_role_on_bookings();
+
+----------------------
 -- INSERTS
 ----------------------
 
@@ -166,3 +263,5 @@ INSERT INTO users (role_id, name, phone, email, password, vat)
     SELECT id, 'root', '999999999', 'root@ipvc.pt', '$2a$10$VIKmLsnhqYGBgok4OixLKuclODcNjltEOeV2DQJ72DhLENHnAGzGa','999999999'
     FROM roles
     WHERE name = 'administration';
+
+
