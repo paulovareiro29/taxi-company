@@ -9,6 +9,7 @@ import pt.ipvc.base.EventListener;
 import pt.ipvc.base.Popup;
 import pt.ipvc.bll.BrandBLL;
 import pt.ipvc.bll.ModelBLL;
+import pt.ipvc.bll.TaxiBLL;
 import pt.ipvc.components.buttons.Button;
 import pt.ipvc.components.buttons.ButtonAppearance;
 import pt.ipvc.components.inputs.ComboBox;
@@ -44,9 +45,19 @@ public class CreateTaxiPopup extends Popup {
         occupancyField.setPromptText("Occupancy");
         occupancyField.setIcon("double-users--secondary.png");
 
+        occupancyField.getInput().textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.matches("\\d*")) return;
+            occupancyField.getInput().setText(newValue.replaceAll("[^\\d]", ""));
+        });
+
         yearField = new TextField();
         yearField.setPromptText("Year");
         yearField.setIcon("calendar--secondary.png");
+
+        yearField.getInput().textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.matches("\\d*")) return;
+            yearField.getInput().setText(newValue.replaceAll("[^\\d]", ""));
+        });
 
         colorField = new TextField();
         colorField.setPromptText("Color");
@@ -100,16 +111,20 @@ public class CreateTaxiPopup extends Popup {
             hasError = true;
         }
 
+        if(colorField.getText().isBlank()) {
+            colorField.setError("Color is required");
+            hasError = true;
+        }
+
         if  (hasError) return;
 
         try {
-            //SessionBLL.register(nameField.getText().trim(), emailField.getText().trim(), "", passwordField.getText().trim());
+            TaxiBLL.create(plateField.getText(), selectedModel, Integer.parseInt(occupancyField.getText()), Integer.parseInt(yearField.getText()), colorField.getText());
             listener.onSuccess();
             clearFields();
             clearErrors();
             hide();
         } catch(Exception e) {
-            //emailField.setError(e.getMessage());
             listener.onFail();
         }
     }
@@ -168,6 +183,5 @@ public class CreateTaxiPopup extends Popup {
 
         if(brands.size() > 0) brandField.getSelectionModel().select(0);
         if(models.size() > 0) modelField.getSelectionModel().select(0);
-
     }
 }

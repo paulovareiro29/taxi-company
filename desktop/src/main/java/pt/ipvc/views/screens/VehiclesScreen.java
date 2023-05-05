@@ -63,6 +63,8 @@ public class VehiclesScreen extends Screen {
         Popup createTaxiPopup = new CreateTaxiPopup(new EventListener() {
             @Override
             public void onSuccess() {
+                table.setVisible(true);
+                emptyState.setVisible(false);
                 table.refresh();
             }
 
