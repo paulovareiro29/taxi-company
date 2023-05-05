@@ -218,11 +218,30 @@ CREATE TRIGGER before_insert_trips
     FOR EACH ROW
 EXECUTE FUNCTION check_employee_role_on_trips();
 
+-----
 
-
-CREATE OR REPLACE FUNCTION check_employee_role_on_trips()
+CREATE OR REPLACE FUNCTION check_employee_role_on_bookings()
     RETURNS TRIGGER AS $$
 DECLARE
+    user_role_name VARCHAR(50);
+BEGIN
+    SELECT r.name INTO user_role_name FROM users u
+    JOIN roles r ON u.role_id = r.id
+    WHERE u.id = NEW.client_id;
+
+    IF user_role_name = 'client' THEN
+        RETURN NEW;
+    ELSE
+        RAISE EXCEPTION 'Only users with the client role can be added to a booking.';
+    END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER before_insert_bookings
+    BEFORE INSERT ON bookings
+    FOR EACH ROW
+EXECUTE FUNCTION check_employee_role_on_bookings();
+
 ----------------------
 -- INSERTS
 ----------------------
