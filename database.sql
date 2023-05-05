@@ -175,6 +175,27 @@ CREATE TABLE work_proposal (
 );
 
 ----------------------
+-- TRIGGERS
+----------------------
+
+CREATE OR REPLACE FUNCTION update_models_deleted_at()
+    RETURNS TRIGGER AS $$
+    BEGIN
+        UPDATE models
+        SET deleted_at = NEW.deleted_at
+        WHERE brand_id = OLD.id;
+        RETURN NEW;
+    END;
+    $$ LANGUAGE plpgsql;
+
+CREATE TRIGGER update_models_deleted_at
+    AFTER UPDATE OF deleted_at ON brands
+    FOR EACH ROW
+    WHEN (OLD.deleted_at IS DISTINCT FROM NEW.deleted_at)
+EXECUTE FUNCTION update_models_deleted_at();
+
+
+----------------------
 -- INSERTS
 ----------------------
 
