@@ -12,7 +12,11 @@ public class ComboBox extends javafx.scene.control.ComboBox<ComboItem> {
     public ComboBox(List<ComboItem> items) {
         super(FXCollections.observableArrayList(items));
         getStyleClass().add("combobox");
-        setOnAction(e -> getSelectionModel().getSelectedItem().onSelected());
+        setOnAction(e -> {
+            ComboItem selectedItem = getSelectionModel().getSelectedItem();
+            if(selectedItem != null)
+                selectedItem.onSelected();
+        });
 
         setCellFactory(param -> new ListCell<>() {
             @Override
@@ -31,7 +35,7 @@ public class ComboBox extends javafx.scene.control.ComboBox<ComboItem> {
             protected void updateItem(ComboItem item, boolean empty) {
                 super.updateItem(item, empty);
                 if (empty || item == null) {
-                    setText(null);
+                    setText(getPromptText());
                     setStyle("-fx-text-fill: -fx-color-tertiary");
                     setGraphic(null);
                 } else {
@@ -41,5 +45,15 @@ public class ComboBox extends javafx.scene.control.ComboBox<ComboItem> {
             }
         });
 
+    }
+
+    public void setItems(List<ComboItem> items) {
+        super.setItems(FXCollections.observableArrayList(items));
+    }
+
+    public void reset(){
+        getButtonCell().setText(null);
+        getButtonCell().setItem(null);
+        setValue(null);
     }
 }

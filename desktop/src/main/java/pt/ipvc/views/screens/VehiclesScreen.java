@@ -14,6 +14,8 @@ import pt.ipvc.components.inputs.TextField;
 import pt.ipvc.handlers.SceneHandler;
 import pt.ipvc.handlers.ScreensEnum;
 import pt.ipvc.layout.EmptyState;
+import pt.ipvc.layout.popup.taxi.CreateTaxiPopup;
+import pt.ipvc.layout.popup.user.CreateUserPopup;
 import pt.ipvc.layout.screen.ScreenHeader;
 import pt.ipvc.layout.table.TaxisTable;
 //import pt.ipvc.layout.table.TaxisTable;
@@ -49,6 +51,29 @@ public class VehiclesScreen extends Screen {
         ScreenHeader header = new ScreenHeader();
         header.addChildrenToLeft(title);
         header.addChildrenToRight(brandsButton, searchBar, newTaxiButton);
+
+        /* FILTER */
+        taxiFilter.getInput().textProperty()
+                .addListener((observable, oldValue, newValue) -> {
+                    table.setPlateFilter(newValue.toLowerCase());
+                    table.refresh();
+                });
+
+        /* POPUP */
+        Popup createTaxiPopup = new CreateTaxiPopup(new EventListener() {
+            @Override
+            public void onSuccess() {
+                table.refresh();
+            }
+
+            @Override
+            public void onFail() {}
+
+            @Override
+            public void onCancel() {}
+        });
+
+        newTaxiButton.setOnAction(e -> createTaxiPopup.show(SceneHandler.stage));
 
         /* ADD EVERYTHING TO SCREEN */
         getChildren().addAll(header, emptyState, table);
