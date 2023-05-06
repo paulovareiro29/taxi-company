@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import org.hibernate.annotations.CreationTimestamp;
 
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.UUID;
 
 @Entity
@@ -28,7 +28,7 @@ public class Booking {
     private String destination;
 
     @Column(name = "pickup_date", nullable = false)
-    private Timestamp pickupDate;
+    private Date pickupDate;
 
     @Column(name = "extra")
     private String extra;
@@ -36,24 +36,28 @@ public class Booking {
     @Column(name = "occupancy", nullable = false)
     private int occupancy;
 
-    @JoinColumn(name = "client_id", referencedColumnName = "id", nullable = true)
+    @JoinColumn(name = "client_id", referencedColumnName = "id")
     @ManyToOne()
-    private User user;
+    private User client;
+
+    @JoinColumn(name = "booked_by", referencedColumnName = "id", nullable = false)
+    @ManyToOne()
+    private User bookedBy;
 
     @JoinColumn(name = "state_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private BookingState state;
 
     @JoinColumn(name = "taxi_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne()
     private Taxi taxi;
 
     @Column(name = "created_at")
     @CreationTimestamp
-    private Timestamp createdAt;
+    private Date createdAt;
 
     @Column(name = "deleted_at")
-    private Timestamp deletedAt;
+    private Date deletedAt;
 
     public Booking() {}
 
@@ -63,8 +67,8 @@ public class Booking {
 
     @Override
     public String toString() {
-        return String.format("Booking[id=%s, origin='%s', destination='%s', pickupDate='%s', occupancy='%d', client='%s', state='%s', extra='%s']",
-                id, origin, destination, pickupDate, occupancy, user, state, extra);
+        return String.format("Booking[id=%s, origin='%s', destination='%s', pickupDate='%s', occupancy='%d', client='%s', bookedBy='%s' state='%s', extra='%s']",
+                id, origin, destination, pickupDate, occupancy, client, bookedBy, state, extra);
     }
 
     public UUID getId() {
@@ -87,11 +91,11 @@ public class Booking {
         this.destination = destination;
     }
 
-    public Timestamp getPickupDate() {
+    public Date getPickupDate() {
         return pickupDate;
     }
 
-    public void setPickupDate(Timestamp pickupDate) {
+    public void setPickupDate(Date pickupDate) {
         this.pickupDate = pickupDate;
     }
 
@@ -112,11 +116,19 @@ public class Booking {
     }
 
     public User getClient() {
-        return user;
+        return client;
     }
 
-    public void setClient(User user) {
-        this.user = user;
+    public void setClient(User client) {
+        this.client = client;
+    }
+
+    public User getBookedBy() {
+        return bookedBy;
+    }
+
+    public void setBookedBy(User bookedBy) {
+        this.bookedBy = bookedBy;
     }
 
     public BookingState getState() {
@@ -135,20 +147,19 @@ public class Booking {
         this.taxi = taxi;
     }
 
-    public Timestamp getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Timestamp createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 
-
-    public Timestamp getDeletedAt() {
+    public Date getDeletedAt() {
         return deletedAt;
     }
 
-    public void setDeletedAt(Timestamp deletedAt) {
+    public void setDeletedAt(Date deletedAt) {
         this.deletedAt = deletedAt;
     }
 }

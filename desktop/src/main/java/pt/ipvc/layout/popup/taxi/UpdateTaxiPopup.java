@@ -62,7 +62,6 @@ public class UpdateTaxiPopup extends Popup {
         brandField = new AutoCompleteComboBox(Collections.emptyList());
         brandField.setPrefWidth(Double.MAX_VALUE);
         brandField.setPromptText("Select brand");
-        brandField.setEditable(true);
 
         modelField = new ComboBox(Collections.emptyList());
         modelField.setPrefWidth(Double.MAX_VALUE);

@@ -12,6 +12,7 @@ import pt.ipvc.bll.ModelBLL;
 import pt.ipvc.bll.TaxiBLL;
 import pt.ipvc.components.buttons.Button;
 import pt.ipvc.components.buttons.ButtonAppearance;
+import pt.ipvc.components.inputs.AutoCompleteComboBox;
 import pt.ipvc.components.inputs.ComboBox;
 import pt.ipvc.components.inputs.NumericField;
 import pt.ipvc.components.inputs.TextField;
@@ -32,7 +33,7 @@ public class CreateTaxiPopup extends Popup {
     private final TextField occupancyField;
     private final TextField yearField;
     private final TextField colorField;
-    private final ComboBox brandField;
+    private final AutoCompleteComboBox brandField;
     private final ComboBox modelField;
 
     public CreateTaxiPopup(EventListener listener) {
@@ -54,7 +55,7 @@ public class CreateTaxiPopup extends Popup {
         colorField.setPromptText("Color");
         colorField.setIcon("brush--secondary.png");
 
-        brandField = new ComboBox(Collections.emptyList());
+        brandField = new AutoCompleteComboBox(Collections.emptyList());
         brandField.setPrefWidth(Double.MAX_VALUE);
         brandField.setPromptText("Select brand");
 
