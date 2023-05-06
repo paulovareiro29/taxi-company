@@ -1,10 +1,13 @@
 package pt.ipvc.bll;
 
 import pt.ipvc.dal.Booking;
+import pt.ipvc.dal.BookingState;
+import pt.ipvc.dal.User;
 import pt.ipvc.database.Database;
 
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,29 +21,52 @@ public class BookingBLL {
         return Database.find(Booking.class, id);
     }
 
-    public static void create(Booking entity) {
-        Database.beginTransaction();
-        Database.insert(entity);
-        Database.commitTransaction();
-    }
+    public static void create(User client, String origin, String destination, Date pickupDate, int occupancy, String extra) {
+        Booking entity = new Booking();
+        entity.setClient(client);
+        entity.setOrigin(origin);
+        entity.setDestination(destination);
+        entity.setPickupDate(pickupDate);
+        entity.setOccupancy(occupancy);
+        entity.setExtra(extra);
+        entity.setBookedBy(SessionBLL.getAuthenticatedUser());
+        entity.setState(BookingStateBLL.getByName("pending"));
 
+        System.out.println(entity);
+
+        try {
+            Database.beginTransaction();
+            Database.insert(entity);
+            Database.commitTransaction();
+        } catch (Exception e) {
+            Database.rollbackTransaction();
+        }
+    }
     public static void update(Booking entity) {
-        Database.beginTransaction();
-        Database.update(entity);
-        Database.commitTransaction();
+        try {
+            Database.beginTransaction();
+            Database.update(entity);
+            Database.commitTransaction();
+        } catch (Exception e) {
+            Database.rollbackTransaction();
+        }
     }
 
     public static void remove(UUID id) {
         Booking entity = get(id);
         entity.setDeletedAt(Timestamp.from(Instant.now()));
 
-        Database.beginTransaction();
-        Database.update(entity);
-        Database.commitTransaction();
+        try {
+            Database.beginTransaction();
+            Database.update(entity);
+            Database.commitTransaction();
+        } catch (Exception e) {
+            Database.rollbackTransaction();
+        }
     }
 
     public static int count() {
-        return ((Long) Database.query("Booking.count").getSingleResult()).intValue();
+        return ((Long) Database.query("booking.count").getSingleResult()).intValue();
     }
 
 }

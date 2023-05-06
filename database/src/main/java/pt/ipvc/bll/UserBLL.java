@@ -53,4 +53,6 @@ public class UserBLL {
     public static int count() {
         return ((Long) Database.query("user.count").getSingleResult()).intValue();
     }
+
+    public static List<User> indexClients() { return Database.query("user.client_index").getResultList(); }
 }

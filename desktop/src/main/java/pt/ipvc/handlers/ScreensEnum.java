@@ -4,5 +4,6 @@ public enum ScreensEnum {
     HOME,
     USERS,
     VEHICLES,
-    BRANDS
+    BRANDS,
+    BOOKINGS
 }
