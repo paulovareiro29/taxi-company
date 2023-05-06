@@ -9,16 +9,15 @@ import pt.ipvc.base.Popup;
 import pt.ipvc.bll.BrandBLL;
 import pt.ipvc.bll.ModelBLL;
 import pt.ipvc.bll.TaxiBLL;
-import pt.ipvc.bll.UserBLL;
 import pt.ipvc.components.buttons.Button;
 import pt.ipvc.components.buttons.ButtonAppearance;
+import pt.ipvc.components.inputs.AutoCompleteComboBox;
 import pt.ipvc.components.inputs.ComboBox;
 import pt.ipvc.components.inputs.NumericField;
 import pt.ipvc.components.inputs.TextField;
 import pt.ipvc.dal.Brand;
 import pt.ipvc.dal.Model;
 import pt.ipvc.dal.Taxi;
-import pt.ipvc.dal.User;
 import pt.ipvc.handlers.SceneHandler;
 import pt.ipvc.handlers.ScreensEnum;
 import pt.ipvc.layout.popup.DangerConfirmationPopup;
@@ -38,7 +37,7 @@ public class UpdateTaxiPopup extends Popup {
     private final TextField occupancyField;
     private final TextField yearField;
     private final TextField colorField;
-    private final ComboBox brandField;
+    private final AutoCompleteComboBox brandField;
     private final ComboBox modelField;
 
     public UpdateTaxiPopup(EventListener listener) {
@@ -60,9 +59,10 @@ public class UpdateTaxiPopup extends Popup {
         colorField.setPromptText("Color");
         colorField.setIcon("brush--secondary.png");
 
-        brandField = new ComboBox(Collections.emptyList());
+        brandField = new AutoCompleteComboBox(Collections.emptyList());
         brandField.setPrefWidth(Double.MAX_VALUE);
         brandField.setPromptText("Select brand");
+        brandField.setEditable(true);
 
         modelField = new ComboBox(Collections.emptyList());
         modelField.setPrefWidth(Double.MAX_VALUE);

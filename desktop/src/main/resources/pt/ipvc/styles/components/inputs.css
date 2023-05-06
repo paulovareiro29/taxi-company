@@ -40,11 +40,12 @@
     -fx-text-fill: -fx-color-danger;
 }
 
-.combo-box .text-input{
+.combo-box .text-input,
+.searchable-combo-box .text-input{
     -fx-prompt-text-fill: -fx-color-tertiary;
 }
 
-.combobox {
+.combobox, .searchable-combo-box {
     -fx-font-size: 14;
     -fx-effect: null;
 
@@ -59,7 +60,34 @@
     -fx-padding: 3 8;
 }
 
+.searchable-combo-box {
+    -fx-padding: 0 8;
+}
+
 .combobox .list-view .list-cell:hover,
-.combobox .list-view .list-cell:selected {
+.combobox .list-view .list-cell:selected,
+.searchable-combo-box .list-view .list-cell:hover,
+.searchable-combo-box .list-view .list-cell:selected{
     -fx-background-color: -fx-color-tertiary;
+}
+
+.searchable-combo-box .text-input {
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-background-color: -fx-color-white;
+    -fx-padding: 3 8;
+    -fx-graphic: null;
+}
+
+.searchable-combo-box .search-icon {
+    -fx-background-image: null;
+}
+
+.searchable-combo-box .combo-box-base  {
+    -fx-padding: 3 0;
+    -fx-border-color: transparent;
+
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-effect: null;
 }
