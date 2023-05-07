@@ -6,11 +6,15 @@ import pt.ipvc.base.EventListener;
 import pt.ipvc.base.Popup;
 import pt.ipvc.bll.BrandBLL;
 import pt.ipvc.bll.PaymentTypeBLL;
+import pt.ipvc.bll.TaxiBLL;
 import pt.ipvc.components.buttons.Button;
 import pt.ipvc.components.buttons.ButtonAppearance;
 import pt.ipvc.components.inputs.TextField;
 import pt.ipvc.dal.Brand;
 import pt.ipvc.dal.PaymentType;
+import pt.ipvc.handlers.SceneHandler;
+import pt.ipvc.handlers.ScreensEnum;
+import pt.ipvc.layout.popup.DangerConfirmationPopup;
 
 public class UpdatePaymentTypePopup extends Popup {
 
@@ -44,8 +48,33 @@ public class UpdatePaymentTypePopup extends Popup {
         cancelButton.setMaxWidth(Double.MAX_VALUE);
         submitButton.setMaxWidth(Double.MAX_VALUE);
 
+        Button deleteButton = new Button("DELETE", ButtonAppearance.outlined_danger);
+        deleteButton.setPrefWidth(Double.MAX_VALUE);
+        deleteButton.setOnAction(e -> {
+            DangerConfirmationPopup popup = new DangerConfirmationPopup(new EventListener() {
+                @Override
+                public void onSuccess() {
+                    PaymentTypeBLL.remove(type.getId());
+                    hide();
+                    listener.onSuccess();
+                    SceneHandler.updateScreen(ScreensEnum.PAYMENT_TYPES);
+                }
+
+                @Override
+                public void onFail() {
+
+                }
+
+                @Override
+                public void onCancel() {
+                    System.out.println("Cancleed");
+                }
+            });
+            popup.show(SceneHandler.stage);
+        });
+
         options.getChildren().addAll(cancelButton, submitButton);
-        addChildren(nameField, descriptionField, options);
+        addChildren(nameField, descriptionField, options, deleteButton);
     }
 
     private void handleSubmitButton() {

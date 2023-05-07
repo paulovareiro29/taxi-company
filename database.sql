@@ -128,11 +128,17 @@ CREATE TABLE trips (
             REFERENCES bookings(id)
 );
 
+----
 CREATE TABLE payment_types (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    name VARCHAR(50) NOT NULL UNIQUE,
-    description VARCHAR(255)
+    name VARCHAR(50) NOT NULL,
+    description VARCHAR(255),
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    deleted_at TIMESTAMP
 );
+
+CREATE UNIQUE INDEX payment_type_name ON payment_types (name) WHERE payment_types.deleted_at IS NULL;
+----
 
 CREATE TABLE payments (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
