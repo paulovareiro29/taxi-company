@@ -7,18 +7,17 @@ import pt.ipvc.base.ComboItem;
 import pt.ipvc.base.EventListener;
 import pt.ipvc.base.Popup;
 import pt.ipvc.bll.BookingBLL;
-import pt.ipvc.bll.BrandBLL;
 import pt.ipvc.bll.UserBLL;
 import pt.ipvc.components.buttons.Button;
 import pt.ipvc.components.buttons.ButtonAppearance;
 import pt.ipvc.components.inputs.AutoCompleteComboBox;
+import pt.ipvc.components.inputs.DateTimePicker;
 import pt.ipvc.components.inputs.NumericField;
 import pt.ipvc.components.inputs.TextField;
-import pt.ipvc.dal.Brand;
 import pt.ipvc.dal.User;
-import pt.ipvc.utils.StringUtils;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -31,12 +30,12 @@ public class CreateBookingPopup extends Popup {
     private final AutoCompleteComboBox clientField;
     private final TextField originField;
     private final TextField destinationField;
-    private final TextField pickupDateField;
+    private final DateTimePicker pickupDateField;
     private final NumericField occupancyField;
     private final TextField extraField;
 
     public CreateBookingPopup(EventListener listener) {
-        super("New booking", listener);
+        super("New Booking", listener);
 
         clientField = new AutoCompleteComboBox(Collections.emptyList());
         clientField.setPrefWidth(Double.MAX_VALUE);
@@ -50,17 +49,17 @@ public class CreateBookingPopup extends Popup {
         destinationField.setPromptText("Destination");
         destinationField.setIcon("marker--secondary.png");
 
-        pickupDateField = new TextField();
-        pickupDateField.setPromptText("Pickup date");
-        pickupDateField.setIcon("calendar--secondary.png");
-
         occupancyField = new NumericField();
         occupancyField.setPromptText("Occupancy");
         occupancyField.setIcon("double-users--secondary.png");
 
         extraField = new TextField();
         extraField.setPromptText("Extra");
-        extraField.setIcon("calendar--secondary.png");
+        extraField.setIcon("message--secondary.png");
+
+        pickupDateField = new DateTimePicker();
+        pickupDateField.setPrefWidth(Double.MAX_VALUE);
+        pickupDateField.setPromptText("Pickup date");
 
         Button cancelButton = new Button("Cancel", ButtonAppearance.outlined_primary);
         Button submitButton = new Button("Create");
@@ -96,8 +95,7 @@ public class CreateBookingPopup extends Popup {
             hasError = true;
         }
 
-        if(pickupDateField.getText().isBlank()) {
-            pickupDateField.setError("Pickup date is required");
+        if(pickupDateField.getDateTimeValue() == null) {
             hasError = true;
         }
 
@@ -123,7 +121,7 @@ public class CreateBookingPopup extends Popup {
         originField.getInput().clear();
         destinationField.getInput().clear();
         occupancyField.getInput().clear();
-        pickupDateField.getInput().clear();
+        pickupDateField.setDateTimeValue(LocalDateTime.now());
         extraField.getInput().clear();
     }
 
@@ -131,7 +129,6 @@ public class CreateBookingPopup extends Popup {
         originField.clearError();
         destinationField.clearError();
         occupancyField.clearError();
-        pickupDateField.clearError();
         extraField.clearError();
     }
 

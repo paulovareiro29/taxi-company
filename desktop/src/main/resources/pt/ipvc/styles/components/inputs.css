@@ -45,7 +45,7 @@
     -fx-prompt-text-fill: -fx-color-tertiary;
 }
 
-.combobox, .searchable-combo-box {
+.combobox, .searchable-combo-box, .datetime-picker {
     -fx-font-size: 14;
     -fx-effect: null;
 
@@ -85,6 +85,19 @@
 
 .searchable-combo-box .combo-box-base  {
     -fx-padding: 3 0;
+    -fx-border-color: transparent;
+
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-effect: null;
+}
+
+.datetime-picker {
+    -fx-padding: 0;
+}
+
+.datetime-picker .text-input{
+    -fx-padding: 6 14;
     -fx-border-color: transparent;
 
     -fx-background-color: transparent;
