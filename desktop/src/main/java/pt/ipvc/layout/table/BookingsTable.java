@@ -15,8 +15,13 @@ import java.util.stream.Collectors;
 
 public class BookingsTable extends Table<Booking> {
 
-    public BookingsTable() {
 
+    private String originFilter;
+    private String destinationFilter;
+    private String clientFilter;
+    private String stateFilter;
+
+    public BookingsTable() {
         TableColumn<Booking, String> originColumn = new TableColumn<>("Origin");
         TableColumn<Booking, String> destinationColumn = new TableColumn<>("Destination");
         TableColumn<Booking, String> clientColumn = new TableColumn<>("Client");
@@ -48,16 +53,19 @@ public class BookingsTable extends Table<Booking> {
             return cell;
         });
 
-        //addOrFilter(t -> t.getLicensePlate().toLowerCase().contains(plateFilter != null ? plateFilter : ""));
+        addOrFilter(b -> b.getOrigin().toLowerCase().contains(originFilter != null ? originFilter : ""));
+        addOrFilter(b -> b.getDestination().toLowerCase().contains(destinationFilter != null ? destinationFilter : ""));
+        addOrFilter(b -> b.getClient().getEmail().toLowerCase().contains(clientFilter != null ? clientFilter : ""));
+        addAndFilter(b -> b.getState().getName().toLowerCase().contains(stateFilter != null ? stateFilter : ""));
 
         refresh();
     }
 
     @Override
     public void refresh() {
-        List<Booking> bookings = BookingBLL.index()/*.stream()
+        List<Booking> bookings = BookingBLL.index().stream()
                 .filter(filters)
-                .collect(Collectors.toList())*/;
+                .collect(Collectors.toList());
 
         updateData(bookings);
         update();
@@ -67,7 +75,26 @@ public class BookingsTable extends Table<Booking> {
         super.update();
     }
 
-    public void clearFilters() {
 
+    public void setOriginFilter(String originFilter) {
+        this.originFilter = originFilter;
+    }
+
+    public void setDestinationFilter(String destinationFilter) {
+        this.destinationFilter = destinationFilter;
+    }
+
+    public void setClientFilter(String clientFilter) {
+        this.clientFilter = clientFilter;
+    }
+
+    public void setStateFilter(String stateFilter) {
+        this.stateFilter = stateFilter;
+    }
+
+    public void clearFilters() {
+        originFilter = null;
+        destinationFilter = null;
+        clientFilter = null;
     }
 }
