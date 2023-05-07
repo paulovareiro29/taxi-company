@@ -1,7 +1,6 @@
 package pt.ipvc.bll;
 
 import pt.ipvc.dal.Booking;
-import pt.ipvc.dal.BookingState;
 import pt.ipvc.dal.User;
 import pt.ipvc.database.Database;
 
@@ -31,8 +30,6 @@ public class BookingBLL {
         entity.setExtra(extra);
         entity.setBookedBy(SessionBLL.getAuthenticatedUser());
         entity.setState(BookingStateBLL.getByName("pending"));
-
-        System.out.println(entity);
 
         try {
             Database.beginTransaction();

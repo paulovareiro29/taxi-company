@@ -16,8 +16,8 @@ import pt.ipvc.components.inputs.NumericField;
 import pt.ipvc.components.inputs.TextField;
 import pt.ipvc.dal.User;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -107,7 +107,7 @@ public class CreateBookingPopup extends Popup {
         if  (hasError) return;
 
         try {
-            BookingBLL.create(selectedClient, originField.getText(), destinationField.getText(), Date.from(Instant.now()), Integer.parseInt(occupancyField.getText()), extraField.getText());
+            BookingBLL.create(selectedClient, originField.getText(), destinationField.getText(), Date.from(pickupDateField.getDateTimeValue().toInstant(ZoneOffset.UTC)), Integer.parseInt(occupancyField.getText()), extraField.getText());
             listener.onSuccess();
             clearFields();
             clearErrors();
