@@ -28,6 +28,7 @@ public class Sidebar extends VBox implements UIComponent {
         MainItems.add(new SidebarButton("Users","double-users.png", e -> changeRoute(ScreensEnum.USERS)));
         MainItems.add(new SidebarButton("Vehicles","car.png", e -> changeRoute(ScreensEnum.VEHICLES)));
         MainItems.add(new SidebarButton("Bookings","booking.png", e -> changeRoute(ScreensEnum.BOOKINGS)));
+        MainItems.add(new SidebarButton("Payment types","credit-card.png", e -> changeRoute(ScreensEnum.PAYMENT_TYPES)));
         MainItems.add(new SidebarSeparator());
 
         ArrayList<Node> SecondaryItems = new ArrayList<>();

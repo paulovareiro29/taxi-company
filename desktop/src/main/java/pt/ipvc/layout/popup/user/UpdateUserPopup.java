@@ -40,7 +40,7 @@ public class UpdateUserPopup extends Popup {
 
 
     public UpdateUserPopup(EventListener listener) {
-        super("Edit user", listener);
+        super("Update user", listener);
 
         /* INFORMATION */
         nameField = new TextField();

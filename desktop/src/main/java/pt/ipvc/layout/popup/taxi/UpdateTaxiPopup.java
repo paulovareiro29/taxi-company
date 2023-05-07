@@ -41,7 +41,7 @@ public class UpdateTaxiPopup extends Popup {
     private final ComboBox modelField;
 
     public UpdateTaxiPopup(EventListener listener) {
-        super("New Taxi", listener);
+        super("Update Taxi", listener);
 
         plateField = new TextField();
         plateField.setPromptText("License Plate");

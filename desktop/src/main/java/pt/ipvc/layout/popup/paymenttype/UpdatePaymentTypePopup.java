@@ -1,26 +1,33 @@
-package pt.ipvc.layout.popup.brand;
+package pt.ipvc.layout.popup.paymenttype;
 
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import pt.ipvc.base.EventListener;
 import pt.ipvc.base.Popup;
 import pt.ipvc.bll.BrandBLL;
+import pt.ipvc.bll.PaymentTypeBLL;
 import pt.ipvc.components.buttons.Button;
 import pt.ipvc.components.buttons.ButtonAppearance;
 import pt.ipvc.components.inputs.TextField;
 import pt.ipvc.dal.Brand;
+import pt.ipvc.dal.PaymentType;
 
-public class UpdateBrandPopup extends Popup {
+public class UpdatePaymentTypePopup extends Popup {
 
-    private Brand brand;
+    private PaymentType type;
     private final TextField nameField;
+    private final TextField descriptionField;
 
-    public UpdateBrandPopup(EventListener listener) {
-        super("Update Brand", listener);
+    public UpdatePaymentTypePopup(EventListener listener) {
+        super("Update Payment Type", listener);
 
         nameField = new TextField();
         nameField.setPromptText("Name");
         nameField.setIcon("tag--secondary.png");
+
+        descriptionField = new TextField();
+        descriptionField.setPromptText("Description");
+        descriptionField.setIcon("message--secondary.png");
 
         Button cancelButton = new Button("Cancel", ButtonAppearance.outlined_primary);
         Button submitButton = new Button("Update");
@@ -38,7 +45,7 @@ public class UpdateBrandPopup extends Popup {
         submitButton.setMaxWidth(Double.MAX_VALUE);
 
         options.getChildren().addAll(cancelButton, submitButton);
-        addChildren(nameField, options);
+        addChildren(nameField, descriptionField, options);
     }
 
     private void handleSubmitButton() {
@@ -53,10 +60,11 @@ public class UpdateBrandPopup extends Popup {
 
         if  (hasError) return;
 
-        brand.setName(nameField.getText());
+        type.setName(nameField.getText());
+        type.setDescription(descriptionField.getText());
 
         try {
-            BrandBLL.update(brand);
+            PaymentTypeBLL.update(type);
             listener.onSuccess();
             clearFields();
             clearErrors();
@@ -67,22 +75,25 @@ public class UpdateBrandPopup extends Popup {
         }
     }
 
-    public void setBrand(Brand brand){
-        this.brand = brand;
+    public void setPaymentType(PaymentType type){
+        this.type = type;
         this.update();
     }
 
     private void clearFields() {
         nameField.getInput().clear();
+        descriptionField.getInput().clear();
     }
 
     private void clearErrors() {
         nameField.clearError();
+        descriptionField.clearError();
     }
 
     @Override
     public void update() {
-        nameField.getInput().setText(brand.getName());
+        nameField.getInput().setText(type.getName());
+        descriptionField.getInput().setText(type.getDescription());
     }
 
 }

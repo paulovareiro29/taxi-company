@@ -12,7 +12,7 @@ import pt.ipvc.components.buttons.Button;
 import pt.ipvc.components.inputs.TextField;
 import pt.ipvc.handlers.SceneHandler;
 import pt.ipvc.layout.EmptyState;
-import pt.ipvc.layout.brands.BrandItem;
+import pt.ipvc.layout.items.BrandItem;
 import pt.ipvc.layout.popup.brand.CreateBrandPopup;
 import pt.ipvc.layout.screen.ScreenHeader;
 
@@ -28,11 +28,11 @@ public class BrandsScreen extends Screen {
         Heading title = new Heading("Car brands");
         Button newBrandButton = new Button("Add new");
 
-        TextField taxiFilter = new TextField();
-        taxiFilter.setPromptText("Search");
-        taxiFilter.setIcon("search--secondary.png");
+        TextField brandFilter = new TextField();
+        brandFilter.setPromptText("Search");
+        brandFilter.setIcon("search--secondary.png");
 
-        Group searchBar = new Group(taxiFilter);
+        Group searchBar = new Group(brandFilter);
 
         ScreenHeader header = new ScreenHeader();
         header.addChildrenToLeft(title);
@@ -46,7 +46,7 @@ public class BrandsScreen extends Screen {
         scrollPane.setContent(container);
 
 
-        taxiFilter.getInput().textProperty()
+        brandFilter.getInput().textProperty()
                 .addListener((observable, oldValue, newValue) -> {
                     filter = newValue;
                     refresh();

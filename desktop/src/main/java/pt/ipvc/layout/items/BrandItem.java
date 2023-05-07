@@ -1,4 +1,4 @@
-package pt.ipvc.layout.brands;
+package pt.ipvc.layout.items;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;

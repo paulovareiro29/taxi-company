@@ -7,40 +7,38 @@ import pt.ipvc.base.Popup;
 import pt.ipvc.base.Screen;
 import pt.ipvc.bll.BookingBLL;
 import pt.ipvc.bll.BookingStateBLL;
-import pt.ipvc.bll.RoleBLL;
-import pt.ipvc.bll.TaxiBLL;
+import pt.ipvc.bll.PaymentTypeBLL;
 import pt.ipvc.components.Heading;
 import pt.ipvc.components.buttons.Button;
 import pt.ipvc.components.inputs.ComboBox;
 import pt.ipvc.components.inputs.TextField;
 import pt.ipvc.handlers.SceneHandler;
-import pt.ipvc.handlers.ScreensEnum;
 import pt.ipvc.layout.EmptyState;
 import pt.ipvc.layout.popup.booking.CreateBookingPopup;
-import pt.ipvc.layout.popup.taxi.CreateTaxiPopup;
+import pt.ipvc.layout.popup.paymenttype.CreatePaymentTypePopup;
 import pt.ipvc.layout.screen.ScreenHeader;
 import pt.ipvc.layout.table.BookingsTable;
-import pt.ipvc.layout.table.TaxisTable;
+import pt.ipvc.layout.table.PaymentTypesTable;
 import pt.ipvc.utils.StringUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 
-public class BookingsScreen extends Screen {
+public class PaymentTypesScreen extends Screen {
 
-    private final BookingsTable table;
+    private final PaymentTypesTable table;
     private final EmptyState emptyState;
 
-    public BookingsScreen() {
+    public PaymentTypesScreen() {
 
         /* TABLE */
-        table = new BookingsTable();
-        emptyState = new EmptyState("No bookings found");
+        table = new PaymentTypesTable();
+        emptyState = new EmptyState("No payment types found");
 
         /* HEADER */
-        Heading title = new Heading("Bookings");
-        Button newBookingButton = new Button("Add new");
+        Heading title = new Heading("Payment Types");
+        Button newTypeButton = new Button("Add new");
 
 
         TextField filter = new TextField();
@@ -49,33 +47,19 @@ public class BookingsScreen extends Screen {
 
         Group searchBar = new Group(filter);
 
-        /* STATE COMBOBOX */
-        List<ComboItem> availableStates = BookingStateBLL.index().stream().map(state -> new ComboItem(StringUtils.capitalize(state.getName()), () -> {
-            table.setStateFilter(state.getName().toLowerCase());
-            table.refresh();
-        })).collect(Collectors.toList());
-        availableStates.add(0,new ComboItem("All", () -> {
-            table.setStateFilter("");
-            table.refresh();
-        }));
-        ComboBox stateFilter = new ComboBox(availableStates);
-        stateFilter.setPromptText("Filter by state");
-
         ScreenHeader header = new ScreenHeader();
         header.addChildrenToLeft(title);
-        header.addChildrenToRight(stateFilter, searchBar, newBookingButton);
+        header.addChildrenToRight(searchBar, newTypeButton);
 
         /* FILTER */
         filter.getInput().textProperty()
                 .addListener((observable, oldValue, newValue) -> {
-                    table.setOriginFilter(newValue);
-                    table.setDestinationFilter(newValue);
-                    table.setClientFilter(newValue);
+                    table.setNameFilter(newValue);
                     table.refresh();
                 });
 
         /* POPUP */
-        Popup createPopup = new CreateBookingPopup(new EventListener() {
+        Popup createPopup = new CreatePaymentTypePopup(new EventListener() {
             @Override
             public void onSuccess() {
                 table.setVisible(true);
@@ -90,7 +74,7 @@ public class BookingsScreen extends Screen {
             public void onCancel() {}
         });
 
-        newBookingButton.setOnAction(e -> createPopup.show(SceneHandler.stage));
+        newTypeButton.setOnAction(e -> createPopup.show(SceneHandler.stage));
 
         /* ADD EVERYTHING TO SCREEN */
         getChildren().addAll(header, emptyState, table);
@@ -98,7 +82,7 @@ public class BookingsScreen extends Screen {
 
     @Override
     public void update() {
-        int count = BookingBLL.count();
+        int count = PaymentTypeBLL.count();
         table.setVisible(count != 0);
         emptyState.setVisible(count == 0);
     }
