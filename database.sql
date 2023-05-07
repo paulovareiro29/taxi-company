@@ -129,7 +129,7 @@ CREATE TABLE trips (
 );
 
 ----
-CREATE TABLE payment_types (
+CREATE TABLE payment_methods (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     name VARCHAR(50) NOT NULL,
     description VARCHAR(255),
@@ -137,13 +137,13 @@ CREATE TABLE payment_types (
     deleted_at TIMESTAMP
 );
 
-CREATE UNIQUE INDEX payment_type_name ON payment_types (name) WHERE payment_types.deleted_at IS NULL;
+CREATE UNIQUE INDEX payment_method_name ON payment_methods (name) WHERE payment_methods.deleted_at IS NULL;
 ----
 
 CREATE TABLE payments (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     trip_id UUID NOT NULL,
-    payment_type_id UUID NOT NULL,
+    payment_method_id UUID NOT NULL,
     amount FLOAT NOT NULL,
     vat INT,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
@@ -151,8 +151,8 @@ CREATE TABLE payments (
         FOREIGN KEY(trip_id)
             REFERENCES trips(id),
     CONSTRAINT P_PT_FK
-        FOREIGN KEY(payment_type_id)
-            REFERENCES payment_types(id)
+        FOREIGN KEY(payment_method_id)
+            REFERENCES payment_methods(id)
 );
 
 CREATE TABLE feedbacks (

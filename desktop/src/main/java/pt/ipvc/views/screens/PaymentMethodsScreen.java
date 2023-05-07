@@ -1,43 +1,33 @@
 package pt.ipvc.views.screens;
 
 import javafx.scene.Group;
-import pt.ipvc.base.ComboItem;
 import pt.ipvc.base.EventListener;
 import pt.ipvc.base.Popup;
 import pt.ipvc.base.Screen;
-import pt.ipvc.bll.BookingBLL;
-import pt.ipvc.bll.BookingStateBLL;
-import pt.ipvc.bll.PaymentTypeBLL;
+import pt.ipvc.bll.PaymentMethodBLL;
 import pt.ipvc.components.Heading;
 import pt.ipvc.components.buttons.Button;
-import pt.ipvc.components.inputs.ComboBox;
 import pt.ipvc.components.inputs.TextField;
 import pt.ipvc.handlers.SceneHandler;
 import pt.ipvc.layout.EmptyState;
-import pt.ipvc.layout.popup.booking.CreateBookingPopup;
 import pt.ipvc.layout.popup.paymenttype.CreatePaymentTypePopup;
 import pt.ipvc.layout.screen.ScreenHeader;
-import pt.ipvc.layout.table.BookingsTable;
-import pt.ipvc.layout.table.PaymentTypesTable;
-import pt.ipvc.utils.StringUtils;
-
-import java.util.List;
-import java.util.stream.Collectors;
+import pt.ipvc.layout.table.PaymentMethodsTable;
 
 
-public class PaymentTypesScreen extends Screen {
+public class PaymentMethodsScreen extends Screen {
 
-    private final PaymentTypesTable table;
+    private final PaymentMethodsTable table;
     private final EmptyState emptyState;
 
-    public PaymentTypesScreen() {
+    public PaymentMethodsScreen() {
 
         /* TABLE */
-        table = new PaymentTypesTable();
-        emptyState = new EmptyState("No payment types found");
+        table = new PaymentMethodsTable();
+        emptyState = new EmptyState("No payment methods found");
 
         /* HEADER */
-        Heading title = new Heading("Payment Types");
+        Heading title = new Heading("Payment Methods");
         Button newTypeButton = new Button("Add new");
 
 
@@ -82,7 +72,7 @@ public class PaymentTypesScreen extends Screen {
 
     @Override
     public void update() {
-        int count = PaymentTypeBLL.count();
+        int count = PaymentMethodBLL.count();
         table.setVisible(count != 0);
         emptyState.setVisible(count == 0);
     }

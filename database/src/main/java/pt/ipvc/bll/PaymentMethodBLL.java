@@ -1,8 +1,7 @@
 package pt.ipvc.bll;
 
-import pt.ipvc.dal.PaymentType;
+import pt.ipvc.dal.PaymentMethod;
 import pt.ipvc.database.Database;
-import pt.ipvc.exceptions.EmailAlreadyInUseException;
 import pt.ipvc.exceptions.NameAlreadyExistsException;
 
 import java.sql.Timestamp;
@@ -11,21 +10,21 @@ import java.util.List;
 import java.util.UUID;
 
 
-public class PaymentTypeBLL {
+public class PaymentMethodBLL {
 
-    public static List<PaymentType> index() {
-        return Database.query("payment_type.index").getResultList();
+    public static List<PaymentMethod> index() {
+        return Database.query("payment_method.index").getResultList();
     }
 
-    public static PaymentType get(UUID id) {
-        return Database.find(PaymentType.class, id);
+    public static PaymentMethod get(UUID id) {
+        return Database.find(PaymentMethod.class, id);
     }
 
     public static void create(String name, String description) throws NameAlreadyExistsException{
         if(getByName(name) != null)
             throw new NameAlreadyExistsException();
 
-        PaymentType entity = new PaymentType();
+        PaymentMethod entity = new PaymentMethod();
         entity.setName(name);
         entity.setDescription(description);
 
@@ -38,7 +37,7 @@ public class PaymentTypeBLL {
         }
     }
 
-    public static void update(PaymentType entity) {
+    public static void update(PaymentMethod entity) {
         try {
             Database.beginTransaction();
             Database.insert(entity);
@@ -49,7 +48,7 @@ public class PaymentTypeBLL {
     }
 
     public static void remove(UUID id) {
-        PaymentType entity = get(id);
+        PaymentMethod entity = get(id);
         entity.setDeletedAt(Timestamp.from(Instant.now()));
 
         try {
@@ -62,11 +61,11 @@ public class PaymentTypeBLL {
     }
 
     public static int count() {
-        return ((Long) Database.query("payment_type.count").getSingleResult()).intValue();
+        return ((Long) Database.query("payment_method.count").getSingleResult()).intValue();
     }
 
-    public static PaymentType getByName(String name) {
-        return (PaymentType) Database.query("payment_type.get_by_name")
+    public static PaymentMethod getByName(String name) {
+        return (PaymentMethod) Database.query("payment_method.get_by_name")
                 .setParameter("name", name)
                 .getResultStream().findFirst().orElse(null);
     }

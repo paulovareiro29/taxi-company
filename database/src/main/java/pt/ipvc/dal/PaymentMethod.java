@@ -7,13 +7,13 @@ import java.util.Date;
 import java.util.UUID;
 
 @Entity
-@Table(name = "payment_types")
+@Table(name = "payment_methods")
 @NamedQueries({
-        @NamedQuery(name = "payment_type.index", query = "SELECT payment_type FROM PaymentType payment_type WHERE deletedAt = null"),
-        @NamedQuery(name = "payment_type.count", query = "SELECT count(payment_type) FROM PaymentType payment_type WHERE deletedAt = null"),
-        @NamedQuery(name = "payment_type.get_by_name", query = "SELECT payment_type FROM PaymentType payment_type WHERE payment_type.name LIKE :name AND deletedAt = null"),
+        @NamedQuery(name = "payment_method.index", query = "SELECT payment_method FROM PaymentMethod payment_method WHERE deletedAt = null"),
+        @NamedQuery(name = "payment_method.count", query = "SELECT count(payment_method) FROM PaymentMethod payment_method WHERE deletedAt = null"),
+        @NamedQuery(name = "payment_method.get_by_name", query = "SELECT payment_method FROM PaymentMethod payment_method WHERE payment_method.name LIKE :name AND deletedAt = null"),
 })
-public class PaymentType {
+public class PaymentMethod {
 
     @Id
     @GeneratedValue
@@ -33,15 +33,15 @@ public class PaymentType {
     @Column(name = "deleted_at")
     private Date deletedAt;
 
-    public PaymentType() {}
+    public PaymentMethod() {}
 
-    public PaymentType(UUID id) {
+    public PaymentMethod(UUID id) {
         this.id = id;
     }
 
     @Override
     public String toString() {
-        return String.format("PaymentType[id='%s', name='%s', description='%s']", id, name, description);
+        return String.format("PaymentMethod[id='%s', name='%s', description='%s']", id, name, description);
     }
 
     public UUID getId() {

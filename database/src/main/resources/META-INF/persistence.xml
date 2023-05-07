@@ -12,7 +12,7 @@
         <class>pt.ipvc.dal.Model</class>
         <class>pt.ipvc.dal.Taxi</class>
         <class>pt.ipvc.dal.Trip</class>
-        <class>pt.ipvc.dal.PaymentType</class>
+        <class>pt.ipvc.dal.PaymentMethod</class>
         <class>pt.ipvc.dal.Payment</class>
         <class>pt.ipvc.dal.Feedback</class>
 

@@ -31,9 +31,9 @@ public class Payment {
     @ManyToOne(optional = false)
     private Trip trip;
 
-    @JoinColumn(name = "payment_type_id", referencedColumnName = "id")
+    @JoinColumn(name = "payment_method_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private PaymentType paymentType;
+    private PaymentMethod paymentMethod;
 
     @Column(name = "created_at")
     @CreationTimestamp
@@ -78,12 +78,12 @@ public class Payment {
         this.trip = trip;
     }
 
-    public PaymentType getPaymentType() {
-        return paymentType;
+    public PaymentMethod getPaymentType() {
+        return paymentMethod;
     }
 
-    public void setPaymentType(PaymentType paymentType) {
-        this.paymentType = paymentType;
+    public void setPaymentType(PaymentMethod paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 
     public Timestamp getCreatedAt() {

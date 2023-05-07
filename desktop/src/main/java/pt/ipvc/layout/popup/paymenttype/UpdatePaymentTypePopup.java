@@ -4,21 +4,18 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import pt.ipvc.base.EventListener;
 import pt.ipvc.base.Popup;
-import pt.ipvc.bll.BrandBLL;
-import pt.ipvc.bll.PaymentTypeBLL;
-import pt.ipvc.bll.TaxiBLL;
+import pt.ipvc.bll.PaymentMethodBLL;
 import pt.ipvc.components.buttons.Button;
 import pt.ipvc.components.buttons.ButtonAppearance;
 import pt.ipvc.components.inputs.TextField;
-import pt.ipvc.dal.Brand;
-import pt.ipvc.dal.PaymentType;
+import pt.ipvc.dal.PaymentMethod;
 import pt.ipvc.handlers.SceneHandler;
 import pt.ipvc.handlers.ScreensEnum;
 import pt.ipvc.layout.popup.DangerConfirmationPopup;
 
 public class UpdatePaymentTypePopup extends Popup {
 
-    private PaymentType type;
+    private PaymentMethod type;
     private final TextField nameField;
     private final TextField descriptionField;
 
@@ -54,7 +51,7 @@ public class UpdatePaymentTypePopup extends Popup {
             DangerConfirmationPopup popup = new DangerConfirmationPopup(new EventListener() {
                 @Override
                 public void onSuccess() {
-                    PaymentTypeBLL.remove(type.getId());
+                    PaymentMethodBLL.remove(type.getId());
                     hide();
                     listener.onSuccess();
                     SceneHandler.updateScreen(ScreensEnum.PAYMENT_TYPES);
@@ -93,7 +90,7 @@ public class UpdatePaymentTypePopup extends Popup {
         type.setDescription(descriptionField.getText());
 
         try {
-            PaymentTypeBLL.update(type);
+            PaymentMethodBLL.update(type);
             listener.onSuccess();
             clearFields();
             clearErrors();
@@ -104,7 +101,7 @@ public class UpdatePaymentTypePopup extends Popup {
         }
     }
 
-    public void setPaymentType(PaymentType type){
+    public void setPaymentType(PaymentMethod type){
         this.type = type;
         this.update();
     }

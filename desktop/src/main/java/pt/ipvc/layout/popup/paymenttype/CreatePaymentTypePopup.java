@@ -4,8 +4,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import pt.ipvc.base.EventListener;
 import pt.ipvc.base.Popup;
-import pt.ipvc.bll.BrandBLL;
-import pt.ipvc.bll.PaymentTypeBLL;
+import pt.ipvc.bll.PaymentMethodBLL;
 import pt.ipvc.components.buttons.Button;
 import pt.ipvc.components.buttons.ButtonAppearance;
 import pt.ipvc.components.inputs.TextField;
@@ -58,7 +57,7 @@ public class CreatePaymentTypePopup extends Popup {
         if  (hasError) return;
 
         try {
-            PaymentTypeBLL.create(nameField.getText().trim(), descriptionField.getText().trim());
+            PaymentMethodBLL.create(nameField.getText().trim(), descriptionField.getText().trim());
             listener.onSuccess();
             clearFields();
             clearErrors();
