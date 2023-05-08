@@ -15,7 +15,8 @@ import java.util.UUID;
         @NamedQuery(name = "user.index", query = "SELECT user FROM User user WHERE user.deletedAt = null"),
         @NamedQuery(name = "user.count", query = "SELECT count(user) FROM User user WHERE user.deletedAt = null"),
         @NamedQuery(name = "user.get_by_email", query = "SELECT user FROM User user WHERE user.email LIKE :email AND user.deletedAt = null"),
-        @NamedQuery(name = "user.client_index", query = "SELECT user FROM User user, Role role WHERE user.role.id = role.id AND role.name LIKE 'client' AND user.deletedAt = null")
+        @NamedQuery(name = "user.client_index", query = "SELECT user FROM User user, Role role WHERE user.role.id = role.id AND role.name LIKE 'client' AND user.deletedAt = null"),
+        @NamedQuery(name = "user.driver_index", query = "SELECT user FROM User user, Role role WHERE user.role.id = role.id AND role.name LIKE 'driver' AND user.deletedAt = null")
 })
 public class User {
 

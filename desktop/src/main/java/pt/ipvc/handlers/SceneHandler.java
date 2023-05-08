@@ -39,6 +39,7 @@ public class SceneHandler {
         screens.put(ScreensEnum.VEHICLES, new VehiclesScreen());
         screens.put(ScreensEnum.BRANDS, new BrandsScreen());
         screens.put(ScreensEnum.BOOKINGS, new BookingsScreen());
+        screens.put(ScreensEnum.VIEW_BOOKING, new ViewBookingScreen());
         screens.put(ScreensEnum.PAYMENT_TYPES, new PaymentMethodsScreen());
     }
 

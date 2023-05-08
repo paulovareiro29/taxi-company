@@ -28,6 +28,11 @@
     -fx-prompt-text-fill: -fx-color-tertiary;
 }
 
+.text-field__input:readonly {
+    -fx-cursor: default;
+    -fx-text-fill: -fx-color-text-secondary;
+}
+
 .text-field__wrapper--icon {
     -fx-padding: 0 12;
 }

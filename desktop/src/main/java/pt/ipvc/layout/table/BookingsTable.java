@@ -6,9 +6,11 @@ import pt.ipvc.base.table.ButtonIconTableCell;
 import pt.ipvc.base.table.Table;
 import pt.ipvc.base.table.TableColumn;
 import pt.ipvc.bll.BookingBLL;
-import pt.ipvc.bll.TaxiBLL;
 import pt.ipvc.dal.Booking;
+import pt.ipvc.handlers.SceneHandler;
+import pt.ipvc.handlers.ScreensEnum;
 import pt.ipvc.utils.DateUtils;
+import pt.ipvc.views.screens.ViewBookingScreen;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -46,9 +48,10 @@ public class BookingsTable extends Table<Booking> {
         statusColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getState().getName()));
         settingsColumn.setCellValueFactory(data -> new SimpleStringProperty(""));
         settingsColumn.setCellFactory(data -> {
-            ButtonIconTableCell<Booking> cell = new ButtonIconTableCell<>("settings.png");
+            ButtonIconTableCell<Booking> cell = new ButtonIconTableCell<>("eye--text-primary.png");
             cell.setOnClick(event -> {
-                System.out.println("TODO: VIEW BOOKING");
+                ViewBookingScreen.booking = cell.getTableView().getItems().get(cell.getIndex());
+                SceneHandler.changeScreen(ScreensEnum.VIEW_BOOKING);
             });
             return cell;
         });

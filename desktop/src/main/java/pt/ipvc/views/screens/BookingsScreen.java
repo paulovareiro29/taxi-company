@@ -101,5 +101,7 @@ public class BookingsScreen extends Screen {
         int count = BookingBLL.count();
         table.setVisible(count != 0);
         emptyState.setVisible(count == 0);
+
+        table.refresh();
     }
 }

@@ -6,5 +6,6 @@ public enum ScreensEnum {
     VEHICLES,
     BRANDS,
     BOOKINGS,
+    VIEW_BOOKING,
     PAYMENT_TYPES
 }

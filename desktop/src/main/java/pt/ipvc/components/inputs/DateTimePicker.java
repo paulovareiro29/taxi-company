@@ -2,6 +2,7 @@ package pt.ipvc.components.inputs;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -43,6 +44,17 @@ public class DateTimePicker extends DatePicker {
             }
         });
 
+        getEditor().textProperty().addListener((observable, oldValue, newValue) -> {
+            try {
+                if (newValue == null) {
+                    dateTimeValue.set(null);
+                } else {
+                    dateTimeValue.set(LocalDateTime.parse(newValue, formatter));
+                }
+            }catch(Exception ignore) {
+            }
+        });
+
         // Syncronize changes to dateTimeValue back to the underlying date value
         dateTimeValue.addListener((observable, oldValue, newValue) -> {
             setValue(newValue == null ? null : newValue.toLocalDate());
@@ -53,7 +65,17 @@ public class DateTimePicker extends DatePicker {
             if (!newValue)
                 simulateEnterPressed();
         });
+    }
 
+    public void disablePastDates() {
+        setDayCellFactory(picker -> new DateCell() {
+            public void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
+                LocalDate today = LocalDate.now();
+
+                setDisable(empty || date.compareTo(today) < 0 );
+            }
+        });
     }
 
     private void simulateEnterPressed() {

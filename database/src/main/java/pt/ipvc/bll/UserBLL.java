@@ -55,4 +55,6 @@ public class UserBLL {
     }
 
     public static List<User> indexClients() { return Database.query("user.client_index").getResultList(); }
+
+    public static List<User> indexDrivers() { return Database.query("user.driver_index").getResultList(); }
 }

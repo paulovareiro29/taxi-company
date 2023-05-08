@@ -60,6 +60,7 @@ public class CreateBookingPopup extends Popup {
         pickupDateField = new DateTimePicker();
         pickupDateField.setPrefWidth(Double.MAX_VALUE);
         pickupDateField.setPromptText("Pickup date");
+        pickupDateField.disablePastDates();
 
         Button cancelButton = new Button("Cancel", ButtonAppearance.outlined_primary);
         Button submitButton = new Button("Create");
