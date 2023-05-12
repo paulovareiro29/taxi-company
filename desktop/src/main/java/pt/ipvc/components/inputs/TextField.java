@@ -7,6 +7,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import pt.ipvc.components.Icon;
 
 import java.util.Objects;
 
@@ -59,7 +60,7 @@ public class TextField extends VBox {
             this.icon = null;
         }
 
-        this.icon = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/pt/ipvc/assets/icons/" + icon))));
+        this.icon = new Icon(icon);
         wrapper.getChildren().add(0, this.icon);
         wrapper.getStyleClass().add("text-field__wrapper--icon");
     }
