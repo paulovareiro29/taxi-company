@@ -5,6 +5,7 @@ import pt.ipvc.base.Screen;
 import pt.ipvc.bll.BookingStateBLL;
 import pt.ipvc.bll.TripBLL;
 import pt.ipvc.components.Heading;
+import pt.ipvc.components.ScrollPane;
 import pt.ipvc.dal.Booking;
 import pt.ipvc.dal.Trip;
 import pt.ipvc.layout.items.InfoBookingItem;
@@ -23,8 +24,12 @@ public class ViewBookingScreen extends Screen {
         Heading title = new Heading("Booking info");
 
         container = new VBox(8);
+        ScrollPane scrollPane = new ScrollPane();
+        container.setFillWidth(true);
+        scrollPane.setContent(container);
+        scrollPane.setFitToWidth(true);
 
-        getChildren().addAll(title, container);
+        getChildren().addAll(title, scrollPane);
     }
 
     @Override
@@ -39,7 +44,7 @@ public class ViewBookingScreen extends Screen {
             container.getChildren().add(new PendingBookingItem(booking));
         }else if(state.equals(completed)) {
             Trip trip = TripBLL.getByBooking(booking);
-            container.getChildren().addAll(new InfoBookingItem(booking), new InfoTripItem(trip));
+            container.getChildren().addAll(new InfoBookingItem(booking), new Heading("Trip"), new InfoTripItem(trip));
         }else{
             container.getChildren().add(new InfoBookingItem(booking));
         }
