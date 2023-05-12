@@ -12,7 +12,8 @@ import java.util.UUID;
 @XmlRootElement
 @NamedQueries({
         @NamedQuery(name = "payment.index", query = "SELECT payment FROM Payment payment"),
-        @NamedQuery(name = "payment.count", query = "SELECT count(payment) FROM Payment payment")
+        @NamedQuery(name = "payment.count", query = "SELECT count(payment) FROM Payment payment"),
+        @NamedQuery(name = "payment.get_by_trip", query = "SELECT payment FROM Payment payment, Trip trip WHERE payment.trip.id = trip.id AND trip.id = :id")
 })
 public class Payment {
 

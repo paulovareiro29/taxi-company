@@ -1,6 +1,7 @@
 package pt.ipvc.bll;
 
 import pt.ipvc.dal.Payment;
+import pt.ipvc.dal.Trip;
 import pt.ipvc.database.Database;
 
 import java.util.List;
@@ -15,6 +16,12 @@ public class PaymentBLL {
 
     public static Payment get(UUID id) {
         return Database.find(Payment.class, id);
+    }
+
+    public static Payment getByTrip(Trip trip) {
+        return (Payment) Database.query("payment.get_by_trip")
+                .setParameter("id", trip.getId())
+                .getResultStream().findFirst().orElse(null);
     }
 
     public static void create(Payment entity) {

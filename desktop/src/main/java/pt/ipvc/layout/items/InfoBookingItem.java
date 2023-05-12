@@ -11,20 +11,14 @@ public class InfoBookingItem extends Card {
 
     public final Booking data;
 
-    private final Text clientText;
-    private final Text statusText;
-    private final Text originText;
-    private final Text destinationText;
-    private final Text occupancyText;
-    private final Text extraText;
-    private final Text pickupDateText;
-    private final Text taxiPlateText;
-    private final Text taxiModelText;
-
-
     public InfoBookingItem(Booking data) {
         this.data = data;
         setSpacing(24);
+
+        if(data == null) {
+            getChildren().add(new Text("No booking found"));
+            return;
+        }
 
         ColumnConstraints col1 = new ColumnConstraints();
         ColumnConstraints col2 = new ColumnConstraints();
@@ -34,13 +28,13 @@ public class InfoBookingItem extends Card {
         // ---------
 
         SmallLabel clientLabel = new SmallLabel("Client");
-        clientText = new Text(data.getClient().getEmail());
+        Text clientText = new Text(data.getClient().getEmail());
 
         VBox clientBox = new VBox(0);
         clientBox.getChildren().addAll(clientLabel, clientText);
 
         SmallLabel statusLabel = new SmallLabel("Status");
-        statusText = new Text(StringUtils.capitalize(data.getState().getName()));
+        Text statusText = new Text(StringUtils.capitalize(data.getState().getName()));
 
         VBox statusBox = new VBox(0);
         statusBox.getChildren().addAll(statusLabel, statusText);
@@ -53,13 +47,13 @@ public class InfoBookingItem extends Card {
 
         // -------
         SmallLabel originLabel = new SmallLabel("Origin");
-        originText = new Text(data.getOrigin());
+        Text originText = new Text(data.getOrigin());
 
         VBox originBox = new VBox(0);
         originBox.getChildren().addAll(originLabel, originText);
         // -------
         SmallLabel destinationLabel = new SmallLabel("Destination");
-        destinationText = new Text(data.getDestination());
+        Text destinationText = new Text(data.getDestination());
 
         VBox destinationBox = new VBox(0);
         destinationBox.getChildren().addAll(destinationLabel, destinationText);
@@ -71,35 +65,35 @@ public class InfoBookingItem extends Card {
         // -------
 
         SmallLabel occupancyLabel = new SmallLabel("Occupancy");
-        occupancyText = new Text("" + data.getOccupancy());
+        Text occupancyText = new Text("" + data.getOccupancy());
 
         VBox occupancyBox = new VBox();
         occupancyBox.getChildren().addAll(occupancyLabel, occupancyText);
         // -------
 
         SmallLabel extraLabel = new SmallLabel("Extra");
-        extraText = new Text(data.getExtra());
+        Text extraText = new Text(data.getExtra());
         if(extraText.getText().isBlank()) extraText.setText("No extra message");
 
         VBox extraBox = new VBox();
         extraBox.getChildren().addAll(extraLabel, extraText);
         // -------
         SmallLabel pickupDateLabel = new SmallLabel("Pickup date");
-        pickupDateText = new Text(data.getPickupDate().toString());
+        Text pickupDateText = new Text(data.getPickupDate().toString());
 
         VBox pickupDateBox = new VBox();
         pickupDateBox.getChildren().addAll(pickupDateLabel, pickupDateText);
         // -------
 
         SmallLabel taxiPlateLabel = new SmallLabel("Taxi Plate");
-        taxiPlateText = new Text(data.getTaxi().getLicensePlate());
+        Text taxiPlateText = new Text(data.getTaxi().getLicensePlate());
 
         VBox taxiPlateBox = new VBox();
         taxiPlateBox.getChildren().addAll(taxiPlateLabel, taxiPlateText);
 
 
         SmallLabel taxiModelLabel = new SmallLabel("Taxi Model");
-        taxiModelText = new Text(data.getTaxi().getModel().getBrand().getName() + " - " + data.getTaxi().getModel().getName());
+        Text taxiModelText = new Text(data.getTaxi().getModel().getBrand().getName() + " - " + data.getTaxi().getModel().getName());
 
         VBox taxiModelBox = new VBox();
         taxiModelBox.getChildren().addAll(taxiModelLabel, taxiModelText);

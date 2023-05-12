@@ -10,17 +10,14 @@ import pt.ipvc.dal.Trip;
 
 public class InfoTripItem extends Card {
 
-    private final Trip data;
-
-    private final Text driverText;
-    private final Text pickupText;
-    private final Text dropoffText;
-    private final Text priceText;
-
 
     public InfoTripItem(Trip data) {
-        this.data = data;
         setSpacing(24);
+
+        if(data == null) {
+            getChildren().add(new Text("No trip found"));
+            return;
+        }
 
         ColumnConstraints col1 = new ColumnConstraints();
         ColumnConstraints col2 = new ColumnConstraints();
@@ -29,20 +26,20 @@ public class InfoTripItem extends Card {
 
         // -------
         SmallLabel driverLabel = new SmallLabel("Driver");
-        driverText = new Text(data.getEmployee().getEmail());
+        Text driverText = new Text(data.getEmployee().getEmail());
 
         VBox driverBox = new VBox(0);
         driverBox.getChildren().addAll(driverLabel, driverText);
         // -------
 
         SmallLabel pickupLabel = new SmallLabel("Pickup Date");
-        pickupText = new Text(data.getPickupDate().toString());
+        Text pickupText = new Text(data.getPickupDate().toString());
 
         VBox pickupBox = new VBox(0);
         pickupBox.getChildren().addAll(pickupLabel, pickupText);
         // -------
         SmallLabel dropoffLabel = new SmallLabel("Dropoff Date");
-        dropoffText = new Text(data.getDropoffDate().toString());
+        Text dropoffText = new Text(data.getDropoffDate().toString());
 
         VBox dropoffBox = new VBox(0);
         dropoffBox.getChildren().addAll(dropoffLabel, dropoffText);
@@ -54,7 +51,7 @@ public class InfoTripItem extends Card {
         // -------
 
         SmallLabel priceLabel = new SmallLabel("Price");
-        priceText = new Text(data.getPrice().toString() + " €");
+        Text priceText = new Text(data.getPrice().toString() + " €");
 
         VBox priceBox = new VBox(0);
         priceBox.getChildren().addAll(priceLabel, priceText);
