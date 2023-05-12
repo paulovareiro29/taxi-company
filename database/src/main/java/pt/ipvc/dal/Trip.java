@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.UUID;
 
 @Entity
@@ -11,6 +12,7 @@ import java.util.UUID;
 @NamedQueries({
         @NamedQuery(name = "trip.index", query = "SELECT trip FROM Trip trip WHERE deletedAt = null"),
         @NamedQuery(name = "trip.count", query = "SELECT count(trip) FROM Trip trip WHERE deletedAt = null"),
+        @NamedQuery(name ="trip.get_by_booking", query = "SELECT trip FROM Trip trip, Booking booking WHERE trip.booking.id = booking.id AND booking.id = :id AND trip.deletedAt = null")
 })
 public class Trip {
 
@@ -20,10 +22,10 @@ public class Trip {
     private UUID id;
     
     @Column(name = "pickup_date", nullable = false)
-    private Timestamp pickupDate;
+    private Date pickupDate;
 
     @Column(name = "dropoff_date", nullable = false)
-    private Timestamp dropoffDate;
+    private Date dropoffDate;
 
     @Column(name = "price", nullable = false)
     private Float price;
@@ -38,10 +40,10 @@ public class Trip {
 
     @Column(name = "created_at")
     @CreationTimestamp
-    private Timestamp createdAt;
+    private Date createdAt;
 
     @Column(name = "deleted_at")
-    private Timestamp deletedAt;
+    private Date deletedAt;
 
     public Trip() {}
 
@@ -58,7 +60,7 @@ public class Trip {
         return id;
     }
 
-    public Timestamp getPickupDate() {
+    public Date getPickupDate() {
         return pickupDate;
     }
 
@@ -66,11 +68,11 @@ public class Trip {
         this.pickupDate = pickupDate;
     }
 
-    public Timestamp getDropoffDate() {
+    public Date getDropoffDate() {
         return dropoffDate;
     }
 
-    public void setDropoffDate(Timestamp dropoffDate) {
+    public void setDropoffDate(Date dropoffDate) {
         this.dropoffDate = dropoffDate;
     }
 
@@ -98,20 +100,20 @@ public class Trip {
         this.booking = booking;
     }
 
-    public Timestamp getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Timestamp createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 
 
-    public Timestamp getDeletedAt() {
+    public Date getDeletedAt() {
         return deletedAt;
     }
 
-    public void setDeletedAt(Timestamp deletedAt) {
+    public void setDeletedAt(Date deletedAt) {
         this.deletedAt = deletedAt;
     }
 }

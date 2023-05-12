@@ -1,5 +1,6 @@
 package pt.ipvc.bll;
 
+import pt.ipvc.dal.Booking;
 import pt.ipvc.dal.Trip;
 import pt.ipvc.database.Database;
 
@@ -17,6 +18,12 @@ public class TripBLL {
 
     public static Trip get(UUID id) {
         return Database.find(Trip.class, id);
+    }
+
+    public static Trip getByBooking(Booking booking) {
+        return (Trip) Database.query("trip.get_by_booking")
+                .setParameter("id", booking.getId())
+                .getResultStream().findFirst().orElse(null);
     }
 
     public static void create(Trip entity) {

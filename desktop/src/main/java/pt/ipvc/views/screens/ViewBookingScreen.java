@@ -3,10 +3,12 @@ package pt.ipvc.views.screens;
 import javafx.scene.layout.VBox;
 import pt.ipvc.base.Screen;
 import pt.ipvc.bll.BookingStateBLL;
+import pt.ipvc.bll.TripBLL;
 import pt.ipvc.components.Heading;
 import pt.ipvc.dal.Booking;
-import pt.ipvc.layout.items.CompletedBookingItem;
+import pt.ipvc.dal.Trip;
 import pt.ipvc.layout.items.InfoBookingItem;
+import pt.ipvc.layout.items.InfoTripItem;
 import pt.ipvc.layout.items.PendingBookingItem;
 
 import java.util.UUID;
@@ -36,7 +38,8 @@ public class ViewBookingScreen extends Screen {
         if (state.equals(pending)) {
             container.getChildren().add(new PendingBookingItem(booking));
         }else if(state.equals(completed)) {
-            container.getChildren().add(new CompletedBookingItem(booking));
+            Trip trip = TripBLL.getByBooking(booking);
+            container.getChildren().addAll(new InfoBookingItem(booking), new InfoTripItem(trip));
         }else{
             container.getChildren().add(new InfoBookingItem(booking));
         }
