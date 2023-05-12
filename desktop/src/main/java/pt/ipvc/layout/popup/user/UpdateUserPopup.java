@@ -8,6 +8,7 @@ import pt.ipvc.base.EventListener;
 import pt.ipvc.base.Popup;
 import pt.ipvc.base.Scene;
 import pt.ipvc.bll.RoleBLL;
+import pt.ipvc.bll.SessionBLL;
 import pt.ipvc.bll.UserBLL;
 import pt.ipvc.components.buttons.Button;
 import pt.ipvc.components.buttons.ButtonAppearance;
@@ -180,6 +181,16 @@ public class UpdateUserPopup extends Popup {
     @Override
     public void update() {
         this.setTitle(user.getEmail());
+
+        roleField.getItems().clear();
+        roleField.getItems().setAll(RoleBLL.index().stream()
+                .filter(role -> !(SessionBLL.getAuthenticatedUser().getRole().getName().equalsIgnoreCase(RoleBLL.getSecretaryRole().getName())
+                        && role.getName().equalsIgnoreCase(RoleBLL.getAdminRole().getName())))
+                .map(role -> new ComboItem(StringUtils.capitalize(role.getName()), () -> {
+                    selectedRole = role;
+                }))
+                .collect(Collectors.toList()));
+
         nameField.getInput().setText(user.getName());
         phoneField.getInput().setText(user.getPhone());
         roleField.setValue(roleField.getItems().stream()

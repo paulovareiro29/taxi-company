@@ -93,12 +93,10 @@ public class CreateUserPopup extends Popup {
             hasError = true;
         }
 
-
-
         if  (hasError) return;
 
         try {
-            SessionBLL.register(nameField.getText().trim(), emailField.getText().trim(), "", passwordField.getText().trim());
+            SessionBLL.register(nameField.getText().trim(), emailField.getText().trim(), "", passwordField.getText().trim(), selectedRole);
             listener.onSuccess();
             clearFields();
             clearErrors();
@@ -122,5 +120,15 @@ public class CreateUserPopup extends Popup {
     }
 
     @Override
-    public void update() {}
+    public void update() {
+        roleField.getItems().clear();
+        roleField.getItems().setAll(RoleBLL.index().stream()
+                        .filter(role -> !(SessionBLL.getAuthenticatedUser().getRole().getName().equalsIgnoreCase(RoleBLL.getSecretaryRole().getName())
+                                && role.getName().equalsIgnoreCase(RoleBLL.getAdminRole().getName())))
+                .map(role -> new ComboItem(StringUtils.capitalize(role.getName()), () -> {
+                    selectedRole = role;
+                }))
+                .collect(Collectors.toList()));
+        roleField.setValue(roleField.getItems().stream().filter(item -> item.getLabel().equalsIgnoreCase(RoleBLL.getClientRole().getName())).findFirst().orElse(null));
+    }
 }

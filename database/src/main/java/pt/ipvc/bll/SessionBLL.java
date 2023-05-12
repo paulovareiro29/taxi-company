@@ -1,5 +1,6 @@
 package pt.ipvc.bll;
 
+import pt.ipvc.dal.Role;
 import pt.ipvc.dal.User;
 import pt.ipvc.exceptions.EmailAlreadyInUseException;
 import pt.ipvc.utils.BCrypt;
@@ -27,13 +28,14 @@ public class SessionBLL {
         authenticatedUser = null;
     }
 
-    public static UUID register(String name, String email, String phone, String password) throws EmailAlreadyInUseException {
+    public static UUID register(String name, String email, String phone, String password, Role role) throws EmailAlreadyInUseException {
         User user = new User();
 
         user.setName(name);
         user.setEmail(email);
         user.setPhone(phone);
         user.setPassword(BCrypt.hashpw(password, BCrypt.gensalt()));
+        user.setRole(role);
 
         if(user.getRole() == null)
             user.setRole(RoleBLL.getClientRole());
