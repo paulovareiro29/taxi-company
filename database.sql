@@ -248,6 +248,30 @@ CREATE TRIGGER before_insert_bookings
     FOR EACH ROW
 EXECUTE FUNCTION check_employee_role_on_bookings();
 
+-----
+
+CREATE OR REPLACE FUNCTION check_payment_amount()
+    RETURNS TRIGGER AS $$
+DECLARE
+    trip_price FLOAT;
+BEGIN
+    SELECT t.price INTO trip_price
+    FROM trips t
+    WHERE t.id = NEW.trip_id;
+
+    IF NEW.amount = trip_price THEN
+        RETURN NEW;
+    ELSE
+        RAISE EXCEPTION 'Payment amount must be equal to the trip price.';
+    END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER before_insert_payments
+    BEFORE INSERT ON payments
+    FOR EACH ROW
+EXECUTE FUNCTION check_payment_amount();
+
 ----------------------
 -- INSERTS
 ----------------------
