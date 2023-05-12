@@ -5,6 +5,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import pt.ipvc.base.UIComponent;
+import pt.ipvc.bll.RoleBLL;
 import pt.ipvc.bll.SessionBLL;
 import pt.ipvc.components.sidebar.SidebarButton;
 import pt.ipvc.components.sidebar.SidebarSeparator;
@@ -13,29 +14,46 @@ import pt.ipvc.handlers.ScenesEnum;
 import pt.ipvc.handlers.ScreensEnum;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Sidebar extends VBox implements UIComponent {
 
+    ArrayList<SidebarButton> items;
+
     public Sidebar() {
         this.getStyleClass().add("sidebar");
+        SidebarButton homeButton = new SidebarButton("Home","dashboard.png", List.of(RoleBLL.getAdminRole(), RoleBLL.getSecretaryRole()), e -> changeRoute(ScreensEnum.HOME));
+        SidebarButton usersButton = new SidebarButton("Users","double-users.png", List.of(RoleBLL.getAdminRole(), RoleBLL.getSecretaryRole()), e -> changeRoute(ScreensEnum.USERS));
+        SidebarButton vehiclesButton = new SidebarButton("Vehicles","car.png", List.of(RoleBLL.getAdminRole()), e -> changeRoute(ScreensEnum.VEHICLES));
+        SidebarButton bookingsButton = new SidebarButton("Bookings","booking.png", List.of(RoleBLL.getAdminRole(), RoleBLL.getSecretaryRole()), e -> changeRoute(ScreensEnum.BOOKINGS));
+        SidebarButton methodsButton = new SidebarButton("Payment Methods","credit-card.png", List.of(RoleBLL.getAdminRole()), e -> changeRoute(ScreensEnum.PAYMENT_TYPES));
+        SidebarButton logoutButton = new SidebarButton("Logout", "logout.png", List.of(RoleBLL.getAdminRole(), RoleBLL.getSecretaryRole()), e -> {
+            SceneHandler.changeScene(ScenesEnum.LOGIN);
+            SessionBLL.logout();
+        });
+
+        items = new ArrayList<>();
+        items.add(homeButton);
+        items.add(usersButton);
+        items.add(vehiclesButton);
+        items.add(bookingsButton);
+        items.add(methodsButton);
+        items.add(logoutButton);
 
         VBox main = new VBox(8);
         VBox.setVgrow(main, Priority.ALWAYS);
         VBox secondary = new VBox(8);
 
         ArrayList<Node> MainItems = new ArrayList<>();
-        MainItems.add(new SidebarButton("Home","dashboard.png", e -> changeRoute(ScreensEnum.HOME)));
-        MainItems.add(new SidebarButton("Users","double-users.png", e -> changeRoute(ScreensEnum.USERS)));
-        MainItems.add(new SidebarButton("Vehicles","car.png", e -> changeRoute(ScreensEnum.VEHICLES)));
-        MainItems.add(new SidebarButton("Bookings","booking.png", e -> changeRoute(ScreensEnum.BOOKINGS)));
-        MainItems.add(new SidebarButton("Payment Methods","credit-card.png", e -> changeRoute(ScreensEnum.PAYMENT_TYPES)));
+        MainItems.add(homeButton);
+        MainItems.add(usersButton);
+        MainItems.add(vehiclesButton);
+        MainItems.add(bookingsButton);
+        MainItems.add(methodsButton);
         MainItems.add(new SidebarSeparator());
 
         ArrayList<Node> SecondaryItems = new ArrayList<>();
-        SecondaryItems.add(new SidebarButton("Logout", "logout.png",e -> {
-            SceneHandler.changeScene(ScenesEnum.LOGIN);
-            SessionBLL.logout();
-        }));
+        SecondaryItems.add(logoutButton);
 
 
         for(Node item : MainItems) {
@@ -57,6 +75,8 @@ public class Sidebar extends VBox implements UIComponent {
 
     @Override
     public void update() {
-
+        for(SidebarButton item : items) {
+            item.update();
+        }
     }
 }

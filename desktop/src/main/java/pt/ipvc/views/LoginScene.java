@@ -9,11 +9,13 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import pt.ipvc.base.Scene;
+import pt.ipvc.bll.RoleBLL;
 import pt.ipvc.bll.SessionBLL;
 import pt.ipvc.components.buttons.Button;
 import pt.ipvc.components.buttons.ButtonSize;
 import pt.ipvc.components.inputs.PasswordField;
 import pt.ipvc.components.inputs.TextField;
+import pt.ipvc.dal.User;
 import pt.ipvc.handlers.SceneHandler;
 import pt.ipvc.handlers.ScenesEnum;
 
@@ -84,6 +86,14 @@ public class LoginScene extends Scene {
         if (hasError) return;
 
         if(SessionBLL.login(emailField.getText(), passwordField.getText())){
+            User authenticatedUser = SessionBLL.getAuthenticatedUser();
+
+            if(authenticatedUser.getRole().getName().equals(RoleBLL.getClientRole().getName())
+                    || authenticatedUser.getRole().getName().equals(RoleBLL.getDriverRole().getName())) {
+                emailField.setError("Unauthorized");
+                return;
+            }
+
             SceneHandler.changeScene(ScenesEnum.DASHBOARD);
         }
     }
