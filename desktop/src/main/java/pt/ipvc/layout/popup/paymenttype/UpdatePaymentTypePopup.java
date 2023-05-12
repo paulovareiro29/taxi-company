@@ -118,8 +118,8 @@ public class UpdatePaymentTypePopup extends Popup {
 
     @Override
     public void update() {
-        nameField.getInput().setText(type.getName());
-        descriptionField.getInput().setText(type.getDescription());
+        nameField.setText(type.getName());
+        descriptionField.setText(type.getDescription());
     }
 
 }

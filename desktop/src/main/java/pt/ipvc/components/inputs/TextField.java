@@ -53,6 +53,10 @@ public class TextField extends VBox {
         return input.getText();
     }
 
+    public void setText(String text) {
+        input.setText(text != null ? text : "");
+    }
+
     public void setIcon(String icon) {
         if(icon == null) {
             wrapper.getChildren().remove(this.icon);

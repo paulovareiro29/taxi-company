@@ -55,17 +55,9 @@ public class UsersTable extends Table<User> {
         roleColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getRole().getName()));
         settingsColumn.setCellValueFactory(data -> new SimpleStringProperty(""));
         settingsColumn.setCellFactory(data -> {
-
             ButtonIconTableCell<User> cell = new ButtonIconTableCell<>("settings.png");
             cell.setOnClick(event -> {
                 User user = cell.getTableView().getItems().get(cell.getIndex());
-
-                boolean visible = !(SessionBLL.getAuthenticatedUser().getRole().getName().equals(RoleBLL.getSecretaryRole().getName())
-                        && user.getRole().getName().equalsIgnoreCase(RoleBLL.getAdminRole().getName()));
-
-                if(!visible) cell.setGraphic(null);
-
-                if(!visible) return;
 
                 editPopup.setUser(user);
                 editPopup.show(SceneHandler.stage);

@@ -84,6 +84,6 @@ public class UpdateModelPopup extends Popup {
 
     @Override
     public void update() {
-        nameField.getInput().setText(model.getName());
+        nameField.setText(model.getName());
     }
 }

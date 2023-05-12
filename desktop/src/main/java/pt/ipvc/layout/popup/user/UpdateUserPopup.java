@@ -145,6 +145,11 @@ public class UpdateUserPopup extends Popup {
             hasError = true;
         }
 
+        if(selectedRole.getName().equalsIgnoreCase(RoleBLL.getDriverRole().getName()) && registrationNumberField.getText().isBlank()) {
+            registrationNumberField.setError("Registration number is required");
+            hasError = true;
+        }
+
         if(hasError) return;
 
         user.setName(nameField.getText());
@@ -182,28 +187,37 @@ public class UpdateUserPopup extends Popup {
     public void update() {
         this.setTitle(user.getEmail());
 
+        boolean authenticatedUserIsSecretary = SessionBLL.getAuthenticatedUser().getRole().getName().equalsIgnoreCase(RoleBLL.getSecretaryRole().getName());
+        selectedRole = user.getRole();
         roleField.getItems().clear();
+        roleField.setVisible(true);
+        roleField.setManaged(true);
         roleField.getItems().setAll(RoleBLL.index().stream()
-                .filter(role -> !(SessionBLL.getAuthenticatedUser().getRole().getName().equalsIgnoreCase(RoleBLL.getSecretaryRole().getName())
-                        && role.getName().equalsIgnoreCase(RoleBLL.getAdminRole().getName())))
+                .filter(role -> !(authenticatedUserIsSecretary && role.getName().equalsIgnoreCase(RoleBLL.getAdminRole().getName())))
                 .map(role -> new ComboItem(StringUtils.capitalize(role.getName()), () -> {
                     selectedRole = role;
+                    registrationNumberField.setVisible(selectedRole.getName().equals(RoleBLL.getDriverRole().getName()));
                 }))
                 .collect(Collectors.toList()));
 
-        nameField.getInput().setText(user.getName());
-        phoneField.getInput().setText(user.getPhone());
+        if(authenticatedUserIsSecretary && user.getRole().getName().equalsIgnoreCase(RoleBLL.getAdminRole().getName())) {
+            roleField.setVisible(false);
+            roleField.setManaged(false);
+        }
+
+        nameField.setText(user.getName());
+        phoneField.setText(user.getPhone());
         roleField.setValue(roleField.getItems().stream()
                 .filter(item -> item.getLabel().equalsIgnoreCase(user.getRole().getName()))
                 .findFirst().orElse(null));
-        registrationNumberField.getInput().setText(user.getRegistrationNumber());
+        registrationNumberField.setText(user.getRegistrationNumber());
         registrationNumberField.setVisible(selectedRole.getName().equals(RoleBLL.getDriverRole().getName()));
 
-        addressField.getInput().setText(user.getAddress());
-        houseNumberField.getInput().setText(user.getHouseNumber());
-        postalCodeField.getInput().setText(user.getPostalCode());
+        addressField.setText(user.getAddress());
+        houseNumberField.setText(user.getHouseNumber());
+        postalCodeField.setText(user.getPostalCode());
         Integer vat = user.getVAT();
-        vatField.getInput().setText(vat == 0 ? "" : String.valueOf(vat));
+        vatField.setText(vat == 0 ? "" : String.valueOf(vat));
 
     }
 }

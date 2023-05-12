@@ -25,6 +25,8 @@ public class CreateUserPopup extends Popup {
     private final TextField emailField;
     private final TextField passwordField;
     private final ComboBox roleField;
+    private final TextField registrationNumberField;
+
 
     public CreateUserPopup(EventListener listener) {
         super("New User", listener);
@@ -41,14 +43,20 @@ public class CreateUserPopup extends Popup {
         passwordField.setPromptText("Password");
         passwordField.setIcon("lock--secondary.png");
 
+        registrationNumberField = new TextField();
+        registrationNumberField.setIcon("card-details--secondary.png");
+        registrationNumberField.setPromptText("Registration Number");
+
         roleField = new ComboBox(RoleBLL.index().stream()
                 .map(role -> new ComboItem(StringUtils.capitalize(role.getName()), () -> {
                     selectedRole = role;
+                    registrationNumberField.setVisible(selectedRole.getName().equals(RoleBLL.getDriverRole().getName()));
                 }))
                 .collect(Collectors.toList()));
         roleField.setPrefWidth(Double.MAX_VALUE);
         roleField.setPromptText("Select role");
         roleField.setValue(roleField.getItems().stream().filter(item -> item.getLabel().equalsIgnoreCase(RoleBLL.getClientRole().getName())).findFirst().orElse(null));
+
 
         Button cancelButton = new Button("Cancel", ButtonAppearance.outlined_primary);
         Button submitButton = new Button("Create");
@@ -67,7 +75,7 @@ public class CreateUserPopup extends Popup {
         submitButton.setMaxWidth(Double.MAX_VALUE);
 
         options.getChildren().addAll(cancelButton, submitButton);
-        addChildren(nameField, emailField, roleField, passwordField, options);
+        addChildren(nameField, emailField, roleField, registrationNumberField, passwordField, options);
     }
 
     private void handleSubmitButton() {
@@ -85,6 +93,11 @@ public class CreateUserPopup extends Popup {
             hasError = true;
         }else if(!Validator.validateEmail(emailField.getText())){
             emailField.setError("Invalid email format");
+            hasError = true;
+        }
+
+        if(selectedRole.getName().equalsIgnoreCase(RoleBLL.getDriverRole().getName()) && registrationNumberField.getText().isBlank()) {
+            registrationNumberField.setError("Registration number is required");
             hasError = true;
         }
 
@@ -111,22 +124,26 @@ public class CreateUserPopup extends Popup {
         nameField.getInput().clear();
         emailField.getInput().clear();
         passwordField.getInput().clear();
+        registrationNumberField.getInput().clear();
     }
 
     private void clearErrors() {
         nameField.clearError();
         emailField.clearError();
         passwordField.clearError();
+        registrationNumberField.clearError();
     }
 
     @Override
     public void update() {
+        registrationNumberField.setVisible(false);
         roleField.getItems().clear();
         roleField.getItems().setAll(RoleBLL.index().stream()
                         .filter(role -> !(SessionBLL.getAuthenticatedUser().getRole().getName().equalsIgnoreCase(RoleBLL.getSecretaryRole().getName())
                                 && role.getName().equalsIgnoreCase(RoleBLL.getAdminRole().getName())))
                 .map(role -> new ComboItem(StringUtils.capitalize(role.getName()), () -> {
                     selectedRole = role;
+                    registrationNumberField.setVisible(selectedRole.getName().equals(RoleBLL.getDriverRole().getName()));
                 }))
                 .collect(Collectors.toList()));
         roleField.setValue(roleField.getItems().stream().filter(item -> item.getLabel().equalsIgnoreCase(RoleBLL.getClientRole().getName())).findFirst().orElse(null));

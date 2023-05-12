@@ -219,9 +219,9 @@ public class UpdateTaxiPopup extends Popup {
         if(models.size() > 0) modelField.getSelectionModel().select(0);
 
 
-        plateField.getInput().setText(taxi.getLicensePlate());
-        occupancyField.getInput().setText("" + taxi.getMaxOccupancy());
-        yearField.getInput().setText("" + taxi.getYear());
-        colorField.getInput().setText(taxi.getColor());
+        plateField.setText(taxi.getLicensePlate());
+        occupancyField.setText("" + taxi.getMaxOccupancy());
+        yearField.setText("" + taxi.getYear());
+        colorField.setText(taxi.getColor());
     }
 }

@@ -82,7 +82,7 @@ public class UpdateBrandPopup extends Popup {
 
     @Override
     public void update() {
-        nameField.getInput().setText(brand.getName());
+        nameField.setText(brand.getName());
     }
 
 }
