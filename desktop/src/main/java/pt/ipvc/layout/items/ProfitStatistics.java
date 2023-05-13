@@ -11,7 +11,7 @@ import pt.ipvc.layout.screen.SpaceBetweenRow;
 
 public class ProfitStatistics extends Card implements UIComponent {
 
-    private final VBox paymentsHistoryContainer;
+    private final VBox historyContainer;
     private final Text todayCount;
     private final Text weekCount;
     private final Text monthCount;
@@ -23,7 +23,7 @@ public class ProfitStatistics extends Card implements UIComponent {
         Text title = new Text("Payment statistics");
         title.setSize(20);
 
-        SmallLabel countLabel = new SmallLabel("Number of payments made:");
+        SmallLabel countLabel = new SmallLabel("Profit amount");
 
         todayCount = new Text("+0€");
         todayCount.setColor("-fx-color-success");
@@ -44,11 +44,11 @@ public class ProfitStatistics extends Card implements UIComponent {
                                     new SpaceBetweenRow(new Text("Last month"), monthCount),
                                     new SpaceBetweenRow(new Text("All time"),totalCount));
 
-        SmallLabel paymentsLabel = new SmallLabel("Last 10 payments");
-        paymentsHistoryContainer = new VBox();
+        SmallLabel historyLabel = new SmallLabel("Last 10 payments");
+        historyContainer = new VBox();
 
         VBox box = new VBox();
-        box.getChildren().addAll(paymentsLabel, paymentsHistoryContainer);
+        box.getChildren().addAll(historyLabel, historyContainer);
 
         getChildren().addAll(title, countBox, box);
     }
@@ -61,12 +61,12 @@ public class ProfitStatistics extends Card implements UIComponent {
         monthCount.setText("+" + PaymentBLL.monthProfit() + "€");
         totalCount.setText("+" + PaymentBLL.totalProfit() + "€");
 
-        paymentsHistoryContainer.getChildren().clear();
-        for(Payment payment : PaymentBLL.getLast10Payments()) {
+        historyContainer.getChildren().clear();
+        for(Payment payment : PaymentBLL.getLast10()) {
             Text profit = new Text("+" + payment.getAmount() + "€");
             profit.setColor("-fx-color-success");
 
-            paymentsHistoryContainer.getChildren().add(new SpaceBetweenRow(new Text(payment.getCreatedAt().toString()), profit));
+            historyContainer.getChildren().add(new SpaceBetweenRow(new Text(payment.getCreatedAt().toString()), profit));
         }
     }
 }

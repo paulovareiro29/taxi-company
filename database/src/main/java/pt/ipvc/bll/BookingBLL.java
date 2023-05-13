@@ -1,6 +1,7 @@
 package pt.ipvc.bll;
 
 import pt.ipvc.dal.Booking;
+import pt.ipvc.dal.Payment;
 import pt.ipvc.dal.User;
 import pt.ipvc.database.Database;
 
@@ -66,5 +67,12 @@ public class BookingBLL {
         return ((Long) Database.query("booking.count").getSingleResult()).intValue();
     }
 
+    public static List<Booking> getLast10() {
+        return (List<Booking>) Database.query("booking.index").setMaxResults(10).getResultList();
+    }
+
+    public static int countByState(String state) {
+        return ((Long) Database.query("booking.count_state").setParameter("state", state).getSingleResult()).intValue();
+    }
 }
 

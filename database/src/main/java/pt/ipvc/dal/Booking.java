@@ -11,8 +11,9 @@ import java.util.UUID;
 @Table(name = "bookings")
 @XmlRootElement
 @NamedQueries({
-        @NamedQuery(name = "booking.index", query = "SELECT booking FROM Booking booking WHERE deletedAt = null"),
-        @NamedQuery(name = "booking.count", query = "SELECT count(booking) FROM Booking booking WHERE deletedAt = null")
+        @NamedQuery(name = "booking.index", query = "SELECT booking FROM Booking booking WHERE deletedAt = null ORDER BY booking.createdAt DESC"),
+        @NamedQuery(name = "booking.count", query = "SELECT count(booking) FROM Booking booking WHERE deletedAt = null"),
+        @NamedQuery(name = "booking.count_state", query = "SELECT count(booking) FROM Booking booking JOIN booking.state state WHERE state.name LIKE :state AND booking.deletedAt = null")
 })
 public class Booking {
 

@@ -7,7 +7,6 @@ import pt.ipvc.database.Database;
 
 import java.sql.Date;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.UUID;
@@ -81,7 +80,7 @@ public class PaymentBLL {
                 .getResultStream().findFirst().orElse(null);
     }
 
-    public static List<Payment> getLast10Payments() {
+    public static List<Payment> getLast10() {
         return (List<Payment>) Database.query("payment.index").setMaxResults(10).getResultList();
     }
 }
