@@ -7,5 +7,6 @@ public enum ScreensEnum {
     BRANDS,
     BOOKINGS,
     VIEW_BOOKING,
-    PAYMENT_TYPES
+    PAYMENT_TYPES,
+    FEEDBACKS
 }

@@ -41,6 +41,7 @@ public class SceneHandler {
         screens.put(ScreensEnum.BOOKINGS, new BookingsScreen());
         screens.put(ScreensEnum.VIEW_BOOKING, new ViewBookingScreen());
         screens.put(ScreensEnum.PAYMENT_TYPES, new PaymentMethodsScreen());
+        screens.put(ScreensEnum.FEEDBACKS, new FeedBacksScreen());
     }
 
     public static void changeScene(ScenesEnum key) {

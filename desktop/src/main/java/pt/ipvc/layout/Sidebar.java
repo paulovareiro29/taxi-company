@@ -27,6 +27,7 @@ public class Sidebar extends VBox implements UIComponent {
         SidebarButton vehiclesButton = new SidebarButton("Vehicles","car.png", List.of(RoleBLL.getAdminRole()), e -> changeRoute(ScreensEnum.VEHICLES));
         SidebarButton bookingsButton = new SidebarButton("Bookings","booking.png", List.of(RoleBLL.getAdminRole(), RoleBLL.getSecretaryRole()), e -> changeRoute(ScreensEnum.BOOKINGS));
         SidebarButton methodsButton = new SidebarButton("Payment Methods","credit-card.png", List.of(RoleBLL.getAdminRole()), e -> changeRoute(ScreensEnum.PAYMENT_TYPES));
+        SidebarButton feedbacksButton = new SidebarButton("Trip Feedbacks","credit-card.png", List.of(RoleBLL.getAdminRole(), RoleBLL.getSecretaryRole()), e -> changeRoute(ScreensEnum.FEEDBACKS));
         SidebarButton logoutButton = new SidebarButton("Logout", "logout.png", List.of(RoleBLL.getAdminRole(), RoleBLL.getSecretaryRole()), e -> {
             SceneHandler.changeScene(ScenesEnum.LOGIN);
             SessionBLL.logout();
@@ -37,6 +38,7 @@ public class Sidebar extends VBox implements UIComponent {
         items.add(usersButton);
         items.add(vehiclesButton);
         items.add(bookingsButton);
+        items.add(feedbacksButton);
         items.add(methodsButton);
         items.add(logoutButton);
 
@@ -49,6 +51,7 @@ public class Sidebar extends VBox implements UIComponent {
         MainItems.add(usersButton);
         MainItems.add(vehiclesButton);
         MainItems.add(bookingsButton);
+        MainItems.add(feedbacksButton);
         MainItems.add(methodsButton);
         MainItems.add(new SidebarSeparator());
 
