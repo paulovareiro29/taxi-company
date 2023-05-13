@@ -10,9 +10,9 @@ import java.util.UUID;
 @Entity
 @Table(name = "trips")
 @NamedQueries({
-        @NamedQuery(name = "trip.index", query = "SELECT trip FROM Trip trip WHERE deletedAt = null"),
+        @NamedQuery(name = "trip.index", query = "SELECT trip FROM Trip trip WHERE deletedAt = null ORDER BY trip.createdAt DESC"),
         @NamedQuery(name = "trip.count", query = "SELECT count(trip) FROM Trip trip WHERE deletedAt = null"),
-        @NamedQuery(name ="trip.get_by_booking", query = "SELECT trip FROM Trip trip, Booking booking WHERE trip.booking.id = booking.id AND booking.id = :id AND trip.deletedAt = null")
+        @NamedQuery(name = "trip.get_by_booking", query = "SELECT trip FROM Trip trip, Booking booking WHERE trip.booking.id = booking.id AND booking.id = :id AND trip.deletedAt = null"),
 })
 public class Trip {
 
