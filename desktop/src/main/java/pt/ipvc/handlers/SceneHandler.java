@@ -14,6 +14,8 @@ public class SceneHandler {
     private static HashMap<ScreensEnum, Screen> screens;
     public static Stage stage;
 
+    private static ScreensEnum currentScreen;
+
     public static void load(Stage stage) {
         loadScenes();
         loadScreens();
@@ -52,6 +54,7 @@ public class SceneHandler {
     public static void changeScreen(ScreensEnum key) {
         DashboardScene dashboard = (DashboardScene) scenes.get(ScenesEnum.DASHBOARD);
         dashboard.changeScreen(screens.get(key));
+        currentScreen = key;
         dashboard.update();
     }
 
@@ -59,4 +62,7 @@ public class SceneHandler {
         screens.get(key).update();
     }
 
+    public static ScreensEnum getCurrentScreen() {
+        return currentScreen;
+    }
 }

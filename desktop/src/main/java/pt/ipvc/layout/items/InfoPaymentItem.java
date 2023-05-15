@@ -10,7 +10,7 @@ import pt.ipvc.dal.Payment;
 public class InfoPaymentItem extends Card {
 
     public InfoPaymentItem(Payment data) {
-        setSpacing(24);
+        setSpacing(12);
 
         if(data == null) {
             getChildren().add(new Text("No payment found"));

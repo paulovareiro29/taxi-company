@@ -3,17 +3,16 @@ package pt.ipvc.views.screens;
 import javafx.scene.layout.VBox;
 import pt.ipvc.base.Screen;
 import pt.ipvc.bll.BookingStateBLL;
+import pt.ipvc.bll.FeedbackBLL;
 import pt.ipvc.bll.PaymentBLL;
 import pt.ipvc.bll.TripBLL;
 import pt.ipvc.components.Heading;
 import pt.ipvc.components.ScrollPane;
 import pt.ipvc.dal.Booking;
+import pt.ipvc.dal.Feedback;
 import pt.ipvc.dal.Payment;
 import pt.ipvc.dal.Trip;
-import pt.ipvc.layout.items.InfoBookingItem;
-import pt.ipvc.layout.items.InfoPaymentItem;
-import pt.ipvc.layout.items.InfoTripItem;
-import pt.ipvc.layout.items.PendingBookingItem;
+import pt.ipvc.layout.items.*;
 
 import java.util.UUID;
 
@@ -48,8 +47,8 @@ public class ViewBookingScreen extends Screen {
         }else if(state.equals(completed)) {
             Trip trip = TripBLL.getByBooking(booking);
             Payment payment = PaymentBLL.getByTrip(trip);
-
-            container.getChildren().addAll(new InfoBookingItem(booking), new Heading("Trip"), new InfoTripItem(trip), new Heading("Payment info"), new InfoPaymentItem(payment));
+            Feedback feedback = FeedbackBLL.getByTrip(trip);
+            container.getChildren().addAll(new InfoBookingItem(booking), new Heading("Trip"), new InfoTripItem(trip), new Heading("Payment info"), new InfoPaymentItem(payment), new Heading("Feedback"), new FeedbackItem(feedback));
         }else{
             container.getChildren().add(new InfoBookingItem(booking));
         }

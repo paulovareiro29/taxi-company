@@ -1,35 +1,24 @@
 package pt.ipvc.views.screens;
 
 import javafx.scene.Group;
-import pt.ipvc.base.ComboItem;
-import pt.ipvc.base.EventListener;
-import pt.ipvc.base.Popup;
+import javafx.scene.layout.VBox;
 import pt.ipvc.base.Screen;
+import pt.ipvc.bll.FeedbackBLL;
 import pt.ipvc.components.Heading;
-import pt.ipvc.components.buttons.Button;
-import pt.ipvc.components.inputs.ComboBox;
+import pt.ipvc.components.ScrollPane;
 import pt.ipvc.components.inputs.TextField;
-import pt.ipvc.handlers.SceneHandler;
-import pt.ipvc.layout.popup.user.CreateUserPopup;
+import pt.ipvc.layout.EmptyState;
+import pt.ipvc.layout.items.FeedbackItem;
 import pt.ipvc.layout.screen.ScreenHeader;
-import pt.ipvc.layout.table.FeedBacksTable;
-import pt.ipvc.layout.table.UsersTable;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class FeedBacksScreen extends Screen {
 
+    private final VBox container;
+
     public FeedBacksScreen() {
-
-
-        /* TABLE */
-        FeedBacksTable table = new FeedBacksTable();
-
 
         /* HEADER */
         Heading title = new Heading("Trip Feedbacks");
-        Button newUserButton = new Button("Add new");
 
 
         TextField userFilter = new TextField();
@@ -41,14 +30,34 @@ public class FeedBacksScreen extends Screen {
         ScreenHeader header = new ScreenHeader();
         header.addChildrenToLeft(title);
 
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setFitToWidth(true);
+        scrollPane.setHbarPolicy(javafx.scene.control.ScrollPane.ScrollBarPolicy.NEVER);
 
+        container = new VBox(8);
+        scrollPane.setContent(container);
+
+        refresh();
 
         /* ADD EVERYTHING TO SCREEN */
-        getChildren().addAll(header, table);
+        getChildren().addAll(header, scrollPane);
+    }
+
+    private void refresh() {
+        container.getChildren().clear();
+        FeedbackBLL.index()
+                .forEach(feedback -> {
+                    container.getChildren().add(new FeedbackItem(feedback));
+                });
+
+        if(container.getChildren().size() == 0){
+            container.getChildren().add(new EmptyState("No feedbacks found"));
+
+        }
     }
 
     @Override
     public void update() {
-
+        refresh();
     }
 }
