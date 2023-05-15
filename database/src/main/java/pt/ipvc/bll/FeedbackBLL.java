@@ -1,6 +1,8 @@
 package pt.ipvc.bll;
 
 import pt.ipvc.dal.Feedback;
+import pt.ipvc.dal.Payment;
+import pt.ipvc.dal.Trip;
 import pt.ipvc.database.Database;
 
 import java.util.List;
@@ -41,4 +43,9 @@ public class FeedbackBLL {
         return ((Long) Database.query("feedback.count").getSingleResult()).intValue();
     }
 
+    public static Feedback getByTrip(Trip trip) {
+        return (Feedback) Database.query("feedback.get_by_trip")
+                .setParameter("id", trip.getId())
+                .getResultStream().findFirst().orElse(null);
+    }
 }

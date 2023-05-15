@@ -14,6 +14,8 @@ public class SceneHandler {
     private static HashMap<ScreensEnum, Screen> screens;
     public static Stage stage;
 
+    private static ScreensEnum currentScreen;
+
     public static void load(Stage stage) {
         loadScenes();
         loadScreens();
@@ -41,6 +43,7 @@ public class SceneHandler {
         screens.put(ScreensEnum.BOOKINGS, new BookingsScreen());
         screens.put(ScreensEnum.VIEW_BOOKING, new ViewBookingScreen());
         screens.put(ScreensEnum.PAYMENT_TYPES, new PaymentMethodsScreen());
+        screens.put(ScreensEnum.FEEDBACKS, new FeedBacksScreen());
     }
 
     public static void changeScene(ScenesEnum key) {
@@ -51,6 +54,7 @@ public class SceneHandler {
     public static void changeScreen(ScreensEnum key) {
         DashboardScene dashboard = (DashboardScene) scenes.get(ScenesEnum.DASHBOARD);
         dashboard.changeScreen(screens.get(key));
+        currentScreen = key;
         dashboard.update();
     }
 
@@ -58,4 +62,7 @@ public class SceneHandler {
         screens.get(key).update();
     }
 
+    public static ScreensEnum getCurrentScreen() {
+        return currentScreen;
+    }
 }

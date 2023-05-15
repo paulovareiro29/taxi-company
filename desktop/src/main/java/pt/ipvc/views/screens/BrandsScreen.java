@@ -19,7 +19,7 @@ import pt.ipvc.layout.screen.ScreenHeader;
 
 public class BrandsScreen extends Screen {
 
-    private VBox container;
+    private final VBox container;
     private String filter;
 
     public BrandsScreen() {
