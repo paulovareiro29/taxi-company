@@ -272,6 +272,32 @@ CREATE TRIGGER before_insert_payments
     FOR EACH ROW
 EXECUTE FUNCTION check_payment_amount();
 
+-----
+
+CREATE OR REPLACE FUNCTION check_taxi_capacity()
+RETURNS TRIGGER AS $$
+DECLARE
+    taxi_capacity INT;
+    booking_occupancy INT;
+BEGIN
+    SELECT max_occupancy INTO taxi_capacity FROM taxis WHERE id = NEW.taxi_id;
+	IF (TG_OP = 'UPDATE') THEN
+            SELECT occupancy INTO booking_occupancy FROM bookings WHERE id = NEW.id;
+	ELSIF(TG_OP = 'INSERT') THEN
+			SELECT NEW.occupancy INTO booking_occupancy;
+	END IF;
+    IF booking_occupancy > taxi_capacity THEN
+        RAISE EXCEPTION 'The taxi does not have enough capacity for this booking.';
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER check_taxi_capacity_before_update
+BEFORE INSERT OR UPDATE ON bookings
+FOR EACH ROW
+EXECUTE FUNCTION check_taxi_capacity();
+
 ----------------------
 -- INSERTS
 ----------------------
