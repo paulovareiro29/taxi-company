@@ -23,6 +23,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class PendingBookingItem extends Card {
@@ -82,10 +83,24 @@ public class PendingBookingItem extends Card {
 
         List<Taxi> taxis = TaxiBLL.index();
         taxiField.setItems(taxis.stream()
-                .map(taxi -> new ComboItem(taxi.getLicensePlate(), () -> {
-                    selectedTaxi = taxi;
-                }))
-                .collect(Collectors.toList()));
+                        .filter(t -> t.getMaxOccupancy() >= (occupancyField.getText().equals("") ? 0 : Integer.parseInt(occupancyField.getText())))
+                        .map(taxi -> new ComboItem(taxi.getLicensePlate(), () -> {
+                            selectedTaxi = taxi;
+                        }))
+                        .collect(Collectors.toList()));
+
+        occupancyField.getInput().textProperty()
+                .addListener((observable, oldValue, newValue) -> {
+                    int newOccupancy = occupancyField.getText().equals("") ? 0 : Integer.parseInt(occupancyField.getText());
+
+                    List<Taxi> taxisList = TaxiBLL.index();
+                    taxiField.setItems(taxisList.stream()
+                            .filter(t -> t.getMaxOccupancy() >= newOccupancy)
+                            .map(taxi -> new ComboItem(taxi.getLicensePlate(), () -> {
+                                selectedTaxi = taxi;
+                            }))
+                            .collect(Collectors.toList()));
+                });
 
         if(taxis.size() > 0) {
             selectedTaxi = taxis.get(0);
