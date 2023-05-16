@@ -47,6 +47,7 @@ public class CreateUserPopup extends Popup {
         registrationNumberField.setIcon("card-details--secondary.png");
         registrationNumberField.setPromptText("Registration Number");
 
+        selectedRole = RoleBLL.getClientRole();
         roleField = new ComboBox(RoleBLL.index().stream()
                 .map(role -> new ComboItem(StringUtils.capitalize(role.getName()), () -> {
                     selectedRole = role;
