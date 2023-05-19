@@ -11,6 +11,7 @@ import java.util.UUID;
 @NamedQueries({
         @NamedQuery(name = "taxi.index", query = "SELECT taxi FROM Taxi taxi WHERE deletedAt = null"),
         @NamedQuery(name = "taxi.count", query = "SELECT count(taxi) FROM Taxi taxi WHERE deletedAt = null"),
+        @NamedQuery(name = "taxi.get_by_plate", query = "SELECT taxi FROM Taxi taxi WHERE taxi.licensePlate LIKE :plate AND taxi.deletedAt = null")
 })
 public class Taxi {
 

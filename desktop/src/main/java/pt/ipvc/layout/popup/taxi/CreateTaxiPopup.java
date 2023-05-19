@@ -117,6 +117,7 @@ public class CreateTaxiPopup extends Popup {
             clearErrors();
             hide();
         } catch(Exception e) {
+            plateField.setError(e.getMessage());
             listener.onFail();
         }
     }

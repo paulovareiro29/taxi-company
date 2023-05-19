@@ -1,9 +1,10 @@
 package pt.ipvc.bll;
 
-import org.w3c.dom.Entity;
 import pt.ipvc.dal.Model;
 import pt.ipvc.dal.Taxi;
+import pt.ipvc.dal.User;
 import pt.ipvc.database.Database;
+import pt.ipvc.exceptions.PlateAlreadyExistsException;
 
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -21,7 +22,16 @@ public class TaxiBLL {
         return Database.find(Taxi.class, id);
     }
 
-    public static void create(String plate, Model model, int maxOccupancy, int year, String color) {
+    public static Taxi getByPlate(String plate) {
+        return (Taxi) Database.query("taxi.get_by_plate")
+                .setParameter("plate", plate)
+                .getResultStream().findFirst().orElse(null);
+    }
+
+    public static void create(String plate, Model model, int maxOccupancy, int year, String color) throws PlateAlreadyExistsException {
+        if(getByPlate(plate) != null)
+            throw new PlateAlreadyExistsException();
+
         Taxi entity = new Taxi();
         entity.setLicensePlate(plate);
         entity.setModel(model);
