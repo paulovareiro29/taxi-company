@@ -12,18 +12,11 @@ dependencies {
     implementation 'com.dlsc.formsfx:formsfx:11.6.0'
 }
 
-
-
 sourceCompatibility = '11'
 targetCompatibility = '11'
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
-}
-
-application {
-    mainModule = 'pt.ipvc'
-    mainClass = 'pt.ipvc.LoginView'
 }
 
 javafx {

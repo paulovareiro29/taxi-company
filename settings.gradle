@@ -1,4 +1,5 @@
 rootProject.name = 'taxi-company'
 include 'database'
 include 'desktop'
+include 'web'
 
