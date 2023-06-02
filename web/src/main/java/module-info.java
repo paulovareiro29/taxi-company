@@ -8,5 +8,8 @@ module taxi.company.web.main {
 
     requires taxi.company.database.main;
     opens pt.ipvc to spring.core;
+    opens pt.ipvc.controllers to spring.beans;
+
     exports pt.ipvc;
+    exports pt.ipvc.controllers;
 }
