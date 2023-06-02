@@ -5,47 +5,51 @@ import jakarta.persistence.*;
 public class Database {
 
     private static final String PERSISTENCE_UNIT_NAME = "PROJECT_II_24473_26211" ;
-    private static final EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
-    private static EntityManager entityManager = factory.createEntityManager();
+    private static EntityManagerFactory factory;
+    private static EntityManager entityManager;
 
-    public static EntityManager getEntityManager() {
+    private static EntityManager getEntityManager() {
+        if (entityManager == null || !entityManager.isOpen()) {
+            factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+            entityManager = factory.createEntityManager();
+        }
         return entityManager;
     }
 
     public static Query query(String query) {
-        return entityManager.createNamedQuery(query);
+        return getEntityManager().createNamedQuery(query);
     }
 
     public static Query customQuery(String query) {
-        return entityManager.createQuery(query);
+        return getEntityManager().createQuery(query);
     }
 
     public static <T> T find(Class<T> type, Object key) {
-        return entityManager.find(type, key);
+        return getEntityManager().find(type, key);
     }
 
     public static void beginTransaction() {
-        entityManager.getTransaction().begin();
+        getEntityManager().getTransaction().begin();
     }
 
     public static void commitTransaction() {
-        entityManager.getTransaction().commit();
+        getEntityManager().getTransaction().commit();
     }
 
     public static void rollbackTransaction() {
-        entityManager.getTransaction().rollback();
+        getEntityManager().getTransaction().rollback();
     }
 
     public static void insert(Object entity) {
-        entityManager.persist(entity);
+        getEntityManager().persist(entity);
     }
 
     public static void update(Object entity) {
-        entityManager.merge(entity);
+        getEntityManager().merge(entity);
     }
 
     public static void delete(Object entity) {
-        entityManager.remove(entity);
+        getEntityManager().remove(entity);
     }
 
     public static void connect() {

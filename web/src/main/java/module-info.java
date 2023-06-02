@@ -7,9 +7,12 @@ module taxi.company.web.main {
     requires spring.beans;
 
     requires taxi.company.database.main;
+    requires java.validation;
+
     opens pt.ipvc to spring.core;
     opens pt.ipvc.controllers to spring.beans;
 
     exports pt.ipvc;
     exports pt.ipvc.controllers;
+    exports pt.ipvc.models;
 }

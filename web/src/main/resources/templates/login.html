@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link th:href="@{/css/main.css}" rel="stylesheet" />
+
+    <title>Taxi Company</title>
+</head>
+<body class="bg-background">
+
+<main class="h-screen flex justify-center items-center">
+    <div class="w-[375px] flex flex-col items-center gap-4">
+        <h1 class="font-bold text-5xl leading-[54px] text-center">Login</h1>
+
+        <form class="flex flex-col gap-2 w-full" method="post" th:object="${user}" th:action="@{/login}">
+            <div>
+                <input type="email"
+                       th:field="*{email}"
+                       placeholder="Email"
+                       class="border rounded px-6 py-3 w-full"
+                       th:classappend="${#fields.hasErrors('email')} ? 'border-danger' : 'border-tertiary'"/>
+
+                <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-sm text-danger"></span>
+            </div>
+
+            <div>
+                <input type="password"
+                       th:field="*{password}"
+                       placeholder="Password"
+                       class="border rounded px-6 py-3 w-full"
+                       th:classappend="${#fields.hasErrors('password')} ? 'border-danger' : 'border-tertiary'"/>
+
+                <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="text-sm text-danger"></span>
+            </div>
+
+            <button type="submit" class="bg-primary text-white hover:bg-dark-primary rounded px-6 py-3 w-full">Submit</button>
+        </form>
+
+        <img th:src="@{/assets/logo.png}" class="opacity-20 h-16 mt-4"/>
+    </div>
+</main>
+
+<footer class="flex justify-center w-full p-12 absolute bottom-0">
+</footer>
+
+</body>
+</html>
