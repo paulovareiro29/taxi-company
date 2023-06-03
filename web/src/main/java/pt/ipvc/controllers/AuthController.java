@@ -19,6 +19,8 @@ public class AuthController {
 
     @GetMapping(value="/register")
     public String register(Model model) {
+        if(SessionBLL.isAuthenticated()) return "redirect:/";
+
         model.addAttribute("user", new RegisterUserFormData());
         return "register";
     }
@@ -45,6 +47,8 @@ public class AuthController {
 
     @GetMapping(value="/login")
     public String login(Model model) {
+        if(SessionBLL.isAuthenticated()) return "redirect:/";
+
         model.addAttribute("user", new RegisterUserFormData());
         return "login";
     }
@@ -60,6 +64,6 @@ public class AuthController {
             return "login";
         }
 
-        return "redirect:/index";
+        return "redirect:/";
     }
 }

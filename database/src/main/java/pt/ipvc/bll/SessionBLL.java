@@ -49,4 +49,6 @@ public class SessionBLL {
     public static User getAuthenticatedUser() {
         return authenticatedUser;
     }
+
+    public static boolean isAuthenticated() { return authenticatedUser != null; }
 }
