@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link th:href="@{/css/main.css}" rel="stylesheet" />
+
+    <title>Taxi Company</title>
+</head>
+<body class="bg-background">
+<header class="bg-primary px-3 py-4">
+    <div class="wrapper flex items-center gap-4">
+        <div class="mr-8">
+            <img th:src="@{/assets/logo.png}" class="h-8"/>
+        </div>
+        <nav class="grow flex gap-8 [&>*]:font-bold">
+            <a class="text-white" href="/">Home</a>
+            <a class="text-white" href="/trips">My Trips</a>
+            <a class="text-white" href="/aboutus">About Us</a>
+            <a class="text-white" href="/contacts">Contacts</a>
+        </nav>
+        <div th:object="${auth}" class="flex justify-end gap-2">
+            <p class="text-white font-light">Hello <span th:text="*{getName()}" class="text-white"></span>!</p>
+        </div>
+    </div>
+</header>
+
+<main th:if="${auth.getRole().getName().equalsIgnoreCase('client')}" class="wrapper">
+    <h1 class="text-3xl font-bold mb-6 mt-12">My Trips</h1>
+
+    <table class="w-full text-sm text-left border border-tertiary">
+        <thead>
+            <tr class="bg-white border-b">
+                <th class="px-6 py-4 font-normal text-text-secondary">Origin</th>
+                <th class="px-6 py-4 font-normal text-text-secondary">Pickup Date</th>
+                <th class="px-6 py-4 font-normal text-text-secondary">Destination</th>
+                <th class="px-6 py-4 font-normal text-text-secondary">Status</th>
+                <th class="px-6 py-4 font-normal text-text-secondary"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="booking : ${bookings}" class="bg-white border-b odd:bg-background">
+                <td class="px-6 py-4" th:text="${booking.getOrigin()}"></td>
+                <td class="px-6 py-4" th:text="${booking.getDestination()}"></td>
+                <td class="px-6 py-4" th:text="${booking.getPickupDate()}"></td>
+                <td class="px-6 py-4" th:text="${booking.getState().getName()}"></td>
+                <td class="px-6 py-4"><a th:href="'/view-trip?id=' + ${booking.getId()}"><img th:src="@{/assets/icons/eye.svg}" class="w-6"/></a></td>
+            </tr>
+        </tbody>
+    </table>
+</main>
+</body>

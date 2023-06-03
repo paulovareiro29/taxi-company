@@ -21,8 +21,6 @@ public class WebController {
 
     @GetMapping(value="/")
     public String Index(Model model) {
-        SessionBLL.login("paulovareiro@ipvc.pt","paulovareiro");
-
         if(!SessionBLL.isAuthenticated()) return "redirect:/login";
 
         model.addAttribute("auth", SessionBLL.getAuthenticatedUser());

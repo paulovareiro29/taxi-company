@@ -40,6 +40,7 @@ public class BookingBLL {
             Database.rollbackTransaction();
         }
     }
+
     public static void update(Booking entity) {
         try {
             Database.beginTransaction();
