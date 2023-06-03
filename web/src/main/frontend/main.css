@@ -8,3 +8,7 @@
     font-family: 'Inter', sans-serif;
     @apply text-text-primary
 }
+
+.wrapper {
+    @apply max-w-[1140px] mx-auto
+}

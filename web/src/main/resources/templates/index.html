@@ -6,9 +6,93 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link th:href="@{/css/main.css}" rel="stylesheet" />
 
-    <title>Index</title>
+    <title>Taxi Company</title>
 </head>
 <body>
-    <h1></h1>
+    <header class="bg-primary px-3 py-4">
+        <div class="wrapper flex items-center gap-4">
+            <div class="mr-8">
+                <img th:src="@{/assets/logo.png}" class="h-8"/>
+            </div>
+            <nav class="grow flex gap-8 [&>*]:font-bold">
+                <a class="text-white" href="/">Home</a>
+                <a class="text-white" href="/trips">My Trips</a>
+                <a class="text-white" href="/aboutus">About Us</a>
+                <a class="text-white" href="/contacts">Contacts</a>
+            </nav>
+            <div th:object="${auth}" class="flex justify-end gap-2">
+                <p class="text-white font-light">Hello <span th:text="*{getName()}" class="text-white"></span>!</p>
+            </div>
+        </div>
+    </header>
+
+    <main th:if="${auth.getRole().getName().equalsIgnoreCase('client')}" class="wrapper">
+        <section class="h-[calc(100vh-64px)] flex justify-between items-center">
+            <div class="mb-36">
+                <h1 class="text-5xl font-bold mb-4">Taxi Company</h1>
+                <h3 class="text-3xl">Your Trusted Partner for Safe <br> and Swift Travels!</h3>
+            </div>
+
+            <div class="w-[440px] flex flex-col items-center gap-4 mr-10 drop-shadow-md bg-white p-8 rounded border border-tertiary">
+                <h2 class="font-bold text-3xl text-center">Schedule a Trip</h2>
+
+                <form class="flex flex-col gap-3 w-full" method="post" th:action="@{/schedule}" th:object="${booking}" >
+                    <div>
+                        <input type="text"
+                               th:field="*{origin}"
+                               placeholder="Origin"
+                               class="border rounded px-6 py-3 w-full"
+                               th:classappend="${#fields.hasErrors('origin')} ? 'border-danger' : 'border-tertiary'"/>
+
+                        <span th:if="${#fields.hasErrors('origin')}" th:errors="*{origin}" class="text-sm text-danger"></span>
+                    </div>
+
+                    <div>
+                        <input type="text"
+                               th:field="*{destination}"
+                               placeholder="Destination"
+                               class="border rounded px-6 py-3 w-full"
+                               th:classappend="${#fields.hasErrors('destination')} ? 'border-danger' : 'border-tertiary'"/>
+
+                        <span th:if="${#fields.hasErrors('destination')}" th:errors="*{destination}" class="text-sm text-danger"></span>
+                    </div>
+
+                    <div>
+                        <input type="datetime-local"
+                               th:field="*{pickupDate}"
+                               placeholder="Pickup Date"
+                               class="border rounded px-6 py-3 w-full"
+                               th:classappend="${#fields.hasErrors('pickupDate')} ? 'border-danger' : 'border-tertiary'"/>
+
+                        <span th:if="${#fields.hasErrors('pickupDate')}" th:errors="*{pickupDate}" class="text-sm text-danger"></span>
+                    </div>
+
+                    <div>
+                        <input type="number" min="1" value="1"
+                               th:field="*{occupancy}"
+                               placeholder="Occupancy"
+                               class="border rounded px-6 py-3 w-full"
+                               th:classappend="${#fields.hasErrors('occupancy')} ? 'border-danger' : 'border-tertiary'"/>
+
+                        <span th:if="${#fields.hasErrors('occupancy')}" th:errors="*{occupancy}" class="text-sm text-danger"></span>
+                    </div>
+
+                    <div>
+                        <textarea
+                               th:field="*{extra}"
+                               placeholder="Extra"
+                               class="border rounded px-6 py-3 w-full resize-none"
+                               th:classappend="${#fields.hasErrors('extra')} ? 'border-danger' : 'border-tertiary'"></textarea>
+
+                        <span th:if="${#fields.hasErrors('extra')}" th:errors="*{extra}" class="text-sm text-danger"></span>
+                    </div>
+
+                    <button type="submit" class="bg-primary text-white hover:bg-dark-primary rounded px-6 py-3 w-full">Schedule</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!--main th:if="${auth.getRole().getName().equalsIgnoreCase('driver')}" class="wrapper">Cliente</main-->
 </body>
 </html>

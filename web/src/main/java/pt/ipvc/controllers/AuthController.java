@@ -18,7 +18,7 @@ import javax.validation.Valid;
 public class AuthController {
 
     @GetMapping(value="/register")
-    public String register(Model model) {
+    public String Register(Model model) {
         if(SessionBLL.isAuthenticated()) return "redirect:/";
 
         model.addAttribute("user", new RegisterUserFormData());
@@ -26,7 +26,7 @@ public class AuthController {
     }
 
     @PostMapping(value="/register")
-    public String registerSubmit(@Valid @ModelAttribute("user") RegisterUserFormData user, BindingResult result, Model model) {
+    public String RegisterSubmit(@Valid @ModelAttribute("user") RegisterUserFormData user, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "register";
         }
@@ -46,15 +46,15 @@ public class AuthController {
     }
 
     @GetMapping(value="/login")
-    public String login(Model model) {
+    public String Login(Model model) {
         if(SessionBLL.isAuthenticated()) return "redirect:/";
 
-        model.addAttribute("user", new RegisterUserFormData());
+        model.addAttribute("user", new LoginUserFormData());
         return "login";
     }
 
     @PostMapping(value="/login")
-    public String loginSubmit(@Valid @ModelAttribute("user") LoginUserFormData user, BindingResult result, Model model) {
+    public String LoginSubmit(@Valid @ModelAttribute("user") LoginUserFormData user, BindingResult result, Model model) {
         if(result.hasErrors()) {
             return "login";
         }
