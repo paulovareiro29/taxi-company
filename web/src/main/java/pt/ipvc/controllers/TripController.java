@@ -30,7 +30,6 @@ public class TripController {
 
     @GetMapping(value="/view-trip")
     public String ViewTrip(@RequestParam(value = "id", required = false) UUID id, Model model) {
-        SessionBLL.login("paulovareiro@ipvc.pt","paulovareiro");
         if(!SessionBLL.isAuthenticated()) return "redirect:/login";
 
         Booking booking = BookingBLL.get(id);

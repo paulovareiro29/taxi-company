@@ -20,8 +20,9 @@
                 <a class="text-white" href="/aboutus">About Us</a>
                 <a class="text-white" href="/contacts">Contacts</a>
             </nav>
-            <div th:object="${auth}" class="flex justify-end gap-2">
+            <div th:object="${auth}" class="flex justify-end items-center gap-2">
                 <p class="text-white font-light">Hello <span th:text="*{getName()}" class="text-white"></span>!</p>
+                <a th:href="@{/logout}" title="Logout"><img th:src="@{/assets/icons/logout.svg}" class="w-4"/></a>
             </div>
         </div>
     </header>
