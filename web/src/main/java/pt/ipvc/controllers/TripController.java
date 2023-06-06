@@ -8,6 +8,7 @@ import pt.ipvc.bll.*;
 import pt.ipvc.dal.*;
 import pt.ipvc.exceptions.FeedbackAlreadyExistsException;
 import pt.ipvc.models.FeedbackTripFormData;
+import pt.ipvc.models.PlateFormData;
 import pt.ipvc.models.RegisterUserFormData;
 
 import javax.validation.Valid;

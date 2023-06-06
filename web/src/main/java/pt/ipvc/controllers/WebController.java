@@ -8,7 +8,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import pt.ipvc.bll.BookingBLL;
 import pt.ipvc.bll.SessionBLL;
+import pt.ipvc.bll.TaxiBLL;
+import pt.ipvc.dal.Taxi;
 import pt.ipvc.dal.User;
+import pt.ipvc.models.PlateFormData;
 import pt.ipvc.models.ScheduleTripFormData;
 
 import javax.validation.Valid;
@@ -21,8 +24,10 @@ public class WebController {
 
     @GetMapping(value="/")
     public String Index(Model model) {
+        SessionBLL.login("driver@ipvc.pt","driver");
         model.addAttribute("auth", SessionBLL.getAuthenticatedUser());
         model.addAttribute("booking", new ScheduleTripFormData());
+        model.addAttribute("plate", new PlateFormData());
 
         return "index";
     }
@@ -33,7 +38,9 @@ public class WebController {
     }
 
     @PostMapping(value="/schedule")
-    public String ScheduleTripSubmit(@Valid @ModelAttribute("booking") ScheduleTripFormData booking, BindingResult result, Model model) {
+    public String ScheduleTripSubmit(@Valid @ModelAttribute("booking") ScheduleTripFormData booking,
+                                     BindingResult result,
+                                     Model model) {
         User auth = SessionBLL.getAuthenticatedUser();
         model.addAttribute("auth", auth);
 
@@ -53,5 +60,26 @@ public class WebController {
 
         BookingBLL.create(auth,booking.getOrigin(), booking.getDestination(), pickupDate, booking.getOccupancy(), booking.getExtra());
         return "redirect:/trips";
+    }
+
+    @PostMapping(value = "/select-taxi")
+    public String SelectTaxi(@Valid @ModelAttribute("plate") PlateFormData plate,
+                             BindingResult result,
+                             Model model) {
+        User auth = SessionBLL.getAuthenticatedUser();
+        model.addAttribute("auth", auth);
+
+        if (result.hasErrors()) {
+            return "index";
+        }
+
+        Taxi taxi = TaxiBLL.getByPlate(plate.getPlate());
+
+        if(taxi == null) {
+            result.rejectValue("plate","taxi.plate", "Car does not exist");
+            return "index";
+        }
+
+        return "redirect:/trips?taxi=" + taxi.getLicensePlate();
     }
 }

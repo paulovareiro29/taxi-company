@@ -41,6 +41,7 @@
                 </div>
             </div>
 
+            <!-- Formulário para o cliente fazer uma marcação -->
             <div th:if="${auth != null && auth.getRole().getName().equalsIgnoreCase('client')}"
                  class="w-[440px] flex flex-col items-center gap-4 mr-10 drop-shadow-md bg-white p-8 rounded border border-tertiary">
                 <h2 class="font-bold text-3xl text-center">Schedule a Trip</h2>
@@ -97,6 +98,26 @@
                     </div>
 
                     <button type="submit" class="bg-primary text-white hover:bg-dark-primary rounded px-6 py-3 w-full">Schedule</button>
+                </form>
+            </div>
+
+            <!-- Formulário para o condutor escolher o carro que está a utilizar hoje -->
+            <div th:if="${auth != null && auth.getRole().getName().equalsIgnoreCase('driver')}"
+                 class="w-[440px] flex flex-col items-center gap-4 mr-10 mb-48 drop-shadow-md bg-white p-8 rounded border border-tertiary">
+                <h2 class="font-bold text-3xl text-center">What car are you in today?</h2>
+
+                <form class="flex flex-col gap-3 w-full" th:object="${plate}" method="post" th:action="@{/select-taxi}">
+                    <div>
+                        <input type="text"
+                               th:field="*{plate}"
+                               placeholder="License Plate"
+                               class="border rounded px-6 py-3 w-full"
+                               th:classappend="${#fields.hasErrors('plate')} ? 'border-danger' : 'border-tertiary'"/>
+
+                        <span th:if="${#fields.hasErrors('plate')}" th:errors="*{plate}" class="text-sm text-danger"></span>
+                    </div>
+
+                    <button type="submit" class="bg-primary text-white hover:bg-dark-primary rounded px-6 py-3 w-full">View Trips</button>
                 </form>
             </div>
         </section>
