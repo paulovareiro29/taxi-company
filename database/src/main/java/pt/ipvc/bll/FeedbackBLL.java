@@ -1,9 +1,10 @@
 package pt.ipvc.bll;
 
 import pt.ipvc.dal.Feedback;
-import pt.ipvc.dal.Payment;
 import pt.ipvc.dal.Trip;
+import pt.ipvc.dal.User;
 import pt.ipvc.database.Database;
+import pt.ipvc.exceptions.FeedbackAlreadyExistsException;
 
 import java.util.List;
 import java.util.UUID;
@@ -19,7 +20,17 @@ public class FeedbackBLL {
         return Database.find(Feedback.class, id);
     }
 
-    public static void create(Feedback entity) {
+    public static void create(Trip trip, User client, int rating, String review) throws FeedbackAlreadyExistsException {
+
+        if(FeedbackBLL.getByTrip(trip) != null)
+            throw new FeedbackAlreadyExistsException();
+
+        Feedback entity = new Feedback();
+        entity.setTrip(trip);
+        entity.setClient(client);
+        entity.setRating(rating);
+        entity.setReview(review);
+
         Database.beginTransaction();
         Database.insert(entity);
         Database.commitTransaction();

@@ -8,6 +8,7 @@ module taxi.company.web.main {
 
     requires taxi.company.database.main;
     requires java.validation;
+    requires org.apache.tomcat.embed.core;
 
     opens pt.ipvc to spring.core;
     opens pt.ipvc.controllers to spring.beans;
