@@ -70,6 +70,6 @@ public class AuthController {
     @GetMapping(value="/logout")
     public String Logout() {
         SessionBLL.logout();
-        return "redirect:/login";
+        return "redirect:/";
     }
 }

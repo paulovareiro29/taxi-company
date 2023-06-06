@@ -21,8 +21,6 @@ public class WebController {
 
     @GetMapping(value="/")
     public String Index(Model model) {
-        if(!SessionBLL.isAuthenticated()) return "redirect:/login";
-
         model.addAttribute("auth", SessionBLL.getAuthenticatedUser());
         model.addAttribute("booking", new ScheduleTripFormData());
 

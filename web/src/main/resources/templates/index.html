@@ -9,32 +9,40 @@
     <title>Taxi Company</title>
 </head>
 <body class="bg-background">
-    <header class="bg-primary px-3 py-4">
+    <header class="bg-primary px-3 py-4" th:object="${auth}">
         <div class="wrapper flex items-center gap-4">
             <div class="mr-8">
                 <img th:src="@{/assets/logo.png}" class="h-8"/>
             </div>
             <nav class="grow flex gap-8 [&>*]:font-bold">
                 <a class="text-white" href="/">Home</a>
-                <a class="text-white" href="/trips">My Trips</a>
+                <a class="text-white" href="/trips" th:if="${auth != null}">My Trips</a>
                 <a class="text-white" href="/aboutus">About Us</a>
                 <a class="text-white" href="/contacts">Contacts</a>
             </nav>
-            <div th:object="${auth}" class="flex justify-end items-center gap-2">
+            <div th:if="${auth != null}" class="flex justify-end items-center gap-2">
                 <p class="text-white font-light">Hello <span th:text="*{getName()}" class="text-white"></span>!</p>
                 <a th:href="@{/logout}" title="Logout"><img th:src="@{/assets/icons/logout.svg}" class="w-4"/></a>
+            </div>
+            <div th:if="${auth == null}" class="flex justify-end items-center gap-2">
+                <a th:href="@{/login}" title="Login" class="text-white">Login</a>
+                <a th:href="@{/register}" title="Register" class="text-white">Register</a>
             </div>
         </div>
     </header>
 
-    <main th:if="${auth.getRole().getName().equalsIgnoreCase('client')}" class="wrapper">
+    <main class="wrapper">
         <section class="h-[calc(100vh-64px)] flex justify-between items-center">
             <div class="mb-36">
                 <h1 class="text-5xl font-bold mb-4">Taxi Company</h1>
                 <h3 class="text-3xl">Your Trusted Partner for Safe <br> and Swift Travels!</h3>
+                <div th:if="${auth == null}" class="mt-6">
+                    <a th:href="@{/login}" class="bg-primary text-white hover:bg-dark-primary rounded px-6 py-3">Login</a>
+                </div>
             </div>
 
-            <div class="w-[440px] flex flex-col items-center gap-4 mr-10 drop-shadow-md bg-white p-8 rounded border border-tertiary">
+            <div th:if="${auth != null && auth.getRole().getName().equalsIgnoreCase('client')}"
+                 class="w-[440px] flex flex-col items-center gap-4 mr-10 drop-shadow-md bg-white p-8 rounded border border-tertiary">
                 <h2 class="font-bold text-3xl text-center">Schedule a Trip</h2>
 
                 <form class="flex flex-col gap-3 w-full" method="post" th:action="@{/schedule}" th:object="${booking}" >
@@ -93,7 +101,5 @@
             </div>
         </section>
     </main>
-
-    <!--main th:if="${auth.getRole().getName().equalsIgnoreCase('driver')}" class="wrapper">Cliente</main-->
 </body>
 </html>
