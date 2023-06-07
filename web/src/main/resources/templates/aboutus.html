@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link th:href="@{/css/main.css}" rel="stylesheet" />
+
+    <title>Taxi Company</title>
+  </head>
+  <body class="bg-background">
+    <header class="bg-primary px-3 py-4" th:object="${auth}">
+      <div class="wrapper flex items-center gap-4">
+        <div class="mr-8">
+          <img th:src="@{/assets/logo.png}" class="h-8"/>
+        </div>
+        <nav class="grow flex gap-8 [&>*]:font-bold">
+          <a class="text-white" href="/">Home</a>
+          <a class="text-white" href="/trips" th:if="${auth != null}">My Trips</a>
+          <a class="text-white" href="/feedbacks" th:if="${auth != null}">My Feedbacks</a>
+          <a class="text-white" href="/aboutus">About Us</a>
+        </nav>
+        <div th:if="${auth != null}" class="flex justify-end items-center gap-2">
+          <p class="text-white font-light">Hello <span th:text="*{getName()}" class="text-white"></span>!</p>
+          <a th:href="@{/logout}" title="Logout"><img th:src="@{/assets/icons/logout.svg}" class="w-4"/></a>
+        </div>
+        <div th:if="${auth == null}" class="flex justify-end items-center gap-8">
+          <a th:href="@{/login}" title="Login" class="text-white">Login</a>
+          <a th:href="@{/register}" title="Register" class="text-white">Register</a>
+        </div>
+      </div>
+    </header>
+    <main class="wrapper">
+      <section class="mt-12 mb-12">
+        <h2 class="text-4xl font-bold mb-4">Welcome to Your Taxi Company</h2>
+        <p>
+          Your Taxi Company is a reliable and customer-centric taxi service provider dedicated to offering
+          convenient and comfortable transportation solutions. We pride ourselves on delivering exceptional
+          service to our clients, ensuring safe and efficient rides to their destinations.
+        </p>
+      </section>
+
+      <section class="mb-12">
+        <h2 class="text-4xl font-bold mb-4">Our Mission</h2>
+        <p>
+          At Your Taxi Company, our mission is to provide reliable, affordable, and professional transportation
+          services that exceed our customers' expectations. We strive to make every ride with us a pleasant
+          experience, focusing on punctuality, comfort, and customer satisfaction.
+        </p>
+      </section>
+
+      <section class="mb-12">
+        <h2 class="text-4xl font-bold mb-4">Our Fleet</h2>
+        <p>
+          Our fleet consists of a wide range of well-maintained and comfortable vehicles to cater to your
+          transportation needs. Whether you're traveling alone or with a group, we have taxis with varying
+          capacities to accommodate your requirements. Our vehicles are equipped with modern amenities to ensure
+          a comfortable and enjoyable journey.
+        </p>
+      </section>
+
+      <section class="mb-12">
+        <h2 class="text-4xl font-bold mb-4">Professional Drivers</h2>
+        <p>
+          We take pride in our team of professional and experienced drivers who are committed to providing a
+          safe and pleasant journey for our passengers. Our drivers are well-trained, licensed, and familiar
+          with the local routes, ensuring that you reach your destination on time and in a hassle-free manner.
+        </p>
+      </section>
+
+      <section class="mb-12">
+        <h2 class="text-4xl font-bold mb-4">Booking and Payment</h2>
+        <p>
+          Booking a taxi with Your Taxi Company is quick and convenient. You can easily book a ride through
+          our user-friendly website or by calling our dedicated helpline. We offer flexible payment options,
+          including cash and various digital payment methods, making it convenient for you to settle your fare.
+        </p>
+      </section>
+
+    </main>
+  </body>
+</html>

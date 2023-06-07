@@ -19,13 +19,12 @@
                 <a class="text-white" href="/trips" th:if="${auth != null}">My Trips</a>
                 <a class="text-white" href="/feedbacks" th:if="${auth != null}">My Feedbacks</a>
                 <a class="text-white" href="/aboutus">About Us</a>
-                <a class="text-white" href="/contacts">Contacts</a>
             </nav>
             <div th:if="${auth != null}" class="flex justify-end items-center gap-2">
                 <p class="text-white font-light">Hello <span th:text="*{getName()}" class="text-white"></span>!</p>
                 <a th:href="@{/logout}" title="Logout"><img th:src="@{/assets/icons/logout.svg}" class="w-4"/></a>
             </div>
-            <div th:if="${auth == null}" class="flex justify-end items-center gap-2">
+            <div th:if="${auth == null}" class="flex justify-end items-center gap-8">
                 <a th:href="@{/login}" title="Login" class="text-white">Login</a>
                 <a th:href="@{/register}" title="Register" class="text-white">Register</a>
             </div>

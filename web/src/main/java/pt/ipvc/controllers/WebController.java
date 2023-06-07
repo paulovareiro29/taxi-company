@@ -87,4 +87,11 @@ public class WebController {
 
         return "redirect:/trips?taxi=" + taxi.getLicensePlate();
     }
+
+    @GetMapping(value = "/aboutus")
+    public String AboutUs(HttpSession session, Model model) {
+        model.addAttribute("auth", (User) session.getAttribute("auth"));
+
+        return "aboutus";
+    }
 }
