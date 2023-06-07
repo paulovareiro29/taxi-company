@@ -30,6 +30,7 @@ public class TripController {
 
         Taxi taxi = TaxiBLL.getByPlate(taxiId);
         model.addAttribute("taxi", taxi);
+        model.addAttribute("completedTrips", TripBLL.index().stream().filter(t -> t.getEmployee().getEmail().equalsIgnoreCase(auth.getEmail())).collect(Collectors.toList()));
 
         if(taxi != null){
             List<Booking> bookings = BookingBLL.index().stream()
@@ -37,8 +38,8 @@ public class TripController {
 
             model.addAttribute("ongoingBookings", bookings.stream().filter(b -> b.getState().getName().equalsIgnoreCase("ongoing")).collect(Collectors.toList()));
             model.addAttribute("confirmedBookings",  bookings.stream().filter(b -> b.getState().getName().equalsIgnoreCase("confirmed")).collect(Collectors.toList()));
-            model.addAttribute("completedTrips", TripBLL.index().stream().filter(t -> t.getEmployee().getEmail().equalsIgnoreCase(auth.getEmail())).collect(Collectors.toList()));
         }
+
 
         return "trips";
     }

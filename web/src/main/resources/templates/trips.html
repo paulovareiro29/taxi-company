@@ -52,7 +52,9 @@
     </table>
 </main>
 
+<!-- Visão do condutor -->
 <main th:if="${auth.getRole().getName().equalsIgnoreCase('driver')}" class="wrapper">
+    <!-- Formulário para escolher um carro -->
     <div th:if="${taxi == null}"
          class="w-[440px] flex flex-col items-center gap-4  m-auto mt-12 drop-shadow-md bg-white p-8 rounded border border-tertiary">
         <h2 class="font-bold text-3xl text-center">What car are you in today?</h2>
@@ -71,7 +73,10 @@
             <button type="submit" class="bg-primary text-white hover:bg-dark-primary rounded px-6 py-3 w-full">View Trips</button>
         </form>
     </div>
+
+    <!-- Listas dos bookings -->
     <div th:if="${taxi != null}">
+        <!-- Viagem a decorrer -->
         <h1 class="text-3xl font-bold mb-6 mt-12">Your current trip</h1>
         <div th:each="booking : ${ongoingBookings}" th:object="${booking}" class="bg-white border border-tertiary rounded flex flex-col gap-4 p-6 mb-4">
             <div>
@@ -112,6 +117,7 @@
             <p>You have no ongoing trip!</p>
         </div>
 
+        <!-- Proximas viagens -->
         <h1 class="text-3xl font-bold mb-6 mt-12">Your next trips</h1>
         <div th:each="booking : ${confirmedBookings}" th:object="${booking}" class="bg-white border border-tertiary rounded flex flex-col gap-4 p-6 mb-4">
             <div>
@@ -148,42 +154,42 @@
 
             <a type="button" class="bg-primary text-white hover:bg-dark-primary rounded text-center px-6 py-3 w-full" th:if="${bookingStat.first && ongoingBookings.size() == 0}" th:href="'/start-trip/' + ${booking.getId()}">Start Trip</a>
         </div>
+    </div>
 
-        <h1 class="text-3xl font-bold mb-6 mt-12">Completed Trips</h1>
-        <div th:each="trip : ${completedTrips}" th:object="${trip}" class="bg-white border border-tertiary rounded flex flex-col gap-4 p-6 mb-4">
+    <!-- Viagens completadas -->
+    <h1 class="text-3xl font-bold mb-6 mt-12">Completed Trips</h1>
+    <div th:each="trip : ${completedTrips}" th:object="${trip}" class="bg-white border border-tertiary rounded flex flex-col gap-4 p-6 mb-4">
+        <div>
+            <h6 class="font-bold text-text-secondary">Booked by</h6>
+            <p th:text="*{getBooking().getBookedBy().getEmail()}"></p>
+        </div>
+
+        <div class="grid grid-cols-2">
             <div>
-                <h6 class="font-bold text-text-secondary">Booked by</h6>
-                <p th:text="*{getBooking().getBookedBy().getEmail()}"></p>
+                <h6 class="font-bold text-text-secondary">Origin</h6>
+                <p th:text="*{getBooking().getOrigin()}"></p>
             </div>
-
-            <div class="grid grid-cols-2">
-                <div>
-                    <h6 class="font-bold text-text-secondary">Origin</h6>
-                    <p th:text="*{getBooking().getOrigin()}"></p>
-                </div>
-                <div>
-                    <h6 class="font-bold text-text-secondary">Destination</h6>
-                    <p th:text="*{getBooking().getDestination()}"></p>
-                </div>
-            </div>
-
             <div>
-                <h6 class="font-bold text-text-secondary">Extra</h6>
-                <p th:text="*{getBooking().getExtra().isBlank()} ? 'No extra message' : *{getBooking().getExtra()}"></p>
-            </div>
-
-            <div class="grid grid-cols-2">
-                <div>
-                    <h6 class="font-bold text-text-secondary">Pickup Date</h6>
-                    <p th:text="*{getPickupDate()}"></p>
-                </div>
-                <div>
-                    <h6 class="font-bold text-text-secondary">Dropoff Date</h6>
-                    <p th:text="*{getDropoffDate()}"></p>
-                </div>
+                <h6 class="font-bold text-text-secondary">Destination</h6>
+                <p th:text="*{getBooking().getDestination()}"></p>
             </div>
         </div>
 
+        <div>
+            <h6 class="font-bold text-text-secondary">Extra</h6>
+            <p th:text="*{getBooking().getExtra().isBlank()} ? 'No extra message' : *{getBooking().getExtra()}"></p>
+        </div>
+
+        <div class="grid grid-cols-2">
+            <div>
+                <h6 class="font-bold text-text-secondary">Pickup Date</h6>
+                <p th:text="*{getPickupDate()}"></p>
+            </div>
+            <div>
+                <h6 class="font-bold text-text-secondary">Dropoff Date</h6>
+                <p th:text="*{getDropoffDate()}"></p>
+            </div>
+        </div>
     </div>
 </main>
 </body>

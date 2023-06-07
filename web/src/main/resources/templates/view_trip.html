@@ -27,6 +27,7 @@
     </div>
 </header>
 
+<!-- Visão do cliente -->
 <main th:if="${auth.getRole().getName().equalsIgnoreCase('client')}" class="wrapper flex flex-col gap-12 py-12">
     <section th:if="${booking != null}">
         <div class="flex justify-between items-center mb-4">
@@ -196,5 +197,9 @@
             </div>
         </div>
     </section>
+</main>
+
+<!-- Visão do condutor -->
+<main th:if="${auth.getRole().getName().equalsIgnoreCase('client')}" class="wrapper flex flex-col gap-12 py-12">
 </main>
 </body>
