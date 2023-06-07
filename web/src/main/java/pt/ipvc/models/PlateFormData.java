@@ -4,7 +4,7 @@ import javax.validation.constraints.NotBlank;
 
 public class PlateFormData {
 
-    @NotBlank
+    @NotBlank(message = "License plate is required")
     public String plate;
 
     public String getPlate() {

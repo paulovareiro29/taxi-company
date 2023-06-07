@@ -6,14 +6,14 @@ import javax.validation.constraints.NotNull;
 
 public class FinishTripFormData {
 
-    @NotBlank
-    @Min(0)
+    @NotBlank(message = "Price is required")
+    @Min(value = 0, message = "Price has a minimum value of 0")
     public String price;
 
-    @NotBlank
+    @NotBlank(message = "Payment method is required")
     public String paymentMethod;
 
-    @NotNull
+    @NotNull(message = "VAT Number cannot be null")
     public String vatNumber;
 
     public String getPrice() {

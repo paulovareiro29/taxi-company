@@ -3,10 +3,10 @@ package pt.ipvc.models;
 import javax.validation.constraints.NotBlank;
 
 public class LoginUserFormData {
-    @NotBlank
+    @NotBlank(message = "Email is required")
     public String email;
 
-    @NotBlank
+    @NotBlank(message = "Password is required")
     public String password;
 
     public String getEmail() {

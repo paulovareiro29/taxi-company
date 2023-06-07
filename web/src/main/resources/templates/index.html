@@ -20,7 +20,7 @@
                 <a class="text-white" href="/feedbacks" th:if="${auth != null}">My Feedbacks</a>
                 <a class="text-white" href="/aboutus">About Us</a>
             </nav>
-            <div th:if="${auth != null}" class="flex justify-end items-center gap-2">
+            <div th:if="${auth != null}" class="flex justify-end items-center gap-8">
                 <p class="text-white font-light">Hello <span th:text="*{getName()}" class="text-white"></span>!</p>
                 <a th:href="@{/logout}" title="Logout"><img th:src="@{/assets/icons/logout.svg}" class="w-4"/></a>
             </div>
@@ -32,7 +32,7 @@
     </header>
 
     <main class="wrapper">
-        <section class="h-[calc(100vh-64px)] flex justify-between items-center">
+        <section class="h-[calc(100vh-64px)] flex justify-between items-center relative">
             <div class="mb-36">
                 <h1 class="text-5xl font-bold mb-4">Taxi Company</h1>
                 <h3 class="text-3xl">Your Trusted Partner for Safe <br> and Swift Travels!</h3>
@@ -40,6 +40,9 @@
                     <a th:href="@{/login}" class="bg-primary text-white hover:bg-dark-primary rounded px-6 py-3">Login</a>
                 </div>
             </div>
+
+            <img th:if="${auth == null}" th:src="@{/assets/logo_black.png}" class="opacity-20 h-40 absolute top-48 right-24"/>
+
 
             <!-- Formulário para o cliente fazer uma marcação -->
             <div th:if="${auth != null && auth.getRole().getName().equalsIgnoreCase('client')}"

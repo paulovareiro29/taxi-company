@@ -2,18 +2,18 @@ package pt.ipvc.models;
 import javax.validation.constraints.*;
 
 public class RegisterUserFormData {
-    @NotBlank
+    @NotBlank(message = "Name is required")
     public String name;
 
-    @NotBlank
-    @Email
+    @NotBlank(message = "Email is required")
+    @Email(message = "Must be a valid email")
     public String email;
 
-    @NotBlank
-    @Size(min = 6, max = 20)
+    @NotBlank(message = "Password is required")
+    @Size(min = 6, message = "Password must have a minimum length of 6 characters")
     public String password;
 
-    @NotBlank
+    @NotBlank(message = "Confirm Password is required")
     public String confirmPassword;
 
     public String getName() {

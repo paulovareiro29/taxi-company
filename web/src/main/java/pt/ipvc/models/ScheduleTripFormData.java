@@ -1,7 +1,6 @@
 package pt.ipvc.models;
 
 import javax.validation.constraints.*;
-import java.util.Date;
 
 public class ScheduleTripFormData {
 
@@ -15,7 +14,7 @@ public class ScheduleTripFormData {
     public String pickupDate;
 
     @Min(value = 1, message = "Occupancy must be at least 1")
-    public int occupancy;
+    public int occupancy = 1;
 
     public String extra;
 

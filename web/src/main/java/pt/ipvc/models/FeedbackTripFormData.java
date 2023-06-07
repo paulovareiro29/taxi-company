@@ -7,12 +7,12 @@ import javax.validation.constraints.Positive;
 
 public class FeedbackTripFormData {
 
-    @NotBlank
+    @NotBlank(message = "Review is required")
     public String review;
 
-    @Positive
-    @Max(5)
-    @Min(1)
+    @Positive(message = "Rating cannot be negative")
+    @Max(value = 5, message = "Rating has a maximum of 5")
+    @Min(value = 1, message = "Rating has a minimum of 1")
     public int rating;
 
     public String getReview() {
