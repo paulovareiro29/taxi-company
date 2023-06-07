@@ -106,7 +106,7 @@
                 <p th:text="*{getExtra().isBlank()} ? 'No extra message' : *{getExtra()}"></p>
             </div>
 
-            <a type="button" class="bg-primary text-white hover:bg-dark-primary rounded text-center px-6 py-3 w-full" th:if="${bookingStat.first}" th:href="'/start-trip?id=' + ${booking.getId()}">Start Trip</a>
+            <a type="button" class="bg-info text-white rounded text-center px-6 py-3 w-full"th:href="'/view-trip?id=' + ${booking.getId()}">View Trip</a>
         </div>
         <div th:if="${ongoingBookings.size() == 0}" class="bg-white border border-tertiary rounded flex justify-center p-6 mb-4">
             <p>You have no ongoing trip!</p>
@@ -146,7 +146,7 @@
                 <p th:text="*{getExtra().isBlank()} ? 'No extra message' : *{getExtra()}"></p>
             </div>
 
-            <a type="button" class="bg-primary text-white hover:bg-dark-primary rounded text-center px-6 py-3 w-full" th:if="${bookingStat.first && ongoingBookings.size() == 0}" th:href="'/start-trip?id=' + ${booking.getId()}">Start Trip</a>
+            <a type="button" class="bg-primary text-white hover:bg-dark-primary rounded text-center px-6 py-3 w-full" th:if="${bookingStat.first && ongoingBookings.size() == 0}" th:href="'/start-trip/' + ${booking.getId()}">Start Trip</a>
         </div>
 
         <h1 class="text-3xl font-bold mb-6 mt-12">Completed Trips</h1>

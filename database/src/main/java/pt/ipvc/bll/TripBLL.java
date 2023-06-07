@@ -2,10 +2,12 @@ package pt.ipvc.bll;
 
 import pt.ipvc.dal.Booking;
 import pt.ipvc.dal.Trip;
+import pt.ipvc.dal.User;
 import pt.ipvc.database.Database;
 
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,7 +28,13 @@ public class TripBLL {
                 .getResultStream().findFirst().orElse(null);
     }
 
-    public static void create(Trip entity) {
+    public static void create(User employee, Date pickup, Date dropoff, float price) {
+        Trip entity = new Trip();
+        entity.setEmployee(employee);
+        entity.setPickupDate(pickup);
+        entity.setDropoffDate(dropoff);
+        entity.setPrice(price);
+
         Database.beginTransaction();
         Database.insert(entity);
         Database.commitTransaction();

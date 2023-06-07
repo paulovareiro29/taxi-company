@@ -24,7 +24,7 @@ public class Trip {
     @Column(name = "pickup_date", nullable = false)
     private Date pickupDate;
 
-    @Column(name = "dropoff_date", nullable = false)
+    @Column(name = "dropoff_date", nullable = true)
     private Date dropoffDate;
 
     @Column(name = "price", nullable = false)
@@ -64,7 +64,7 @@ public class Trip {
         return pickupDate;
     }
 
-    public void setPickupDate(Timestamp pickupDate) {
+    public void setPickupDate(Date pickupDate) {
         this.pickupDate = pickupDate;
     }
 

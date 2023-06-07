@@ -84,6 +84,19 @@ public class TripController {
         return "redirect:/trips";
     }
 
+    @GetMapping(value="/start-trip/{id}")
+    public String StartTrip(@PathVariable(value = "id", required = false) UUID id, Model model) {
+        if(!SessionBLL.isAuthenticated()) return "redirect:/login";
+
+        Booking booking = BookingBLL.get(id);
+        if(booking == null) return "redirect:/trips";
+
+        booking.setState(BookingStateBLL.getByName("ongoing"));
+        BookingBLL.update(booking);
+
+        return "redirect:/view-trip?id=" + booking.getId();
+    }
+
     @PostMapping(value = "/submit-feedback/{id}")
     public String SubmitFeedback(@PathVariable(value = "id", required = false) UUID id,
                                  @Valid @ModelAttribute("sendFeedback") FeedbackTripFormData feedback,
