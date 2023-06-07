@@ -27,7 +27,6 @@ public class WebController {
 
     @GetMapping(value="/")
     public String Index(Model model) {
-        SessionBLL.login("driver@ipvc.pt","driver");
         model.addAttribute("auth", SessionBLL.getAuthenticatedUser());
         model.addAttribute("booking", new ScheduleTripFormData());
         model.addAttribute("plate", new PlateFormData());

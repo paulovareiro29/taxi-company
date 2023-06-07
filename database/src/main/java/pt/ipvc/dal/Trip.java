@@ -24,7 +24,7 @@ public class Trip {
     @Column(name = "pickup_date", nullable = false)
     private Date pickupDate;
 
-    @Column(name = "dropoff_date", nullable = true)
+    @Column(name = "dropoff_date", nullable = false)
     private Date dropoffDate;
 
     @Column(name = "price", nullable = false)

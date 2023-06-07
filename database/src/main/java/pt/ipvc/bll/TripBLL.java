@@ -28,8 +28,9 @@ public class TripBLL {
                 .getResultStream().findFirst().orElse(null);
     }
 
-    public static void create(User employee, Date pickup, Date dropoff, float price) {
+    public static void create(Booking booking, User employee, Date pickup, Date dropoff, float price) {
         Trip entity = new Trip();
+        entity.setBooking(booking);
         entity.setEmployee(employee);
         entity.setPickupDate(pickup);
         entity.setDropoffDate(dropoff);

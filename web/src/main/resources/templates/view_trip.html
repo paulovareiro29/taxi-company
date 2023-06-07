@@ -107,7 +107,7 @@
 
             <div>
                 <h6 class="font-bold text-text-secondary">Extra</h6>
-                <p th:text="*{getExtra()}"></p>
+                <p th:text="*{getExtra().isBlank()} ? 'No extra message' : *{getExtra()}"></p>
             </div>
 
             <div class="grid grid-cols-2" th:if="*{getTaxi() != null}">
@@ -200,6 +200,111 @@
 </main>
 
 <!-- Visão do condutor -->
-<main th:if="${auth.getRole().getName().equalsIgnoreCase('client')}" class="wrapper flex flex-col gap-12 py-12">
+<main th:if="${auth.getRole().getName().equalsIgnoreCase('driver')}" class="wrapper flex flex-col gap-12 py-12">
+    <section th:if="${booking != null}">
+        <div class="flex justify-between items-center mb-4">
+            <h1 class="text-3xl font-bold">Booking</h1>
+            <button th:if="${booking.getState().getName().equalsIgnoreCase('ongoing')}"
+                    type="button"
+                    id="finish-trip-btn"
+                    class="bg-primary text-white rounded px-6 py-3">Finish Trip</button>
+        </div>
+
+        <!-- Formulário de escrever feedback-->
+        <form th:if="${booking.getState().getName().equalsIgnoreCase('ongoing')}"
+              th:object="${finishTrip}"
+              th:action="@{'/finish-trip/{id}'(id=${booking.getId()})}"
+              method="post"
+              id="finish-trip-form"
+              class="bg-white border border-tertiary rounded p-6 flex-col gap-4 mb-4 hidden">
+            <div class="flex gap-4 [&>*]:w-full">
+                <div>
+                    <input
+                            type="number"
+                            th:field="*{price}"
+                            min="0"
+                            placeholder="Price"
+                            class="border rounded px-6 py-3 w-full resize-none"
+                            th:classappend="${#fields.hasErrors('price')} ? 'border-danger' : 'border-tertiary'"/>
+
+                    <span th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="text-sm text-danger"></span>
+                </div>
+                <div>
+                    <input
+                            th:field="*{vatNumber}"
+                            placeholder="VAT Number"
+                            class="border rounded px-6 py-3 w-full resize-none"
+                            th:classappend="${#fields.hasErrors('vatNumber')} ? 'border-danger' : 'border-tertiary'"/>
+
+                    <span th:if="${#fields.hasErrors('vatNumber')}" th:errors="*{vatNumber}" class="text-sm text-danger"></span>
+                </div>
+            </div>
+
+            <div>
+                <select
+                        th:field="*{paymentMethod}"
+                        class="border rounded px-6 py-3 w-full resize-none"
+                        th:classappend="${#fields.hasErrors('paymentMethod')} ? 'border-danger' : 'border-tertiary'"
+                        required>
+                    <option value="">Select payment method</option>
+                    <option th:each="method : ${methods}" th:value="${method.getName()}" th:text="${method.getName()}"></option>
+                </select>
+
+                <span th:if="${#fields.hasErrors('paymentMethod')}" th:errors="*{paymentMethod}" class="text-sm text-danger"></span>
+            </div>
+            <div class="flex gap-4">
+                <button type="reset" class="bg-danger text-white rounded px-6 py-3 w-full">Cancel</button>
+                <button type="submit" class="bg-primary text-white hover:bg-dark-primary rounded px-6 py-3 w-full">Submit</button>
+            </div>
+        </form>
+
+        <!-- Informação sobre o booking-->
+        <div class="bg-white border border-tertiary rounded p-6 flex flex-col gap-4" th:object="${booking}">
+            <div class="grid grid-cols-2">
+                <div>
+                    <h6 class="font-bold text-text-secondary">Origin</h6>
+                    <p th:text="*{getOrigin()}"></p>
+                </div>
+                <div>
+                    <h6 class="font-bold text-text-secondary">Destination</h6>
+                    <p th:text="*{getDestination()}"></p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2">
+                <div>
+                    <h6 class="font-bold text-text-secondary">Pickup Date</h6>
+                    <p th:text="*{getPickupDate()}"></p>
+                </div>
+                <div>
+                    <h6 class="font-bold text-text-secondary">Status</h6>
+                    <p th:text="*{getState().getName()}"></p>
+                </div>
+            </div>
+
+            <div>
+                <h6 class="font-bold text-text-secondary">Occupancy</h6>
+                <p th:text="*{getOccupancy()}"></p>
+            </div>
+
+            <div>
+                <h6 class="font-bold text-text-secondary">Extra</h6>
+                <p th:text="*{getExtra().isBlank()} ? 'No extra message' : *{getExtra()}"></p>
+            </div>
+
+            <div class="grid grid-cols-2" th:if="*{getTaxi() != null}">
+                <div>
+                    <h6 class="font-bold text-text-secondary">Taxi Plate</h6>
+                    <p th:text="*{getTaxi().getLicensePlate()}"></p>
+                </div>
+                <div>
+                    <h6 class="font-bold text-text-secondary">Taxi Model</h6>
+                    <p th:text="*{getTaxi().getModel().getBrand().getName() + ' ' + getTaxi().getModel().getName()}"></p>
+                </div>
+            </div>
+        </div>
+
+
+    </section>
 </main>
 </body>

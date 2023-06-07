@@ -1,7 +1,9 @@
 package pt.ipvc.bll;
 
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Query;
 import pt.ipvc.dal.Payment;
+import pt.ipvc.dal.PaymentMethod;
 import pt.ipvc.dal.Trip;
 import pt.ipvc.database.Database;
 
@@ -22,7 +24,13 @@ public class PaymentBLL {
         return Database.find(Payment.class, id);
     }
 
-    public static void create(Payment entity) {
+    public static void create(Trip trip, PaymentMethod type, float amount, int vat) {
+        Payment entity = new Payment();
+        entity.setAmount(amount);
+        entity.setPaymentType(type);
+        entity.setTrip(trip);
+        entity.setVat(vat);
+
         Database.beginTransaction();
         Database.insert(entity);
         Database.commitTransaction();

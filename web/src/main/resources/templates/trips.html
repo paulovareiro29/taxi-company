@@ -154,10 +154,13 @@
 
             <a type="button" class="bg-primary text-white hover:bg-dark-primary rounded text-center px-6 py-3 w-full" th:if="${bookingStat.first && ongoingBookings.size() == 0}" th:href="'/start-trip/' + ${booking.getId()}">Start Trip</a>
         </div>
+        <div th:if="${confirmedBookings.size() == 0}" class="bg-white border border-tertiary rounded flex justify-center p-6 mb-4">
+            <p>You have no trips to start yet!</p>
+        </div>
     </div>
 
     <!-- Viagens completadas -->
-    <h1 class="text-3xl font-bold mb-6 mt-12">Completed Trips</h1>
+    <h1 class="text-3xl font-bold mb-6 mt-12" th:if="${completedTrips != null && completedTrips.size() != 0}">Completed Trips</h1>
     <div th:each="trip : ${completedTrips}" th:object="${trip}" class="bg-white border border-tertiary rounded flex flex-col gap-4 p-6 mb-4">
         <div>
             <h6 class="font-bold text-text-secondary">Booked by</h6>

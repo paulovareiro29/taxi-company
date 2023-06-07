@@ -8,9 +8,14 @@ import pt.ipvc.bll.*;
 import pt.ipvc.dal.*;
 import pt.ipvc.exceptions.FeedbackAlreadyExistsException;
 import pt.ipvc.models.FeedbackTripFormData;
+import pt.ipvc.models.FinishTripFormData;
 import pt.ipvc.models.PlateFormData;
 
 import javax.validation.Valid;
+import java.sql.Date;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
@@ -46,6 +51,7 @@ public class TripController {
 
     @GetMapping(value="/view-trip")
     public String ViewTrip(@RequestParam(value = "id", required = false) UUID id, Model model) {
+       // SessionBLL.login("driver@ipvc.pt","driver");
         if(!SessionBLL.isAuthenticated()) return "redirect:/login";
 
         Booking booking = BookingBLL.get(id);
@@ -67,6 +73,8 @@ public class TripController {
         model.addAttribute("payment", payment);
         model.addAttribute("feedback", feedback);
         model.addAttribute("sendFeedback", new FeedbackTripFormData());
+        model.addAttribute("finishTrip", new FinishTripFormData());
+        model.addAttribute("methods", PaymentMethodBLL.index());
 
         return "view_trip";
     }
@@ -97,6 +105,34 @@ public class TripController {
 
         return "redirect:/view-trip?id=" + booking.getId();
     }
+
+    @PostMapping(value="/finish-trip/{id}")
+    public String FinishTrip(@PathVariable(value = "id", required = false) UUID id,
+                             @Valid @ModelAttribute("finishTrip") FinishTripFormData finishTripFormData,
+                             Model model) {
+        if(!SessionBLL.isAuthenticated()) return "redirect:/login";
+
+        Booking booking = BookingBLL.get(id);
+        if(booking == null) return "redirect:/trips";
+
+        TripBLL.create(booking,
+                SessionBLL.getAuthenticatedUser(),
+                booking.getPickupDate(),
+                Date.from(LocalDateTime.now().toInstant(ZoneOffset.UTC)),
+                Float.parseFloat(finishTripFormData.getPrice()));
+
+        Trip trip = TripBLL.getByBooking(booking);
+        PaymentBLL.create(trip,
+                PaymentMethodBLL.getByName(finishTripFormData.getPaymentMethod()),
+                Float.parseFloat(finishTripFormData.getPrice()),
+                Integer.parseInt(finishTripFormData.getVatNumber()));
+
+        booking.setState(BookingStateBLL.getByName("completed"));
+        BookingBLL.update(booking);
+
+        return "redirect:/trips";
+    }
+
 
     @PostMapping(value = "/submit-feedback/{id}")
     public String SubmitFeedback(@PathVariable(value = "id", required = false) UUID id,
