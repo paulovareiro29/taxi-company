@@ -11,6 +11,7 @@ import pt.ipvc.models.FeedbackTripFormData;
 import pt.ipvc.models.FinishTripFormData;
 import pt.ipvc.models.PlateFormData;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.sql.Date;
 import java.time.LocalDateTime;
@@ -24,10 +25,10 @@ import java.util.stream.Collectors;
 public class TripController {
 
     @GetMapping(value="/trips")
-    public String Index(@RequestParam(name="taxi", required = false) String taxiId, Model model) {
-        if(!SessionBLL.isAuthenticated()) return "redirect:/login";
+    public String Index(@RequestParam(name="taxi", required = false) String taxiId, HttpSession session, Model model) {
+        if(session.getAttribute("auth") == null) return "redirect:/login";
 
-        User auth = SessionBLL.getAuthenticatedUser();
+        User auth = (User) session.getAttribute("auth");
         model.addAttribute("auth", auth);
         model.addAttribute("clientBookings", BookingBLL.index().stream().filter(booking -> booking.getClient().getId().compareTo(auth.getId()) == 0).collect(Collectors.toList()));
         model.addAttribute("plate", new PlateFormData());
@@ -49,9 +50,8 @@ public class TripController {
     }
 
     @GetMapping(value="/view-trip")
-    public String ViewTrip(@RequestParam(value = "id", required = false) UUID id, Model model) {
-       // SessionBLL.login("driver@ipvc.pt","driver");
-        if(!SessionBLL.isAuthenticated()) return "redirect:/login";
+    public String ViewTrip(@RequestParam(value = "id", required = false) UUID id, HttpSession session, Model model) {
+        if(session.getAttribute("auth") == null) return "redirect:/login";
 
         Booking booking = BookingBLL.get(id);
         if(booking == null) return "redirect:/trips";
@@ -65,7 +65,7 @@ public class TripController {
             feedback = FeedbackBLL.getByTrip(trip);
         }
 
-        User auth = SessionBLL.getAuthenticatedUser();
+        User auth = (User) session.getAttribute("auth");
         model.addAttribute("auth", auth);
         model.addAttribute("booking", booking);
         model.addAttribute("trip", trip);
@@ -79,8 +79,8 @@ public class TripController {
     }
 
     @GetMapping(value="/cancel-trip/{id}")
-    public String CancelTrip(@PathVariable(value = "id", required = false) UUID id, Model model) {
-        if(!SessionBLL.isAuthenticated()) return "redirect:/login";
+    public String CancelTrip(@PathVariable(value = "id", required = false) UUID id, HttpSession session, Model model) {
+        if(session.getAttribute("auth") == null) return "redirect:/login";
 
         Booking booking = BookingBLL.get(id);
         if(booking == null) return "redirect:/trips";
@@ -93,8 +93,8 @@ public class TripController {
     }
 
     @GetMapping(value="/start-trip/{id}")
-    public String StartTrip(@PathVariable(value = "id", required = false) UUID id, Model model) {
-        if(!SessionBLL.isAuthenticated()) return "redirect:/login";
+    public String StartTrip(@PathVariable(value = "id", required = false) UUID id, HttpSession session, Model model) {
+        if(session.getAttribute("auth") == null) return "redirect:/login";
 
         Booking booking = BookingBLL.get(id);
         if(booking == null) return "redirect:/trips";
@@ -108,14 +108,15 @@ public class TripController {
     @PostMapping(value="/finish-trip/{id}")
     public String FinishTrip(@PathVariable(value = "id", required = false) UUID id,
                              @Valid @ModelAttribute("finishTrip") FinishTripFormData finishTripFormData,
+                             HttpSession session,
                              Model model) {
-        if(!SessionBLL.isAuthenticated()) return "redirect:/login";
+        if(session.getAttribute("auth") == null) return "redirect:/login";
 
         Booking booking = BookingBLL.get(id);
         if(booking == null) return "redirect:/trips";
 
         TripBLL.create(booking,
-                SessionBLL.getAuthenticatedUser(),
+                (User) session.getAttribute("auth"),
                 booking.getPickupDate(),
                 Date.from(LocalDateTime.now().toInstant(ZoneOffset.UTC)),
                 Float.parseFloat(finishTripFormData.getPrice()));
@@ -137,8 +138,9 @@ public class TripController {
     public String SubmitFeedback(@PathVariable(value = "id", required = false) UUID id,
                                  @Valid @ModelAttribute("sendFeedback") FeedbackTripFormData feedback,
                                  BindingResult result,
+                                 HttpSession session,
                                  Model model) {
-        if(!SessionBLL.isAuthenticated()) return "redirect:/login";
+        if(session.getAttribute("auth") == null) return "redirect:/login";
 
         Trip trip = TripBLL.get(id);
         if(trip == null) return "redirect:/trips";
@@ -148,7 +150,7 @@ public class TripController {
         }
 
         try {
-            FeedbackBLL.create(trip, SessionBLL.getAuthenticatedUser(), feedback.getRating(), feedback.getReview());
+            FeedbackBLL.create(trip, (User) session.getAttribute("auth"), feedback.getRating(), feedback.getReview());
         }catch(FeedbackAlreadyExistsException e) {
             result.rejectValue("review", "trip.feedback", e.getMessage());
         }
@@ -159,8 +161,9 @@ public class TripController {
     @PostMapping(value = "/trips-select-taxi")
     public String SelectTaxi(@Valid @ModelAttribute("plate") PlateFormData plate,
                              BindingResult result,
+                             HttpSession session,
                              Model model) {
-        User auth = SessionBLL.getAuthenticatedUser();
+        User auth = (User) session.getAttribute("auth");
         model.addAttribute("auth", auth);
 
 

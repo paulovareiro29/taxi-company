@@ -6,8 +6,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import pt.ipvc.bll.BookingBLL;
 import pt.ipvc.bll.SessionBLL;
 import pt.ipvc.bll.TaxiBLL;
@@ -16,7 +14,7 @@ import pt.ipvc.dal.User;
 import pt.ipvc.models.PlateFormData;
 import pt.ipvc.models.ScheduleTripFormData;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -26,8 +24,8 @@ import java.util.Date;
 public class WebController {
 
     @GetMapping(value="/")
-    public String Index(Model model) {
-        model.addAttribute("auth", SessionBLL.getAuthenticatedUser());
+    public String Index(HttpSession session, Model model) {
+        model.addAttribute("auth", (User) session.getAttribute("auth"));
         model.addAttribute("booking", new ScheduleTripFormData());
         model.addAttribute("plate", new PlateFormData());
 
@@ -42,10 +40,11 @@ public class WebController {
     @PostMapping(value="/schedule")
     public String ScheduleTripSubmit(@Valid @ModelAttribute("booking") ScheduleTripFormData booking,
                                      BindingResult result,
+                                     HttpSession session,
                                      Model model) {
-        if(!SessionBLL.isAuthenticated()) return "redirect:/login";
+        if(session.getAttribute("auth") == null) return "redirect:/login";
 
-        User auth = SessionBLL.getAuthenticatedUser();
+        User auth = (User) session.getAttribute("auth");
         model.addAttribute("auth", auth);
 
         if (result.hasErrors()) {
@@ -69,8 +68,9 @@ public class WebController {
     @PostMapping(value = "/select-taxi")
     public String SelectTaxi(@Valid @ModelAttribute("plate") PlateFormData plate,
                              BindingResult result,
+                             HttpSession session,
                              Model model) {
-        User auth = SessionBLL.getAuthenticatedUser();
+        User auth = (User) session.getAttribute("auth");
         model.addAttribute("auth", auth);
 
 

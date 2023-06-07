@@ -8,18 +8,20 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import pt.ipvc.bll.RoleBLL;
 import pt.ipvc.bll.SessionBLL;
+import pt.ipvc.bll.UserBLL;
 import pt.ipvc.exceptions.EmailAlreadyInUseException;
 import pt.ipvc.models.LoginUserFormData;
 import pt.ipvc.models.RegisterUserFormData;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @Controller
 public class AuthController {
 
     @GetMapping(value="/register")
-    public String Register(Model model) {
-        if(SessionBLL.isAuthenticated()) return "redirect:/";
+    public String Register(HttpSession session, Model model) {
+        if(session.getAttribute("auth") != null) return "redirect:/";
 
         model.addAttribute("user", new RegisterUserFormData());
         return "register";
@@ -46,15 +48,15 @@ public class AuthController {
     }
 
     @GetMapping(value="/login")
-    public String Login(Model model) {
-        if(SessionBLL.isAuthenticated()) return "redirect:/";
+    public String Login(HttpSession session, Model model) {
+        if(session.getAttribute("auth") != null) return "redirect:/";
 
         model.addAttribute("user", new LoginUserFormData());
         return "login";
     }
 
     @PostMapping(value="/login")
-    public String LoginSubmit(@Valid @ModelAttribute("user") LoginUserFormData user, BindingResult result, Model model) {
+    public String LoginSubmit(@Valid @ModelAttribute("user") LoginUserFormData user, BindingResult result, HttpSession session) {
         if(result.hasErrors()) {
             return "login";
         }
@@ -64,12 +66,14 @@ public class AuthController {
             return "login";
         }
 
+        session.setAttribute("auth", UserBLL.getByEmail(user.getEmail()));
+
         return "redirect:/";
     }
 
     @GetMapping(value="/logout")
-    public String Logout() {
-        SessionBLL.logout();
+    public String Logout(HttpSession session) {
+        session.removeAttribute("auth");
         return "redirect:/";
     }
 }
