@@ -6,6 +6,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import pt.ipvc.bll.BookingBLL;
 import pt.ipvc.bll.SessionBLL;
 import pt.ipvc.bll.TaxiBLL;
@@ -14,6 +16,7 @@ import pt.ipvc.dal.User;
 import pt.ipvc.models.PlateFormData;
 import pt.ipvc.models.ScheduleTripFormData;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -68,6 +71,7 @@ public class WebController {
                              Model model) {
         User auth = SessionBLL.getAuthenticatedUser();
         model.addAttribute("auth", auth);
+
 
         if (result.hasErrors()) {
             return "index";

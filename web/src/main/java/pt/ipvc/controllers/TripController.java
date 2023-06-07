@@ -9,9 +9,10 @@ import pt.ipvc.dal.*;
 import pt.ipvc.exceptions.FeedbackAlreadyExistsException;
 import pt.ipvc.models.FeedbackTripFormData;
 import pt.ipvc.models.PlateFormData;
-import pt.ipvc.models.RegisterUserFormData;
 
 import javax.validation.Valid;
+import java.util.Comparator;
+import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -19,12 +20,25 @@ import java.util.stream.Collectors;
 public class TripController {
 
     @GetMapping(value="/trips")
-    public String Index(Model model) {
+    public String Index(@RequestParam(name="taxi", required = false) String taxiId, Model model) {
         if(!SessionBLL.isAuthenticated()) return "redirect:/login";
 
         User auth = SessionBLL.getAuthenticatedUser();
         model.addAttribute("auth", auth);
-        model.addAttribute("bookings", BookingBLL.index().stream().filter(booking -> booking.getClient().getId().compareTo(auth.getId()) == 0).collect(Collectors.toList()));
+        model.addAttribute("clientBookings", BookingBLL.index().stream().filter(booking -> booking.getClient().getId().compareTo(auth.getId()) == 0).collect(Collectors.toList()));
+        model.addAttribute("plate", new PlateFormData());
+
+        Taxi taxi = TaxiBLL.getByPlate(taxiId);
+        model.addAttribute("taxi", taxi);
+
+        if(taxi != null){
+            List<Booking> bookings = BookingBLL.index().stream()
+                    .filter(booking -> booking.getTaxi() != null && booking.getTaxi().getLicensePlate().equalsIgnoreCase(taxi.getLicensePlate())).sorted(Comparator.comparing(Booking::getPickupDate)).collect(Collectors.toList());
+
+            model.addAttribute("ongoingBookings", bookings.stream().filter(b -> b.getState().getName().equalsIgnoreCase("ongoing")).collect(Collectors.toList()));
+            model.addAttribute("confirmedBookings",  bookings.stream().filter(b -> b.getState().getName().equalsIgnoreCase("confirmed")).collect(Collectors.toList()));
+            model.addAttribute("completedTrips", TripBLL.index().stream().filter(t -> t.getEmployee().getEmail().equalsIgnoreCase(auth.getEmail())).collect(Collectors.toList()));
+        }
 
         return "trips";
     }
@@ -91,5 +105,27 @@ public class TripController {
         }
 
         return "redirect:/view-trip?id=" + trip.getBooking().getId();
+    }
+
+    @PostMapping(value = "/trips-select-taxi")
+    public String SelectTaxi(@Valid @ModelAttribute("plate") PlateFormData plate,
+                             BindingResult result,
+                             Model model) {
+        User auth = SessionBLL.getAuthenticatedUser();
+        model.addAttribute("auth", auth);
+
+
+        if (result.hasErrors()) {
+            return "trips";
+        }
+
+        Taxi taxi = TaxiBLL.getByPlate(plate.getPlate());
+
+        if(taxi == null) {
+            result.rejectValue("plate","taxi.plate", "Car does not exist");
+            return "trips";
+        }
+
+        return "redirect:/trips?taxi=" + taxi.getLicensePlate();
     }
 }
