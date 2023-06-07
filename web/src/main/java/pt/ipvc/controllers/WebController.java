@@ -43,6 +43,8 @@ public class WebController {
     public String ScheduleTripSubmit(@Valid @ModelAttribute("booking") ScheduleTripFormData booking,
                                      BindingResult result,
                                      Model model) {
+        if(!SessionBLL.isAuthenticated()) return "redirect:/login";
+
         User auth = SessionBLL.getAuthenticatedUser();
         model.addAttribute("auth", auth);
 

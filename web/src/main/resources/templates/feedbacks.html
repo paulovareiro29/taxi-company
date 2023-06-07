@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link th:href="@{/css/main.css}" rel="stylesheet" />
+
+    <title>Taxi Company</title>
+</head>
+<body class="bg-background">
+<header class="bg-primary px-3 py-4">
+    <div class="wrapper flex items-center gap-4">
+        <div class="mr-8">
+            <img th:src="@{/assets/logo.png}" class="h-8"/>
+        </div>
+        <nav class="grow flex gap-8 [&>*]:font-bold">
+            <a class="text-white" href="/">Home</a>
+            <a class="text-white" href="/trips" th:if="${auth != null}">My Trips</a>
+            <a class="text-white" href="/feedbacks" th:if="${auth != null}">My Feedbacks</a>
+            <a class="text-white" href="/aboutus">About Us</a>
+            <a class="text-white" href="/contacts">Contacts</a>
+        </nav>
+        <div th:object="${auth}" class="flex justify-end items-center gap-2">
+            <p class="text-white font-light">Hello <span th:text="*{getName()}" class="text-white"></span>!</p>
+            <a th:href="@{/logout}" title="Logout"><img th:src="@{/assets/icons/logout.svg}" class="w-4"/></a>
+        </div>
+    </div>
+</header>
+
+<main class="wrapper">
+    <h1 class="text-3xl font-bold mb-6 mt-12">My Feedbacks</h1>
+
+    <div class="bg-white border border-tertiary rounded p-6 flex flex-col gap-4" th:each="feedback : ${feedbacks}" th:object="${feedback}">
+        <div class="grid grid-cols-2" >
+            <div>
+                <h6 class="font-bold text-text-secondary">Rating</h6>
+                <div class="flex">
+                    <img th:src="@{/assets/icons/filled-star.svg}" th:each="i : *{#numbers.sequence(1, getRating(), 1)}"/>
+                    <img th:src="@{/assets/icons/empty-star.svg}" th:each="j : *{#numbers.sequence(1, 5 - getRating(), 1)}"/>
+                </div>
+            </div>
+            <div>
+                <h6 class="font-bold text-text-secondary">Client</h6>
+                <p th:text="*{getClient().getEmail()}"></p>
+            </div>
+        </div>
+
+        <div>
+            <h6 class="font-bold text-text-secondary">Review</h6>
+            <p th:text="*{getReview()}"></p>
+        </div>
+
+        <a class="bg-primary hover:bg-dark-primary text-white rounded px-6 py-3 w-full text-center" th:href="'/view-trip?id=' + *{getTrip().getBooking().getId()}">View Trip</a>
+
+    </div>
+
+</main>
+
+</body>

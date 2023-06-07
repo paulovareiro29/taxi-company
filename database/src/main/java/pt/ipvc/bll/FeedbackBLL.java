@@ -8,6 +8,7 @@ import pt.ipvc.exceptions.FeedbackAlreadyExistsException;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 
 public class FeedbackBLL {
@@ -58,5 +59,17 @@ public class FeedbackBLL {
         return (Feedback) Database.query("feedback.get_by_trip")
                 .setParameter("id", trip.getId())
                 .getResultStream().findFirst().orElse(null);
+    }
+
+    public static List<Feedback> getByClient(User client) {
+        return (List<Feedback>) Database.query("feedback.get_by_client")
+                .setParameter("id", client.getId())
+                .getResultStream().collect(Collectors.toList());
+    }
+
+    public static List<Feedback> getByDriver(User driver) {
+        return (List<Feedback>) Database.query("feedback.get_by_driver")
+                .setParameter("id", driver.getId())
+                .getResultStream().collect(Collectors.toList());
     }
 }

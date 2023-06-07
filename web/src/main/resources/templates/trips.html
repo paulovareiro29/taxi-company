@@ -16,7 +16,8 @@
         </div>
         <nav class="grow flex gap-8 [&>*]:font-bold">
             <a class="text-white" href="/">Home</a>
-            <a class="text-white" href="/trips">My Trips</a>
+            <a class="text-white" href="/trips" th:if="${auth != null}">My Trips</a>
+            <a class="text-white" href="/feedbacks" th:if="${auth != null}">My Feedbacks</a>
             <a class="text-white" href="/aboutus">About Us</a>
             <a class="text-white" href="/contacts">Contacts</a>
         </nav>

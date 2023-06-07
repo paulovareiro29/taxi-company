@@ -14,6 +14,8 @@ import java.sql.Timestamp;
         @NamedQuery(name = "feedback.index", query = "SELECT feedback FROM Feedback feedback"),
         @NamedQuery(name = "feedback.count", query = "SELECT count(feedback) FROM Feedback feedback"),
         @NamedQuery(name = "feedback.get_by_trip", query = "SELECT feedback FROM Feedback feedback, Trip trip WHERE feedback.trip.id = trip.id AND trip.id = :id"),
+        @NamedQuery(name = "feedback.get_by_client", query = "SELECT feedback FROM Feedback feedback WHERE feedback.client.id = :id"),
+        @NamedQuery(name = "feedback.get_by_driver", query = "SELECT feedback FROM Feedback feedback, Trip trip WHERE feedback.trip.id = trip.id AND trip.employee.id = :id"),
 })
 public class Feedback implements Serializable {
 
