@@ -5,6 +5,7 @@ import pt.ipvc.components.SmallLabel;
 import pt.ipvc.components.Text;
 import pt.ipvc.components.card.Card;
 import pt.ipvc.dal.Booking;
+import pt.ipvc.dal.Taxi;
 import pt.ipvc.utils.StringUtils;
 
 public class InfoBookingItem extends Card {
@@ -85,15 +86,17 @@ public class InfoBookingItem extends Card {
         pickupDateBox.getChildren().addAll(pickupDateLabel, pickupDateText);
         // -------
 
+        Taxi taxi = data.getTaxi();
+
         SmallLabel taxiPlateLabel = new SmallLabel("Taxi Plate");
-        Text taxiPlateText = new Text(data.getTaxi().getLicensePlate());
+        Text taxiPlateText = new Text(taxi == null ? "N/A" : taxi.getLicensePlate());
 
         VBox taxiPlateBox = new VBox();
         taxiPlateBox.getChildren().addAll(taxiPlateLabel, taxiPlateText);
 
 
         SmallLabel taxiModelLabel = new SmallLabel("Taxi Model");
-        Text taxiModelText = new Text(data.getTaxi().getModel().getBrand().getName() + " - " + data.getTaxi().getModel().getName());
+        Text taxiModelText = new Text(taxi == null ? "N/A" : taxi.getModel().getBrand().getName() + " - " + taxi.getModel().getName());
 
         VBox taxiModelBox = new VBox();
         taxiModelBox.getChildren().addAll(taxiModelLabel, taxiModelText);

@@ -41,13 +41,20 @@ public class ViewBookingScreen extends Screen {
         UUID state = booking.getState().getId();
         UUID pending = BookingStateBLL.getByName("pending").getId();
         UUID completed = BookingStateBLL.getByName("completed").getId();
+        UUID cancelled = BookingStateBLL.getByName("cancelled").getId();
 
         if (state.equals(pending)) {
             container.getChildren().add(new PendingBookingItem(booking));
-        }else if(state.equals(completed)) {
+        }else if(state.equals(completed) || state.equals(cancelled)) {
             Trip trip = TripBLL.getByBooking(booking);
-            Payment payment = PaymentBLL.getByTrip(trip);
-            Feedback feedback = FeedbackBLL.getByTrip(trip);
+            Payment payment = null;
+            Feedback feedback = null;
+
+            if(trip != null) {
+                payment = PaymentBLL.getByTrip(trip);
+                feedback = FeedbackBLL.getByTrip(trip);
+            }
+            
             container.getChildren().addAll(new InfoBookingItem(booking), new Heading("Trip"), new InfoTripItem(trip), new Heading("Payment info"), new InfoPaymentItem(payment), new Heading("Feedback"), new FeedbackItem(feedback));
         }else{
             container.getChildren().add(new InfoBookingItem(booking));

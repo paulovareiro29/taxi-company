@@ -36,7 +36,7 @@ public class LoginScene extends Scene {
         container.setPrefWidth(375);
         container.setAlignment(Pos.CENTER);
 
-        ImageView logo = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/pt/ipvc/assets/logo.png"))));
+        ImageView logo = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/pt/ipvc/assets/logo_black.png"))));
 
         VBox form = new VBox(8);
         form.setPrefWidth(container.getPrefWidth());
