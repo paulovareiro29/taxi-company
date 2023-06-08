@@ -180,7 +180,7 @@
         </div>
 
         <!-- Botão de cancelar a marcação -->
-        <form th:if="${trip == null && !booking.getState().getName().equalsIgnoreCase('cancelled')}"
+        <form th:if="${trip == null && !booking.getState().getName().equalsIgnoreCase('cancelled') && auth.getRole().getName().equalsIgnoreCase('client')}"
               th:action="@{'/cancel-trip/{id}'(id=${booking.getId()})}"
               class="mt-4">
             <button type="submit" class="bg-danger text-white rounded px-6 py-3 w-full">Cancel Booking</button>

@@ -125,7 +125,7 @@ public class TripController {
         PaymentBLL.create(trip,
                 PaymentMethodBLL.getByName(finishTripFormData.getPaymentMethod()),
                 Float.parseFloat(finishTripFormData.getPrice()),
-                Integer.parseInt(finishTripFormData.getVatNumber()));
+                finishTripFormData.getVatNumber().isBlank() ? null : Integer.parseInt(finishTripFormData.getVatNumber()));
 
         booking.setState(BookingStateBLL.getByName("completed"));
         BookingBLL.update(booking);

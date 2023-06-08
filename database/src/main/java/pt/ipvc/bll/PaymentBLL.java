@@ -24,12 +24,14 @@ public class PaymentBLL {
         return Database.find(Payment.class, id);
     }
 
-    public static void create(Trip trip, PaymentMethod type, float amount, int vat) {
+    public static void create(Trip trip, PaymentMethod type, float amount, Integer vat) {
         Payment entity = new Payment();
         entity.setAmount(amount);
         entity.setPaymentType(type);
         entity.setTrip(trip);
-        entity.setVat(vat);
+
+        if(vat != null)
+            entity.setVat(vat);
 
         Database.beginTransaction();
         Database.insert(entity);
